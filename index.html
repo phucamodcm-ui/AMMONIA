@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMMONIA PLANT PORTAL | Petrovietnam Phân Bón Cà Mau</title>
+    <!-- Font Inter & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* Bộ màu chuẩn Nhận diện Thương hiệu PVCFC */
+            --pvcfc-green: #008A3B;
+            --pvcfc-green-dark: #00682B;
+            --pvcfc-green-light: #E6F4EA;
+            --pvcfc-yellow: #FFC72C;
+            --pvcfc-yellow-hover: #E5AF19;
+            --dark-slate: #0F2C23;
+            --bg-light: #F4F7F5;
+            --card-bg: #FFFFFF;
+            --text-main: #1A2E26;
+            --text-muted: #5C7066;
+            --border-color: #E2E8F0;
+            --sidebar-width: 260px;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 10px 25px -5px rgba(0, 138, 59, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--dark-slate);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: var(--transition);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0,0,0,0.15);
+        }
+
+        .sidebar-header img {
+            height: 42px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .sidebar-brand-text h2 {
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--pvcfc-yellow);
+        }
+
+        .sidebar-brand-text span {
+            font-size: 11px;
+            color: #A0AEC0;
+            text-transform: uppercase;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 12px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .menu-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #718096;
+            margin: 15px 12px 8px 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: #CBD5E0;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu li a:hover, .sidebar-menu li a.active {
+            background: var(--pvcfc-green);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .sidebar-menu li a i {
+            font-size: 16px;
+            width: 20px;
+            text-align: center;
+            color: var(--pvcfc-yellow);
+        }
+
+        .sidebar-menu li a:hover i {
+            color: #ffffff;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            color: #A0AEC0;
+            background: rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-wrapper {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* TOP HEADER BANNER WITH LOGO */
+        .top-header {
+            background: linear-gradient(135deg, var(--pvcfc-green-dark) 0%, var(--pvcfc-green) 100%);
+            color: white;
+            padding: 24px 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 138, 59, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .top-header::after {
+            content: '';
+            position: absolute;
+            right: -50px;
+            top: -50px;
+            width: 220px;
+            height: 220px;
+            background: rgba(255, 199, 44, 0.12);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 1;
+        }
+
+        .logo-box {
+            background: #ffffff;
+            padding: 10px 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* SVG Logo giả lập Đạm Cà Mau chuẩn sắc nét */
+        .logo-svg {
+            height: 48px;
+        }
+
+        .header-title-box h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title-box h1 span {
+            background: var(--pvcfc-yellow);
+            color: var(--dark-slate);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .header-title-box p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1;
+        }
+
+        .shift-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shift-badge i {
+            color: var(--pvcfc-yellow);
+        }
+
+        /* BODY CONTAINER */
+        .content-container {
+            padding: 32px 36px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* SEARCH BAR & FILTER */
+        .search-section {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 280px;
+            max-width: 500px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .search-box input:focus {
+            border-color: var(--pvcfc-green);
+            box-shadow: 0 0 0 3px rgba(0, 138, 59, 0.15);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* KPI SUMMARY CARDS */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: #ffffff;
+            padding: 18px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--pvcfc-green);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kpi-info h4 {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .kpi-info .value {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
+
+        .kpi-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--pvcfc-green-light);
+            color: var(--pvcfc-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* CATEGORY SECTION */
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-slate);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--pvcfc-green);
+            border-radius: 2px;
+        }
+
+        /* SUB-PAGES GRID CARDS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .sub-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sub-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--pvcfc-green);
+        }
+
+        .sub-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            transition: var(--transition);
+        }
+
+        .sub-card:hover::before {
+            background: linear-gradient(90deg, var(--pvcfc-green), var(--pvcfc-yellow));
+        }
+
+        .card-header-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: var(--pvcfc-green-light);
+            color: var(--pvcfc-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .sub-card:hover .card-header-icon {
+            background: var(--pvcfc-green);
+            color: #ffffff;
+        }
+
+        .card-body h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-body h3 i {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .sub-card:hover .card-body h3 i {
+            color: var(--pvcfc-green);
+            transform: translateX(3px);
+        }
+
+        .card-body p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .card-footer-tags {
+            margin-top: 18px;
+            padding-top: 12px;
+            border-top: 1px dashed var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tag {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: #F1F5F9;
+            color: #475569;
+        }
+
+        .tag.hot {
+            background: #FEF3C7;
+            color: #92400E;
+        }
+
+        .tag.updated {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-wrapper {
+                margin-left: 0;
+            }
+            .mobile-toggle {
+                display: block !important;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- === SIDEBAR === -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-industry" style="font-size: 24px; color: var(--pvcfc-yellow);"></i>
+            <div class="sidebar-brand-text">
+                <h2>XƯỞNG AMMONIA</h2>
+                <span>Nhà Máy Đạm Cà Mau</span>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu">
+            <li class="menu-label">Tổng Quan</li>
+            <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Trang Chủ Portal</a></li>
+            <li><a href="#operation"><i class="fa-solid fa-sliders"></i> Giám Sát Vận Hành</a></li>
+            <li><a href="#safety"><i class="fa-solid fa-shield-halved"></i> An Toàn & PSM</a></li>
+
+            <li class="menu-label">Ứng Dụng Con</li>
+            <li><a href="#kpi"><i class="fa-solid fa-chart-column"></i> Báo Cáo & KPI</a></li>
+            <li><a href="#sop"><i class="fa-solid fa-book-open"></i> Tra Cứu SOP / WI</a></li>
+            <li><a href="#shifts"><i class="fa-solid fa-users-gear"></i> Quản Lý Ca Trực</a></li>
+
+            <li class="menu-label">Liên Kết Nhanh</li>
+            <li><a href="https://eoffice.pvcfc.com.vn" target="_blank"><i class="fa-solid fa-file-signature"></i> E-Office PVCFC</a></li>
+            <li><a href="https://mail.pvcfc.com.vn" target="_blank"><i class="fa-solid fa-envelope"></i> Email Công Ty</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <p><strong>XƯỞNG AMMONIA - PVCFC</strong></p>
+            <p style="margin-top: 4px; font-size: 10px;">Phân Bón Cà Mau © 2026</p>
+        </div>
+    </aside>
+
+    <!-- === MAIN CONTENT === -->
+    <div class="main-wrapper">
+        
+        <!-- HEADER TRANG VỚI LOGO ĐẠM CÀ MAU -->
+        <header class="top-header">
+            <div class="header-logo-container">
+                <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                
+                <!-- LOGO ĐẠM CÀ MAU CÓ THỂ THAY THẾ BẰNG ẢNH HOẶC SVG LOGO PVCFC -->
+                <div class="logo-box">
+                    <svg class="logo-svg" viewBox="0 0 280 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Biểu tượng Búp sen/Hạt mầm Đạm Cà Mau -->
+                        <path d="M20 45 C20 20, 35 10, 35 10 C35 10, 50 20, 50 45 C50 55, 35 60, 35 60 C35 60, 20 55, 20 45 Z" fill="#008A3B"/>
+                        <path d="M28 42 C28 25, 35 18, 35 18 C35 18, 42 25, 42 42 C42 50, 35 53, 35 53 C35 53, 28 50, 28 42 Z" fill="#FFC72C"/>
+                        <circle cx="35" cy="36" r="4" fill="#008A3B"/>
+                        <!-- Text Phân Bón Cà Mau -->
+                        <text x="62" y="32" font-family="Inter, sans-serif" font-weight="800" font-size="18" fill="#008A3B">ĐẠM CÀ MAU</text>
+                        <text x="62" y="48" font-family="Inter, sans-serif" font-weight="600" font-size="10" fill="#FFC72C" letter-spacing="1.5">PHÂN BÓN CÀ MAU</text>
+                    </svg>
+                </div>
+
+                <div class="header-title-box">
+                    <h1>PORTAL ĐIỀU HÀNH AMMONIA <span>KBR Tech</span></h1>
+                    <p>Hệ thống liên kết ứng dụng & trung tâm dữ liệu Xưởng Ammonia</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="shift-badge">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>Trưởng Ca: Nguyễn Văn Phúc | Ca A</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTAINER NỘI DUNG -->
+        <main class="content-container">
+
+            <!-- THỐNG KÊ KPI NHANH -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <h4>Tải Xưởng Ammonia</h4>
+                        <div class="value">105.2 %</div>
+                    </div>
+                    <div class="kpi-icon"><i class="fa-solid fa-gauge-high"></i></div>
+                </div>
+                <div class="kpi-card" style="border-left-color: var(--pvcfc-yellow);">
+                    <div class="kpi-info">
+                        <h4>Sản Lượng Ngày</h4>
+                        <div class="value">1,540 Tấn</div>
+                    </div>
+                    <div class="kpi-icon" style="background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-boxes-stacked"></i></div>
+                </div>
+                <div class="kpi-card" style="border-left-color: #10B981;">
+                    <div class="kpi-info">
+                        <h4>An Toàn (Zero LTI)</h4>
+                        <div class="value">4,520 Ngày</div>
+                    </div>
+                    <div class="kpi-icon" style="background: #D1FAE5; color: #059669;"><i class="fa-solid fa-shield-heart"></i></div>
+                </div>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="search-section">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm trang con, quy trình, báo cáo nhanh...">
+                </div>
+            </div>
+
+            <!-- PHÂN NHÓM 1: VẬN HÀNH & KỸ THUẬT -->
+            <div class="section-title" id="operation">Khối Vận Hành & Kỹ Thuật Công Nghệ</div>
+            <div class="cards-grid">
+                
+                <a href="https://your-app-link-1.com" target="_blank" class="sub-card">
+                    <div>
+                        <div class="card-header-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+                        <div class="card-body">
+                            <h3>Nhật Ký Ca Điện Tử <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Ghi chép thông số vận hành, nhật ký giao nhận ca trực nhật trình Xưởng Ammonia.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag updated">Cập nhật hàng ngày</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+                <a href="https://your-app-link-2.com" target="_blank" class="sub-card">
+                    <div>
+                        <div class="card-header-icon"><i class="fa-solid fa-microchip"></i></div>
+                        <div class="card-body">
+                            <h3>Giám Sát Equipment KPI <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Theo dõi hiệu suất Máy nén, Lò cải biến (Reformer), Nồi hơi và Tháp tổng hợp NH3.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag hot">Looker Studio</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+                <a href="https://your-app-link-3.com" target="_blank" class="sub-card" id="sop">
+                    <div>
+                        <div class="card-header-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                        <div class="card-body">
+                            <h3>Thư Viện SOP & WI <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Tra cứu nhanh các Quy trình vận hành chuẩn, Hướng dẫn công việc và Trip Matrix.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag">Tra cứu nhanh</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+            </div>
+
+            <!-- PHÂN NHÓM 2: AN TOÀN PSM & QUẢN LÝ CA -->
+            <div class="section-title" id="safety">An Toàn Quản Lý Tiến Trình (PSM) & Nhân Sự</div>
+            <div class="cards-grid">
+                
+                <a href="https://your-app-link-4.com" target="_blank" class="sub-card">
+                    <div>
+                        <div class="card-header-icon" style="background: #FEF3C7; color: #D97706;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="card-body">
+                            <h3>Báo Cáo Sự Cố & Near-Miss <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Ghi nhận suýt bị (Near-miss), các mối nguy an toàn và theo dõi tiến độ khắc phục.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag hot">PSM Element 8</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+                <a href="https://your-app-link-5.com" target="_blank" class="sub-card" id="shifts">
+                    <div>
+                        <div class="card-header-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                        <div class="card-body">
+                            <h3>Lịch Ca & Đào Tạo Kỹ Thuật <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Quản lý lịch đổi ca, theo dõi ma trận kỹ năng (Skill Matrix) và tiến độ đào tạo OJT.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag">AppSheet / Google Sheet</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+                <a href="https://your-app-link-6.com" target="_blank" class="sub-card" id="kpi">
+                    <div>
+                        <div class="card-header-icon"><i class="fa-solid fa-leaf"></i></div>
+                        <div class="card-body">
+                            <h3>Báo Cáo Tiêu Hao Năng Lượng <i class="fa-solid fa-arrow-up-right-from-square"></i></h3>
+                            <p>Bảng tổng hợp suất tiêu hao Khí nguyên liệu, Điện, Hơi nước trên tấn sản phẩm NH3.</p>
+                        </div>
+                    </div>
+                    <div class="card-footer-tags">
+                        <span class="tag updated">Cập nhật Ca</span>
+                        <i class="fa-solid fa-chevron-right" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                </a>
+
+            </div>
+
+        </main>
+    </div>
+
+    <!-- === JAVASCRIPT XỬ LÝ SỰ KIỆN === -->
+    <script>
+        // Toggle Sidebar cho thiết bị di động
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+        }
+
+        // Tìm kiếm nhanh các Card/Trang con
+        function filterCards() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.sub-card');
+
+            cards.forEach(card => {
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                let desc = card.querySelector('p').innerText.toLowerCase();
+                if (title.includes(input) || desc.includes(input)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
