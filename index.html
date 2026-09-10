@@ -13,7 +13,7 @@
             --primary-green-dark: #004015;
             --primary-green-light: #E6F4EA;
             --accent-yellow: #FFC72C;
-            --sidebar-bg: #004E1A;
+            --sidebar-bg: #073B1E;
             --bg-light: #F4F7F5;
             --card-bg: #FFFFFF;
             --text-main: #1A2E26;
@@ -31,14 +31,14 @@
             --text-main: #E2E8F0;
             --text-muted: #94A3B8;
             --border-color: #1E3A2F;
-            --sidebar-bg: #071710;
+            --sidebar-bg: #041F10;
             --primary-green-light: #133322;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; transition: background 0.3s; }
 
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR CHUYÊN NGHIỆP --- */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--sidebar-bg);
@@ -57,54 +57,62 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.25);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
         .sidebar-brand-badge {
             background: var(--accent-yellow);
-            color: #004E1A;
+            color: #041F10;
             font-weight: 800;
             padding: 6px 10px;
             border-radius: 6px;
             font-size: 13px;
         }
 
-        .sidebar-brand-text h2 { font-size: 13px; font-weight: 700; color: #fff; }
-        .sidebar-brand-text span { font-size: 10px; color: #A0AEC0; }
+        .sidebar-brand-text h2 { font-size: 13px; font-weight: 700; color: #FFFFFF; letter-spacing: 0.3px; }
+        .sidebar-brand-text span { font-size: 10.5px; color: #CBD5E0; }
 
-        .sidebar-menu { list-style: none; padding: 12px 10px; flex-grow: 1; overflow-y: auto; }
-        .menu-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; margin: 14px 10px 6px 10px; font-weight: 700; }
+        .sidebar-menu { list-style: none; padding: 14px 10px; flex-grow: 1; overflow-y: auto; }
+        
+        /* Màu chữ tiêu đề nhóm Sidebar sắc nét, chuyên nghiệp */
+        .menu-label { 
+            font-size: 10.5px; 
+            text-transform: uppercase; 
+            letter-spacing: 1.2px; 
+            color: #81E6D9; 
+            margin: 16px 12px 8px 12px; 
+            font-weight: 700; 
+        }
         
         .sidebar-menu li a {
             display: flex; align-items: center; gap: 12px;
-            padding: 10px 12px; color: #CBD5E0; text-decoration: none;
-            border-radius: 8px; font-size: 12.5px; font-weight: 500;
+            padding: 10px 14px; color: #F1F5F9; text-decoration: none;
+            border-radius: 8px; font-size: 13px; font-weight: 500;
             transition: var(--transition); margin-bottom: 3px;
         }
         .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background: rgba(255, 255, 255, 0.12); color: #ffffff;
-            transform: translateX(3px);
+            background: rgba(255, 255, 255, 0.15); color: #FFFFFF;
+            transform: translateX(4px);
         }
-        /* Màu icon sidebar cực kỳ chuyên nghiệp và nổi bật */
         .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; color: var(--accent-yellow); transition: var(--transition); }
-        .sidebar-menu li a:hover i { color: #4ADE80; transform: scale(1.1); }
+        .sidebar-menu li a:hover i { color: #4ADE80; transform: scale(1.15); }
 
         .sidebar-admin-footer {
             padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
-            background: rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 8px;
+            background: rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 8px;
         }
         .btn-sidebar-admin {
-            background: rgba(255, 199, 44, 0.15); color: var(--accent-yellow); border: 1px solid rgba(255, 199, 44, 0.3);
+            background: rgba(255, 199, 44, 0.18); color: var(--accent-yellow); border: 1px solid rgba(255, 199, 44, 0.4);
             padding: 9px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition);
         }
-        .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #004E1A; }
+        .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #041F10; }
 
         /* --- MAIN WRAPPER --- */
         .main-wrapper { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
-        /* HEADER CHUYÊN NGHIỆP */
+        /* HEADER */
         .top-header {
             background: var(--card-bg); padding: 12px 28px;
             display: flex; justify-content: space-between; align-items: center;
@@ -297,7 +305,7 @@
             <div id="loginSection">
                 <div class="form-group">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu (mặc định: admin123)">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)">
                 </div>
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
@@ -328,7 +336,8 @@
                 </div>
                 <div class="form-group">
                     <label>Icon chuyên nghiệp (FontAwesome class)</label>
-                    <input type="text" id="itemIcon" value="fa-solid fa-chart-line" placeholder="fa-solid fa-industry">
+                    <input type="text" id="itemIcon" value="fa-solid fa-industry" placeholder="fa-solid fa-industry">
+                    <small style="color:var(--text-muted); font-size:11px; margin-top:2px; display:block;">Gợi ý icon: <code>fa-solid fa-industry</code>, <code>fa-solid fa-gauge-high</code>, <code>fa-solid fa-shield-halved</code>, <code>fa-solid fa-triangle-exclamation</code>, <code>fa-solid fa-chart-line</code></small>
                 </div>
                 <button class="btn-primary" onclick="addItem()"><i class="fa-solid fa-plus"></i> Thêm Mới</button>
 
@@ -350,7 +359,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT XỬ LÝ AN TOÀN DỮ LIỆU -->
+    <!-- JAVASCRIPT XỬ LÝ -->
     <script>
         const defaultData = [
             { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house" },
@@ -362,7 +371,6 @@
             { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope" }
         ];
 
-        // Đảm bảo không bị mất dữ liệu cũ khi deploy lại code mới
         let savedData = localStorage.getItem('ammonia_portal_v3_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
         let adminPass = localStorage.getItem('ammonia_admin_v3_pass') || 'admin123';
