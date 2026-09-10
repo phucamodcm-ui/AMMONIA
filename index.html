@@ -86,9 +86,10 @@
             background: rgba(255, 255, 255, 0.12); color: #ffffff;
             transform: translateX(3px);
         }
-        .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; color: var(--accent-yellow); }
+        /* Màu icon sidebar cực kỳ chuyên nghiệp và nổi bật */
+        .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; color: var(--accent-yellow); transition: var(--transition); }
+        .sidebar-menu li a:hover i { color: #4ADE80; transform: scale(1.1); }
 
-        /* Nút quản trị định vị dưới góc trái sidebar */
         .sidebar-admin-footer {
             padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
             background: rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 8px;
@@ -113,14 +114,9 @@
 
         .header-brand-group { display: flex; align-items: center; gap: 16px; }
         
-        /* LOGO ĐẠM CÀ MAU CHUẨN ĐẸP */
         .logo-dcm-container {
-            display: flex;
-            align-items: center;
-            background: #ffffff;
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
+            display: flex; align-items: center; background: #ffffff;
+            padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
         }
         .logo-svg { height: 38px; width: auto; }
@@ -180,8 +176,9 @@
             width: 44px; height: 44px; border-radius: 10px;
             background: var(--primary-green-light); color: var(--primary-green);
             display: flex; align-items: center; justify-content: center;
-            font-size: 18px; margin-bottom: 14px;
+            font-size: 18px; margin-bottom: 14px; transition: var(--transition);
         }
+        .sub-card:hover .card-header-icon { background: var(--primary-green); color: #fff; }
 
         .card-body h3 { font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         .card-body p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
@@ -249,7 +246,6 @@
     <div class="main-wrapper">
         <header class="top-header">
             <div class="header-brand-group">
-                <!-- SVG Logo Đạm Cà Mau chuẩn thương hiệu cao cấp -->
                 <div class="logo-dcm-container">
                     <svg class="logo-svg" viewBox="0 0 260 70" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="35" cy="32" r="24" fill="#E63946"/>
@@ -275,8 +271,6 @@
         </header>
 
         <main class="content-container">
-            
-            <!-- TOOLBAR -->
             <div class="toolbar-section">
                 <div class="search-box-wrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -291,10 +285,7 @@
             </div>
 
             <div class="section-title">Danh Mục Ứng Dụng & Liên Kết Quản Lý</div>
-            
-            <!-- CONTAINER HIỂN THỊ DỮ LIỆU -->
             <div id="mainDisplayArea"></div>
-
         </main>
     </div>
 
@@ -306,7 +297,7 @@
             <div id="loginSection">
                 <div class="form-group">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu (mặc định: admin123)">
                 </div>
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
@@ -348,7 +339,7 @@
                 </div>
                 <button class="btn-secondary" onclick="changeAdminPassword()">Cập Nhật Mật Khẩu</button>
 
-                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý & Xóa Mục (Chỉ hiện khi là Admin)</h3>
+                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý & Xóa Mục</h3>
                 <div id="adminItemsList" style="max-height: 150px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"></div>
 
                 <div class="modal-btns" style="margin-top: 18px;">
@@ -359,7 +350,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT XỬ LÝ -->
+    <!-- JAVASCRIPT XỬ LÝ AN TOÀN DỮ LIỆU -->
     <script>
         const defaultData = [
             { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house" },
@@ -371,9 +362,11 @@
             { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope" }
         ];
 
-        let appData = JSON.parse(localStorage.getItem('ammonia_portal_v3_data')) || defaultData;
+        // Đảm bảo không bị mất dữ liệu cũ khi deploy lại code mới
+        let savedData = localStorage.getItem('ammonia_portal_v3_data');
+        let appData = savedData ? JSON.parse(savedData) : defaultData;
         let adminPass = localStorage.getItem('ammonia_admin_v3_pass') || 'admin123';
-        let isAdminLoggedIn = false; // Biến kiểm tra quyền admin để hiển thị nút xóa
+        let isAdminLoggedIn = false;
         let currentView = 'grid';
 
         function renderAll() {
@@ -412,7 +405,6 @@
                 return;
             }
 
-            // Nút xóa chỉ hiện khi đã đăng nhập Admin
             const deleteBtnHtml = (idx) => isAdminLoggedIn ? `<span onclick="event.preventDefault(); deleteItem(${idx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>` : '';
 
             if(currentView === 'list') {
@@ -589,7 +581,6 @@
             }
         }
 
-        // Khởi chạy khi load trang
         renderAll();
     </script>
 </body>
