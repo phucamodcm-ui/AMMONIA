@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WORKFLOW AMMONIA | Nhà Máy Đạm Cà Mau</title>
+    <title>Hệ thống Webapp & Link Xưởng Ammonia</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            /* Chuẩn màu PVCFC & Dashboard thực tế của bạn */
-            --pvcfc-green: #00682B;
-            --pvcfc-green-dark: #004D20;
+            /* Tone màu xanh chuẩn PVCFC từ hình thực tế của bạn (#006020) */
+            --pvcfc-green: #006020;
+            --pvcfc-green-dark: #004015;
             --pvcfc-green-light: #E6F4EA;
             --pvcfc-yellow: #FFC72C;
-            --pvcfc-orange: #D97706;
-            --dark-sidebar: #0A2F22;
+            --dark-sidebar: #004E1A;
             --bg-light: #F4F7F5;
             --card-bg: #FFFFFF;
             --text-main: #1A2E26;
@@ -23,7 +22,7 @@
             --border-color: #E2E8F0;
             --sidebar-width: 260px;
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
-            --shadow-md: 0 10px 25px -5px rgba(0, 104, 43, 0.1);
+            --shadow-md: 0 10px 25px -5px rgba(0, 96, 32, 0.1);
             --transition: all 0.2s ease-in-out;
         }
 
@@ -44,11 +43,11 @@
         }
 
         .sidebar-header {
-            padding: 18px 20px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
-            background: rgba(0,0,0,0.2);
+            background: rgba(0,0,0,0.15);
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
@@ -56,31 +55,31 @@
             background: var(--pvcfc-yellow);
             color: var(--dark-sidebar);
             font-weight: 800;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 16px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
-        .sidebar-brand-text h2 { font-size: 14px; font-weight: 700; color: #fff; }
-        .sidebar-brand-text span { font-size: 11px; color: #A0AEC0; }
+        .sidebar-brand-text h2 { font-size: 13px; font-weight: 700; color: #fff; }
+        .sidebar-brand-text span { font-size: 10px; color: #A0AEC0; }
 
-        .sidebar-menu { list-style: none; padding: 16px 12px; flex-grow: 1; overflow-y: auto; }
-        .menu-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #718096; margin: 16px 12px 6px 12px; font-weight: 700; }
+        .sidebar-menu { list-style: none; padding: 12px 10px; flex-grow: 1; overflow-y: auto; }
+        .menu-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; margin: 14px 10px 6px 10px; font-weight: 700; }
         
         .sidebar-menu li a {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px 14px; color: #CBD5E0; text-decoration: none;
-            border-radius: 8px; font-size: 13px; font-weight: 500;
-            transition: var(--transition); margin-bottom: 3px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 12px; color: #E2E8F0; text-decoration: none;
+            border-radius: 6px; font-size: 12.5px; font-weight: 500;
+            transition: var(--transition); margin-bottom: 2px;
         }
         .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background: var(--pvcfc-green); color: #ffffff;
+            background: rgba(255,255,255,0.15); color: #ffffff;
         }
-        .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; color: var(--pvcfc-yellow); }
+        .sidebar-menu li a i { font-size: 14px; width: 18px; text-align: center; color: var(--pvcfc-yellow); }
 
         .sidebar-footer {
-            padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
-            font-size: 11px; color: #A0AEC0; background: rgba(0,0,0,0.15);
+            padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 11px; color: #A0AEC0; background: rgba(0,0,0,0.2);
             display: flex; align-items: center; justify-content: space-between;
         }
 
@@ -89,42 +88,40 @@
 
         /* HEADER */
         .top-header {
-            background: #ffffff; padding: 14px 28px;
+            background: var(--pvcfc-green); color: #ffffff; padding: 16px 28px;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        .header-title h1 { font-size: 16px; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-        .header-title p { font-size: 12px; color: var(--text-muted); }
+        .header-title h1 { font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .header-title p { font-size: 12px; opacity: 0.85; margin-top: 2px; }
 
         .header-actions { display: flex; align-items: center; gap: 12px; }
         
         .btn-admin {
             background: var(--pvcfc-yellow); color: var(--dark-sidebar); border: none;
-            padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700;
+            padding: 8px 14px; border-radius: 6px; font-size: 12px; font-weight: 700;
             cursor: pointer; display: flex; align-items: center; gap: 6px; transition: var(--transition);
         }
         .btn-admin:hover { background: #e5af19; }
 
         .status-pill {
-            background: var(--pvcfc-green-light); color: var(--pvcfc-green);
+            background: rgba(255,255,255,0.15); color: #ffffff;
             padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
             display: flex; align-items: center; gap: 6px;
         }
-        .status-pill span { width: 8px; height: 8px; background: var(--pvcfc-green); border-radius: 50%; display: inline-block; }
+        .status-pill span { width: 8px; height: 8px; background: #4ADE80; border-radius: 50%; display: inline-block; }
 
         /* CONTENT */
         .content-container { padding: 24px 28px; max-width: 1400px; margin: 0 auto; width: 100%; }
+        .section-title { font-size: 15px; font-weight: 700; color: var(--dark-sidebar); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .section-title::before { content: ''; width: 4px; height: 15px; background: var(--pvcfc-green); border-radius: 2px; }
 
         /* CARDS GRID */
-        .section-title { font-size: 16px; font-weight: 700; color: var(--dark-sidebar); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .section-title::before { content: ''; width: 4px; height: 16px; background: var(--pvcfc-green); border-radius: 2px; }
-
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 32px; }
 
         .sub-card {
-            background: var(--card-bg); border-radius: 12px; padding: 20px;
+            background: var(--card-bg); border-radius: 10px; padding: 20px;
             border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);
             text-decoration: none; color: inherit; display: flex; flex-direction: column;
             justify-content: space-between; transition: var(--transition); position: relative;
@@ -132,18 +129,17 @@
         .sub-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--pvcfc-green); }
 
         .card-header-icon {
-            width: 46px; height: 46px; border-radius: 10px;
+            width: 44px; height: 44px; border-radius: 10px;
             background: var(--pvcfc-green-light); color: var(--pvcfc-green);
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px; margin-bottom: 14px;
+            font-size: 18px; margin-bottom: 14px;
         }
 
-        .card-body h3 { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+        .card-body h3 { font-size: 14.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
         .card-body p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
 
         .card-footer-tags { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 10px; background: #F1F5F9; color: #475569; }
-        .tag.hot { background: #FEF3C7; color: #92400E; }
 
         /* ADMIN MODAL */
         .modal-overlay {
@@ -151,13 +147,13 @@
             background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;
         }
         .modal {
-            background: #fff; width: 100%; max-width: 600px; border-radius: 12px; padding: 24px;
+            background: #fff; width: 100%; max-width: 650px; border-radius: 12px; padding: 24px;
             box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;
         }
         .modal h2 { font-size: 18px; margin-bottom: 16px; color: var(--dark-sidebar); display: flex; justify-content: space-between; align-items: center; }
-        .form-group { margin-bottom: 14px; }
+        .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
-        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; }
+        .form-group input, .form-group select { width: 100%; padding: 9px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 13px; outline: none; }
         .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         .btn-primary { background: var(--pvcfc-green); color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
         .btn-secondary { background: #E2E8F0; color: #334155; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
@@ -173,27 +169,20 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-brand-badge">A</div>
+            <div class="sidebar-brand-badge">PVCFC</div>
             <div class="sidebar-brand-text">
-                <h2>WORKFLOW AMMONIA</h2>
+                <h2>XƯỞNG AMMONIA</h2>
                 <span>Nhà Máy Đạm Cà Mau</span>
             </div>
         </div>
 
-        <ul class="sidebar-menu" id="sidebarMenu">
-            <li class="menu-label">Tổng Quan</li>
-            <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Trang Chủ Portal</a></li>
-            <li><a href="#operation"><i class="fa-solid fa-sliders"></i> Giám Sát Vận Hành</a></li>
-            <li><a href="#safety"><i class="fa-solid fa-shield-halved"></i> An Toàn & PSM</a></li>
-            
-            <li class="menu-label">Liên Kết Nhanh</li>
-            <li><a href="https://eoffice.pvcfc.com.vn" target="_blank"><i class="fa-solid fa-file-signature"></i> E-Office PVCFC</a></li>
-            <li><a href="https://mail.pvcfc.com.vn" target="_blank"><i class="fa-solid fa-envelope"></i> Email Công Ty</a></li>
+        <ul class="sidebar-menu" id="sidebarNav">
+            <!-- Được render tự động từ dữ liệu quản trị -->
         </ul>
 
         <div class="sidebar-footer">
             <span>Ca Trực: Ca A</span>
-            <span style="color: var(--pvcfc-yellow);">Online</span>
+            <span style="color: var(--pvcfc-yellow);">● Online</span>
         </div>
     </aside>
 
@@ -201,190 +190,234 @@
     <div class="main-wrapper">
         <header class="top-header">
             <div class="header-title">
-                <h1>Hệ thống Quản lý & Giao việc <span>Xưởng Ammonia</span></h1>
-                <p>Trung tâm dữ liệu tiêu chuẩn PVCFC KBR Technology</p>
+                <h1>Hệ thống Webapp và link Xưởng Ammonia</h1>
+                <p>Xưởng Ammonia Nhà máy Đạm Cà Mau</p>
             </div>
             <div class="header-actions">
                 <div class="status-pill"><span></span> Trực tuyến</div>
-                <button class="btn-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Quản Trị (Admin)</button>
+                <button class="btn-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Quản Trị Hệ Thống</button>
             </div>
         </header>
 
         <main class="content-container">
-            <div class="section-title">Danh Mục Ứng Dụng & Trang Con (Quản Lý Bởi Admin)</div>
-            
-            <!-- DANH SÁCH CARDS ĐƯỢC RENDER ĐỘNG TỪ JAVASCRIPT -->
-            <div class="cards-grid" id="cardsGrid">
-                <!-- Nội dung tự động nạp từ bộ nhớ cấu hình -->
-            </div>
+            <div class="section-title">Danh Mục Ứng Dụng & Liên Kết Quản Lý</div>
+            <div class="cards-grid" id="cardsGrid"></div>
         </main>
     </div>
 
     <!-- ADMIN MODAL CẤU HÌNH -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal">
-            <h2><span><i class="fa-solid fa-gear"></i> Bảng Điều Khiển Admin</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
+            <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
             
             <div id="loginSection">
                 <div class="form-group">
-                    <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPass" placeholder="Nhập mật khẩu (mặc định: admin123)">
+                    <label>Mật khẩu Quản Trị (Nhập để an toàn)</label>
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị...">
                 </div>
-                <button class="btn-primary" onclick="checkAdminLogin()">Truy Cập Admin</button>
+                <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
             <div id="dashboardAdminSection" style="display:none;">
-                <p style="font-size: 13px; color: var(--pvcfc-green); font-weight: 600; margin-bottom: 12px;"><i class="fa-solid fa-circle-check"></i> Đã cấp quyền quản trị viên thành công!</p>
+                <p style="font-size: 13px; color: var(--pvcfc-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Quyền quản trị đã được xác thực.</p>
                 
-                <h3 style="font-size: 14px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 6px;">Thêm / Chỉnh Sửa Thẻ Liên Kết Mới</h3>
+                <h3 style="font-size: 13.5px; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 4px;">Thêm Mục Mới (Sidebar & Cards)</h3>
                 <div class="form-group">
-                    <label>Tiêu đề Link / Trang con</label>
-                    <input type="text" id="linkTitle" placeholder="Ví dụ: Giám sát máy nén khí">
+                    <label>Chọn Phần (Sidebar Section)</label>
+                    <select id="itemSection">
+                        <option value="overview">1. Tổng Quan</option>
+                        <option value="apps">2. Các Ứng Dụng Con</option>
+                        <option value="links">3. Liên Kết Nhanh</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Đường dẫn URL đích</label>
-                    <input type="text" id="linkUrl" placeholder="https://...">
+                    <label>Tên hiển thị (Tiêu đề)</label>
+                    <input type="text" id="itemName" placeholder="Ví dụ: Giám sát máy nén">
                 </div>
                 <div class="form-group">
-                    <label>Mô tả ngắn</label>
-                    <input type="text" id="linkDesc" placeholder="Mô tả công năng trang con...">
+                    <label>Đường dẫn URL</label>
+                    <input type="text" id="itemUrl" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>Mô tả ngắn (Dành cho Card chính)</label>
+                    <input type="text" id="itemDesc" placeholder="Mô tả chi tiết tính năng...">
                 </div>
                 <div class="form-group">
                     <label>Icon (FontAwesome class)</label>
-                    <input type="text" id="linkIcon" value="fa-solid fa-chart-line" placeholder="fa-solid fa-industry">
+                    <input type="text" id="itemIcon" value="fa-solid fa-link" placeholder="fa-solid fa-industry">
                 </div>
+                <button class="btn-primary" onclick="addNewItem()"><i class="fa-solid fa-plus"></i> Thêm Vào Hệ Thống</button>
+
+                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px;">Đổi Mật Khẩu Quản Trị</h3>
                 <div class="form-group">
-                    <label>Phân quyền xem (Roles)</label>
-                    <select id="linkRole">
-                        <option value="all">Tất cả mọi người</option>
-                        <option value="foreman">Chỉ Trưởng Ca & Admin</option>
-                        <option value="engineer">Kỹ sư vận hành</option>
-                    </select>
+                    <label>Mật khẩu mới</label>
+                    <input type="password" id="newAdminPass" placeholder="Nhập mật khẩu mới bảo mật hơn...">
                 </div>
-                <button class="btn-primary" onclick="addNewCard()"><i class="fa-solid fa-plus"></i> Lưu & Thêm Card Mới</button>
+                <button class="btn-secondary" onclick="changeAdminPassword()">Cập Nhật Mật Khẩu</button>
 
-                <h3 style="font-size: 14px; margin: 20px 0 10px 0; border-bottom: 1px solid #eee; padding-bottom: 6px;">Danh sách Card hiện tại</h3>
-                <div id="adminCardsList" style="max-height: 150px; overflow-y: auto; font-size: 12px;"></div>
+                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid #eee; padding-bottom: 4px;">Quản Lý & Xóa Các Mục Hiện Tại</h3>
+                <div id="adminItemsList" style="max-height: 160px; overflow-y: auto; font-size: 12px; border: 1px solid #eee; padding: 8px; border-radius: 6px;"></div>
 
-                <div class="modal-btns" style="margin-top: 20px;">
-                    <button class="btn-secondary" onclick="resetDefaultData()">Khôi phục mặc định</button>
-                    <button class="btn-primary" style="background:#dc2626;" onclick="logoutAdmin()">Đăng xuất Admin</button>
+                <div class="modal-btns" style="margin-top: 18px;">
+                    <button class="btn-secondary" onclick="resetDefaultData()">Khôi Phục Mặc Định</button>
+                    <button class="btn-primary" style="background:#dc2626;" onclick="logoutAdmin()">Đăng Xuất</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT QUẢN LÝ DỮ LIỆU ĐỘNG & ADMIN -->
+    <!-- JAVASCRIPT XỬ LÝ DỮ LIỆU ĐỘNG & BẢO MẬT -->
     <script>
-        // Dữ liệu mặc định ban đầu của các Card
-        const defaultCards = [
-            { title: "Nhật Ký Ca Điện Tử", url: "#", desc: "Ghi chép thông số vận hành, nhật ký giao nhận ca trực Xưởng Ammonia.", icon: "fa-solid fa-clipboard-list", tag: "Cập nhật ca" },
-            { title: "Giám Sát Equipment KPI", url: "#", desc: "Theo dõi hiệu suất Máy nén, Lò cải biến (Reformer), Nồi hơi và Tháp NH3.", icon: "fa-solid fa-microchip", tag: "Looker Studio" },
-            { title: "Thư Viện SOP & WI", url: "#", desc: "Tra cứu nhanh quy trình vận hành chuẩn, hướng dẫn công việc và Trip Matrix.", icon: "fa-solid fa-book-bookmark", tag: "Tra cứu nhanh" },
-            { title: "Báo Cáo Sự Cố & Near-Miss", url: "#", desc: "Ghi nhận suýt bị (Near-miss), mối nguy an toàn theo chuẩn PSM Element.", icon: "fa-solid fa-triangle-exclamation", tag: "PSM Safety" },
-            { title: "Lịch Ca & Skill Matrix", url: "#", desc: "Quản lý lịch đổi ca, theo dõi ma trận kỹ năng và tiến độ đào tạo OJT.", icon: "fa-solid fa-calendar-check", tag: "AppSheet" },
-            { title: "Suất Tiêu Hao Năng Lượng", url: "#", desc: "Bảng tổng hợp tiêu hao Khí nguyên liệu, Điện, Hơi nước trên tấn sản phẩm.", icon: "fa-solid fa-leaf", tag: "KPI Realtime" }
+        // Dữ liệu chuẩn phân loại theo 3 phần Sidebar & Card chính
+        const defaultData = [
+            { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house" },
+            { id: 2, section: "overview", name: "Giám Sát Vận Hành", url: "#", desc: "Theo dõi các thông số nhiệt độ, áp suất, lưu lượng thiết bị.", icon: "fa-solid fa-sliders" },
+            { id: 3, section: "apps", name: "Nhật Ký Ca Điện Tử", url: "#", desc: "Ghi chép thông số vận hành và nhật ký giao nhận ca trực.", icon: "fa-solid fa-clipboard-list" },
+            { id: 4, section: "apps", name: "Equipment KPI", url: "#", desc: "Hiệu suất Máy nén, Lò cải biến (Reformer) và Tháp tổng hợp NH3.", icon: "fa-solid fa-microchip" },
+            { id: 5, section: "apps", name: "Thư Viện SOP & WI", url: "#", desc: "Tra cứu quy trình vận hành chuẩn và hướng dẫn công việc.", icon: "fa-solid fa-book-bookmark" },
+            { id: 6, section: "links", name: "E-Office PVCFC", url: "https://eoffice.pvcfc.com.vn", desc: "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.", icon: "fa-solid fa-file-signature" },
+            { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope" }
         ];
 
-        // Lấy dữ liệu từ trình duyệt (LocalStorage) hoặc dùng mặc định
-        let cardsData = JSON.parse(localStorage.getItem('ammonia_portal_cards')) || defaultCards;
+        let appData = JSON.parse(localStorage.getItem('ammonia_portal_data')) || defaultData;
+        let adminPass = localStorage.getItem('ammonia_admin_pass') || 'admin123';
 
+        function renderAll() {
+            renderSidebar();
+            renderCards();
+            renderAdminList();
+        }
+
+        // Render Sidebar chia thành 3 phần rõ rệt
+        function renderSidebar() {
+            const nav = document.getElementById('sidebarNav');
+            nav.innerHTML = '';
+
+            const sections = [
+                { key: 'overview', label: 'Tổng Quan' },
+                { key: 'apps', label: 'Các Ứng Dụng Con' },
+                { key: 'links', label: 'Liên Kết Nhanh' }
+            ];
+
+            sections.forEach(sec => {
+                nav.innerHTML += `<li class="menu-label">${sec.label}</li>`;
+                const filtered = appData.filter(item => item.section === sec.key);
+                filtered.forEach(item => {
+                    nav.innerHTML += `<li><a href="${item.url}" target="_blank"><i class="${item.icon}"></i> ${item.name}</a></li>`;
+                });
+            });
+        }
+
+        // Render các Card chính ngoài màn hình
         function renderCards() {
             const grid = document.getElementById('cardsGrid');
             grid.innerHTML = '';
-            cardsData.forEach((card, index) => {
+            appData.forEach((item, index) => {
                 grid.innerHTML += `
-                    <a href="${card.url}" target="_blank" class="sub-card">
+                    <a href="${item.url}" target="_blank" class="sub-card">
                         <div>
-                            <div class="card-header-icon"><i class="${card.icon}"></i></div>
+                            <div class="card-header-icon"><i class="${item.icon}"></i></div>
                             <div class="card-body">
-                                <h3>${card.title} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; color:#94a3b8;"></i></h3>
-                                <p>${card.desc}</p>
+                                <h3>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; color:#94a3b8;"></i></h3>
+                                <p>${item.desc || 'Hệ thống liên kết chuyên dụng xưởng Ammonia.'}</p>
                             </div>
                         </div>
                         <div class="card-footer-tags">
-                            <span class="tag hot">${card.tag || 'Hệ thống'}</span>
-                            <span onclick="event.preventDefault(); deleteCard(${index})" style="color:#ef4444; font-size:11px; cursor:pointer;" title="Xóa card này"><i class="fa-solid fa-trash"></i> Xóa</span>
+                            <span class="tag">${item.section.toUpperCase()}</span>
+                            <span onclick="event.preventDefault(); deleteItem(${index})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>
                         </div>
                     </a>
                 `;
             });
-            renderAdminCardsList();
         }
 
-        // Quản trị Admin Modal
+        // Quản trị Modal
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
-        function checkAdminLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === 'admin123') { // Mật khẩu mẫu quản trị
+        function verifyAdminLogin() {
+            const val = document.getElementById('adminPassInput').value;
+            if(val === adminPass) {
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('dashboardAdminSection').style.display = 'block';
             } else {
-                alert('Mật khẩu quản trị không đúng! (Mặc định: admin123)');
+                alert('Mật khẩu quản trị không chính xác!');
             }
         }
 
         function logoutAdmin() {
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('dashboardAdminSection').style.display = 'none';
-            document.getElementById('adminPass').value = '';
+            document.getElementById('adminPassInput').value = '';
         }
 
-        function addNewCard() {
-            const title = document.getElementById('linkTitle').value;
-            const url = document.getElementById('linkUrl').value;
-            const desc = document.getElementById('linkDesc').value;
-            const icon = document.getElementById('linkIcon').value;
+        function addNewItem() {
+            const section = document.getElementById('itemSection').value;
+            const name = document.getElementById('itemName').value;
+            const url = document.getElementById('itemUrl').value;
+            const desc = document.getElementById('itemDesc').value;
+            const icon = document.getElementById('itemIcon').value;
 
-            if(!title || !url) {
-                alert('Vui lòng nhập tên tiêu đề và đường dẫn URL!');
+            if(!name || !url) {
+                alert('Vui lòng điền đầy đủ tên và đường dẫn URL!');
                 return;
             }
 
-            cardsData.push({ title, url, desc, icon, tag: "Tùy chỉnh" });
-            localStorage.setItem('ammonia_portal_cards', JSON.stringify(cardsData));
-            renderCards();
-            
-            // Clear form
-            document.getElementById('linkTitle').value = '';
-            document.getElementById('linkUrl').value = '';
-            document.getElementById('linkDesc').value = '';
-            alert('Đã thêm thẻ liên kết mới thành công!');
+            appData.push({ section, name, url, desc, icon });
+            localStorage.setItem('ammonia_portal_data', JSON.stringify(appData));
+            renderAll();
+
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemUrl').value = '';
+            document.getElementById('itemDesc').value = '';
+            alert('Đã thêm thành công vào hệ thống và Sidebar!');
         }
 
-        function deleteCard(index) {
-            if(confirm('Bạn có chắc chắn muốn xóa liên kết này khỏi Portal không?')) {
-                cardsData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_cards', JSON.stringify(cardsData));
-                renderCards();
+        function deleteItem(index) {
+            if(confirm('Bạn có chắc muốn xóa mục này?')) {
+                appData.splice(index, 1);
+                localStorage.setItem('ammonia_portal_data', JSON.stringify(appData));
+                renderAll();
             }
         }
 
-        function renderAdminCardsList() {
-            const listDiv = document.getElementById('adminCardsList');
-            if(!listDiv) return;
-            listDiv.innerHTML = '';
-            cardsData.forEach((c, idx) => {
-                listDiv.innerHTML += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid #f1f5f9;">
-                    <span><b>${idx+1}.</b> ${c.title}</span>
-                    <span style="color:#ef4444; cursor:pointer;" onclick="deleteCard(${idx})">[Xóa]</span>
-                </div>`;
+        function changeAdminPassword() {
+            const newP = document.getElementById('newAdminPass').value;
+            if(!newP || newP.length < 4) {
+                alert('Mật khẩu mới phải có ít nhất 4 ký tự!');
+                return;
+            }
+            adminPass = newP;
+            localStorage.setItem('ammonia_admin_pass', adminPass);
+            document.getElementById('newAdminPass').value = '';
+            alert('Đổi mật khẩu quản trị thành công!');
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('adminItemsList');
+            if(!list) return;
+            list.innerHTML = '';
+            appData.forEach((item, idx) => {
+                list.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid #f1f5f9;">
+                        <span><b>[${item.section}]</b> ${item.name}</span>
+                        <span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(${idx})">[Xóa]</span>
+                    </div>
+                `;
             });
         }
 
         function resetDefaultData() {
-            if(confirm('Khôi phục về danh mục mặc định?')) {
-                cardsData = defaultCards;
-                localStorage.setItem('ammonia_portal_cards', JSON.stringify(cardsData));
-                renderCards();
-                alert('Đã khôi phục thành công!');
+            if(confirm('Khôi phục lại toàn bộ dữ liệu mặc định?')) {
+                appData = defaultData;
+                localStorage.setItem('ammonia_portal_data', JSON.stringify(appData));
+                renderAll();
+                alert('Đã khôi phục mặc định thành công!');
             }
         }
 
         // Khởi chạy khi load trang
-        renderCards();
+        renderAll();
     </script>
 </body>
 </html>
