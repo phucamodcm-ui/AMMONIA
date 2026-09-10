@@ -20,7 +20,7 @@
             --text-muted: #5C7066;
             --border-color: #E2E8F0;
             --sidebar-width: 270px;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 10px 25px -5px rgba(0, 96, 32, 0.08);
             --transition: all 0.25s ease-in-out;
         }
@@ -53,7 +53,7 @@
         }
 
         .sidebar-header {
-            padding: 16px 20px;
+            padding: 18px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -68,7 +68,6 @@
             padding: 6px 10px;
             border-radius: 6px;
             font-size: 13px;
-            letter-spacing: 0.5px;
         }
 
         .sidebar-brand-text h2 { font-size: 13px; font-weight: 700; color: #fff; }
@@ -96,25 +95,35 @@
         }
         .btn-sidebar-admin {
             background: rgba(255, 199, 44, 0.15); color: var(--accent-yellow); border: 1px solid rgba(255, 199, 44, 0.3);
-            padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
+            padding: 9px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition);
         }
         .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #004E1A; }
-        .shift-info { font-size: 11px; color: #94A3B8; text-align: center; }
 
         /* --- MAIN WRAPPER --- */
         .main-wrapper { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
-        /* HEADER */
+        /* HEADER CHUYÊN NGHIỆP */
         .top-header {
-            background: var(--card-bg); padding: 14px 28px;
+            background: var(--card-bg); padding: 12px 28px;
             display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
         }
 
-        .header-brand-group { display: flex; align-items: center; gap: 14px; }
-        .header-logo-svg { height: 40px; }
+        .header-brand-group { display: flex; align-items: center; gap: 16px; }
+        
+        /* LOGO ĐẠM CÀ MAU CHUẨN ĐẸP */
+        .logo-dcm-container {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+        .logo-svg { height: 38px; width: auto; }
 
         .header-title h1 { font-size: 15px; font-weight: 700; color: var(--text-main); }
         .header-title p { font-size: 11.5px; color: var(--text-muted); }
@@ -123,30 +132,21 @@
         
         .theme-toggle-btn {
             background: var(--primary-green-light); color: var(--primary-green); border: none;
-            width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex;
+            width: 38px; height: 38px; border-radius: 50%; cursor: pointer; display: flex;
             align-items: center; justify-content: center; font-size: 15px; transition: var(--transition);
         }
         .theme-toggle-btn:hover { transform: scale(1.05); }
 
-        .shift-badge-pill {
-            background: var(--primary-green-light); color: var(--primary-green);
-            padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
-            display: flex; align-items: center; gap: 6px; border: 1px solid rgba(0, 96, 32, 0.15);
-        }
-        .shift-badge-pill span { width: 7px; height: 7px; background: #22C55E; border-radius: 50%; }
-
         /* CONTENT */
         .content-container { padding: 24px 28px; max-width: 1400px; margin: 0 auto; width: 100%; }
 
-        /* TOOLBAR & SEARCH & VIEW MODES */
+        /* TOOLBAR */
         .toolbar-section {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 22px; gap: 15px; flex-wrap: wrap;
         }
 
-        .search-box-wrapper {
-            position: relative; flex: 1; min-width: 260px; max-width: 420px;
-        }
+        .search-box-wrapper { position: relative; flex: 1; min-width: 260px; max-width: 420px; }
         .search-box-wrapper input {
             width: 100%; padding: 11px 16px 11px 42px; border-radius: 10px;
             border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-main);
@@ -166,7 +166,7 @@
         .section-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .section-title::before { content: ''; width: 4px; height: 15px; background: var(--primary-green); border-radius: 2px; }
 
-        /* CARDS GRID VIEW */
+        /* CARDS GRID */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 32px; }
         .sub-card {
             background: var(--card-bg); border-radius: 12px; padding: 20px;
@@ -194,7 +194,7 @@
         .cards-grid.compact-view .card-header-icon { width: 34px; height: 34px; font-size: 14px; margin-bottom: 8px; }
         .cards-grid.compact-view .card-body p { display: none; }
 
-        /* LIST TABLE VIEW */
+        /* LIST VIEW */
         .list-table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); overflow: hidden; box-shadow: var(--shadow-sm); margin-bottom: 32px; }
         .custom-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
         .custom-table th { background: var(--primary-green-light); color: var(--primary-green); padding: 12px 16px; font-weight: 700; }
@@ -237,11 +237,10 @@
         </div>
 
         <ul class="sidebar-menu" id="sidebarNav">
-            <!-- Render động từ JavaScript -->
+            <!-- Render động -->
         </ul>
 
         <div class="sidebar-admin-footer">
-            <div class="shift-info">Kíp Trực: Kíp A | Ca Trực Nghiêm Ngặt</div>
             <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Quản Trị Hệ Thống</button>
         </div>
     </aside>
@@ -250,14 +249,17 @@
     <div class="main-wrapper">
         <header class="top-header">
             <div class="header-brand-group">
-                <!-- SVG Logo Đạm Cà Mau chuẩn thương hiệu -->
-                <svg class="header-logo-svg" viewBox="0 0 280 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 45 C20 20, 35 10, 35 10 C35 10, 50 20, 50 45 C50 55, 35 60, 35 60 C35 60, 20 55, 20 45 Z" fill="#006020"/>
-                    <path d="M28 42 C28 25, 35 18, 35 18 C35 18, 42 25, 42 42 C42 50, 35 53, 35 53 C35 53, 28 50, 28 42 Z" fill="#FFC72C"/>
-                    <circle cx="35" cy="36" r="4" fill="#006020"/>
-                    <text x="62" y="32" font-family="Inter, sans-serif" font-weight="800" font-size="16" fill="#006020">ĐẠM CÀ MAU</text>
-                    <text x="62" y="46" font-family="Inter, sans-serif" font-weight="600" font-size="9" fill="#FFC72C" letter-spacing="1">PHÂN BÓN CÀ MAU</text>
-                </svg>
+                <!-- SVG Logo Đạm Cà Mau chuẩn thương hiệu cao cấp -->
+                <div class="logo-dcm-container">
+                    <svg class="logo-svg" viewBox="0 0 260 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="35" cy="32" r="24" fill="#E63946"/>
+                        <path d="M35 14 C35 14, 25 26, 25 36 C25 42, 30 46, 35 48 C40 46, 45 42, 45 36 C45 26, 35 14, 35 14 Z" fill="#FFD166"/>
+                        <path d="M35 20 C35 20, 29 28, 29 35 C29 39, 32 42, 35 43 C38 42, 41 39, 41 35 C41 28, 35 20, 35 20 Z" fill="#FFC300"/>
+                        <path d="M15 44 Q35 34 55 44 L55 52 Q35 42 15 52 Z" fill="#006020"/>
+                        <text x="65" y="30" font-family="Inter, sans-serif" font-weight="800" font-size="15" fill="#006020">PHÂN BÓN CÀ MAU</text>
+                        <text x="65" y="44" font-family="Inter, sans-serif" font-weight="700" font-size="8.5" fill="#E63946" letter-spacing="1.2">HẠT NGỌC MÙA VÀNG</text>
+                    </svg>
+                </div>
 
                 <div class="header-title">
                     <h1>Hệ thống Webapp và link Xưởng Ammonia</h1>
@@ -269,13 +271,12 @@
                 <button class="theme-toggle-btn" onclick="toggleTheme()" title="Chuyển đổi Sáng / Tối">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
-                <div class="shift-badge-pill"><span></span> Kíp A - Vận hành an toàn</div>
             </div>
         </header>
 
         <main class="content-container">
             
-            <!-- TOOLBAR: SEARCH & VIEW MODES -->
+            <!-- TOOLBAR -->
             <div class="toolbar-section">
                 <div class="search-box-wrapper">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -311,7 +312,7 @@
             </div>
 
             <div id="dashboardAdminSection" style="display:none;">
-                <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã cấp quyền quản trị viên.</p>
+                <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã cấp quyền quản trị viên thành công.</p>
                 
                 <h3 style="font-size: 13.5px; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Thêm Ứng Dụng / Link Mới</h3>
                 <div class="form-group">
@@ -347,7 +348,7 @@
                 </div>
                 <button class="btn-secondary" onclick="changeAdminPassword()">Cập Nhật Mật Khẩu</button>
 
-                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý & Xóa Mục</h3>
+                <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý & Xóa Mục (Chỉ hiện khi là Admin)</h3>
                 <div id="adminItemsList" style="max-height: 150px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"></div>
 
                 <div class="modal-btns" style="margin-top: 18px;">
@@ -358,7 +359,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT XỬ LÝ TOÀN BỆNH -->
+    <!-- JAVASCRIPT XỬ LÝ -->
     <script>
         const defaultData = [
             { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house" },
@@ -370,9 +371,10 @@
             { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope" }
         ];
 
-        let appData = JSON.parse(localStorage.getItem('ammonia_portal_v2_data')) || defaultData;
-        let adminPass = localStorage.getItem('ammonia_admin_v2_pass') || 'admin123';
-        let currentView = 'grid'; // grid, compact, list
+        let appData = JSON.parse(localStorage.getItem('ammonia_portal_v3_data')) || defaultData;
+        let adminPass = localStorage.getItem('ammonia_admin_v3_pass') || 'admin123';
+        let isAdminLoggedIn = false; // Biến kiểm tra quyền admin để hiển thị nút xóa
+        let currentView = 'grid';
 
         function renderAll() {
             renderSidebar();
@@ -380,7 +382,6 @@
             renderAdminList();
         }
 
-        // Render Sidebar theo 3 nhóm
         function renderSidebar() {
             const nav = document.getElementById('sidebarNav');
             nav.innerHTML = '';
@@ -399,7 +400,6 @@
             });
         }
 
-        // Render Nội dung chính tùy thuộc vào chế độ xem (Grid, Compact, List)
         function renderMainContent(filterText = '') {
             const area = document.getElementById('mainDisplayArea');
             const filtered = appData.filter(item => 
@@ -408,9 +408,12 @@
             );
 
             if(filtered.length === 0) {
-                area.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:30px;">Không tìm thấy mục phù hợp với từ khóa.</p>`;
+                area.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:30px;">Không tìm thấy mục phù hợp.</p>`;
                 return;
             }
+
+            // Nút xóa chỉ hiện khi đã đăng nhập Admin
+            const deleteBtnHtml = (idx) => isAdminLoggedIn ? `<span onclick="event.preventDefault(); deleteItem(${idx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>` : '';
 
             if(currentView === 'list') {
                 let html = `
@@ -434,7 +437,7 @@
                             <td><a href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;">${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.6;"></i></a></td>
                             <td><span class="tag">${item.section.toUpperCase()}</span></td>
                             <td style="color:var(--text-muted);">${item.desc}</td>
-                            <td style="text-align:right;"><span onclick="deleteItem(${idx})" style="color:#ef4444; cursor:pointer; font-size:12px;"><i class="fa-solid fa-trash"></i> Xóa</span></td>
+                            <td style="text-align:right;">${deleteBtnHtml(idx)}</td>
                         </tr>
                     `;
                 });
@@ -455,7 +458,7 @@
                             </div>
                             <div class="card-footer-tags">
                                 <span class="tag">${item.section.toUpperCase()}</span>
-                                <span onclick="event.preventDefault(); deleteItem(${idx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>
+                                ${deleteBtnHtml(idx)}
                             </div>
                         </a>
                     `;
@@ -465,7 +468,6 @@
             }
         }
 
-        // Chuyển chế độ xem
         function switchView(mode) {
             currentView = mode;
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -475,13 +477,10 @@
             renderMainContent(document.getElementById('searchInput').value);
         }
 
-        // Tìm kiếm thông minh
         function filterCards() {
-            const query = document.getElementById('searchInput').value;
-            renderMainContent(query);
+            renderMainContent(document.getElementById('searchInput').value);
         }
 
-        // Light/Dark Theme toggle
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
@@ -494,24 +493,27 @@
             }
         }
 
-        // Quản trị Modal
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         function verifyAdminLogin() {
             const val = document.getElementById('adminPassInput').value;
             if(val === adminPass) {
+                isAdminLoggedIn = true;
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('dashboardAdminSection').style.display = 'block';
+                renderAll();
             } else {
                 alert('Mật khẩu quản trị không chính xác!');
             }
         }
 
         function logoutAdmin() {
+            isAdminLoggedIn = false;
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('dashboardAdminSection').style.display = 'none';
             document.getElementById('adminPassInput').value = '';
+            renderAll();
         }
 
         function addItem() {
@@ -527,7 +529,7 @@
             }
 
             appData.push({ section, name, url, desc, icon });
-            localStorage.setItem('ammonia_portal_v2_data', JSON.stringify(appData));
+            localStorage.setItem('ammonia_portal_v3_data', JSON.stringify(appData));
             renderAll();
 
             document.getElementById('itemName').value = '';
@@ -537,9 +539,13 @@
         }
 
         function deleteItem(index) {
+            if(!isAdminLoggedIn) {
+                alert('Bạn cần đăng nhập quyền Admin mới được phép xóa!');
+                return;
+            }
             if(confirm('Bạn có chắc muốn xóa mục này?')) {
                 appData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_v2_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_portal_v3_data', JSON.stringify(appData));
                 renderAll();
             }
         }
@@ -551,7 +557,7 @@
                 return;
             }
             adminPass = newP;
-            localStorage.setItem('ammonia_admin_v2_pass', adminPass);
+            localStorage.setItem('ammonia_admin_v3_pass', adminPass);
             document.getElementById('newAdminPass').value = '';
             alert('Cập nhật mật khẩu thành công!');
         }
@@ -571,9 +577,13 @@
         }
 
         function resetDefaultData() {
+            if(!isAdminLoggedIn) {
+                alert('Cần quyền Admin để thực hiện!');
+                return;
+            }
             if(confirm('Khôi phục toàn bộ dữ liệu mặc định?')) {
                 appData = defaultData;
-                localStorage.setItem('ammonia_portal_v2_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_portal_v3_data', JSON.stringify(appData));
                 renderAll();
                 alert('Đã khôi phục thành công!');
             }
