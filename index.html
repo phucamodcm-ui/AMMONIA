@@ -13,7 +13,7 @@
             --primary-green-dark: #004015;
             --primary-green-light: #E6F4EA;
             --accent-yellow: #FFC72C;
-            --sidebar-bg: #073B1E;
+            --sidebar-bg: #042914;
             --bg-light: #F4F7F5;
             --card-bg: #FFFFFF;
             --text-main: #1A2E26;
@@ -31,7 +31,7 @@
             --text-main: #E2E8F0;
             --text-muted: #94A3B8;
             --border-color: #1E3A2F;
-            --sidebar-bg: #041F10;
+            --sidebar-bg: #03170B;
             --primary-green-light: #133322;
         }
 
@@ -63,7 +63,7 @@
 
         .sidebar-brand-badge {
             background: var(--accent-yellow);
-            color: #041F10;
+            color: #03170B;
             font-weight: 800;
             padding: 6px 10px;
             border-radius: 6px;
@@ -75,12 +75,11 @@
 
         .sidebar-menu { list-style: none; padding: 14px 10px; flex-grow: 1; overflow-y: auto; }
         
-        /* Màu chữ tiêu đề nhóm Sidebar sắc nét, chuyên nghiệp */
         .menu-label { 
             font-size: 10.5px; 
             text-transform: uppercase; 
             letter-spacing: 1.2px; 
-            color: #81E6D9; 
+            color: #4ADE80; 
             margin: 16px 12px 8px 12px; 
             font-weight: 700; 
         }
@@ -92,11 +91,31 @@
             transition: var(--transition); margin-bottom: 3px;
         }
         .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background: rgba(255, 255, 255, 0.15); color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.12); color: #FFFFFF;
             transform: translateX(4px);
         }
-        .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; color: var(--accent-yellow); transition: var(--transition); }
-        .sidebar-menu li a:hover i { color: #4ADE80; transform: scale(1.15); }
+
+        /* --- PHỐI MÀU ICON SIDEBAR ĐA SẮC & CHUYÊN NGHIỆP --- */
+        .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; transition: var(--transition); }
+        
+        /* Phân chia màu sắc icon cao cấp theo ý nghĩa trực quan */
+        .sidebar-menu li a i.fa-house,
+        .sidebar-menu li a i.fa-file-signature { color: #38BDF8; /* Xanh dương kỹ thuật */ }
+        
+        .sidebar-menu li a i.fa-sliders,
+        .sidebar-menu li a i.fa-microchip,
+        .sidebar-menu li a i.fa-chart-line { color: #34D399; /* Xanh ngọc vận hành */ }
+        
+        .sidebar-menu li a i.fa-clipboard-list,
+        .sidebar-menu li a i.fa-book-bookmark { color: #FBBF24; /* Vàng tài liệu */ }
+        
+        .sidebar-menu li a i.fa-shield-halved,
+        .sidebar-menu li a i.fa-triangle-exclamation { color: #FB7185; /* Hồng cam an toàn / PSM */ }
+        
+        .sidebar-menu li a i.fa-envelope,
+        .sidebar-menu li a i.fa-link { color: #A78BFA; /* Tím nhạt liên kết */ }
+
+        .sidebar-menu li a:hover i { transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
 
         .sidebar-admin-footer {
             padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
@@ -107,7 +126,7 @@
             padding: 9px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;
             display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition);
         }
-        .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #041F10; }
+        .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #03170B; }
 
         /* --- MAIN WRAPPER --- */
         .main-wrapper { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
@@ -246,7 +265,7 @@
         </ul>
 
         <div class="sidebar-admin-footer">
-            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock"></i> Quản Trị Hệ Thống</button>
+            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> Quản Trị Hệ Thống</button>
         </div>
     </aside>
 
@@ -305,7 +324,7 @@
             <div id="loginSection">
                 <div class="form-group">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu (mặc định: admin123)">
                 </div>
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
