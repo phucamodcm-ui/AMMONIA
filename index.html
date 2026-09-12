@@ -333,6 +333,15 @@
             <div id="dashboardAdminSection" style="display:none;">
                 <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã đăng nhập quản trị thành công.</p>
                 
+                <!-- UPLOAD FILE BACKUP / EXCEL NHANH -->
+                <div style="background:var(--primary-green-light); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--primary-green);">
+                    <label style="font-size:12px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup Toàn Hệ Thống (.xlsx)</label>
+                    <div style="display:flex; gap:8px;">
+                        <input type="file" id="masterBackupFile" accept=".xlsx, .xls" style="font-size:11px; flex:1;">
+                        <button class="btn-primary" style="padding:6px 12px; font-size:12px;" onclick="restoreFullBackupExcel()">Restore</button>
+                    </div>
+                </div>
+
                 <h3 style="font-size: 13.5px; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Thêm Ứng Dụng / Link Mới</h3>
                 <div class="form-group">
                     <label>Chọn Nhóm (Sidebar Section)</label>
@@ -392,7 +401,7 @@
             <h2 id="nsModalTitle"><span><i class="fa-solid fa-user-pen"></i> Thêm / Sửa Nhân Sự</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i></h2>
             <input type="hidden" id="nsEditIndex" value="-1">
             <div id="modalFieldsContainer">
-                <!-- Render động theo trang đang mở -->
+                <!-- Render động -->
             </div>
             <div class="modal-btns">
                 <button class="btn-secondary" onclick="closeNsModal()">Hủy</button>
@@ -435,16 +444,16 @@
         ];
 
         // Kế thừa dữ liệu từ mọi version trước
-        let savedData = localStorage.getItem('ammonia_portal_v10_data') || localStorage.getItem('ammonia_portal_v9_data');
+        let savedData = localStorage.getItem('ammonia_portal_v11_data') || localStorage.getItem('ammonia_portal_v10_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
 
-        let savedNs = localStorage.getItem('ammonia_nhansu_v5_data') || localStorage.getItem('ammonia_nhansu_v4_data');
+        let savedNs = localStorage.getItem('ammonia_nhansu_v6_data') || localStorage.getItem('ammonia_nhansu_v5_data');
         let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
 
-        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v2_data') || localStorage.getItem('bdtt2026_nhansu_v1_data');
+        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v3_data') || localStorage.getItem('bdtt2026_nhansu_v2_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        let adminPass = localStorage.getItem('ammonia_admin_v10_pass') || 'admin123';
+        let adminPass = localStorage.getItem('ammonia_admin_v11_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
         let activePage = 'home'; // 'home', 'nhansu', 'bdtt2026'
@@ -731,7 +740,7 @@
             }
         }
 
-        // --- 3. TRANG NHÂN SỰ BDTT2026 - XƯỞNG AMO (MỚI KÈM BẢNG NHÓM TRƯỞNG & SĐT) ---
+        // --- 3. TRANG NHÂN SỰ BDTT2026 - XƯỞNG AMO (ĐẦY ĐỦ BẢNG CHI TIẾT & IMPORT EXCEL CHUẨN XÁC) ---
         function renderBdttContent() {
             document.getElementById('pageMainTitle').innerText = "Nhân Sự BDTT2026 - Xưởng Amo";
             const container = document.getElementById('mainContentContainer');
@@ -739,7 +748,6 @@
             let totalNs = bdttNsData.length;
             let nhomCount = new Set(bdttNsData.map(x => x["Nhóm / Cụm"])).size;
 
-            // Lọc danh sách nhóm trưởng / chủ chốt để hiển thị bảng liên hệ nhanh
             let nhomTruongList = bdttNsData.filter(x => {
                 let cv = (x["Chức Vụ"] || "").toLowerCase();
                 let nhom = (x["Nhóm / Cụm"] || "").toLowerCase();
@@ -751,9 +759,9 @@
                 adminToolsHtml = `
                     <div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;">
                         <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-                            <span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Cập nhật từ File Excel:</span>
+                            <span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Import File Excel BDTT2026:</span>
                             <input type="file" id="excelFileUpBdtt" accept=".xlsx, .xls" style="font-size:12px;">
-                            <button class="btn-primary" onclick="handleExcelUploadBdtt()"><i class="fa-solid fa-upload"></i> Import Excel BDTT</button>
+                            <button class="btn-primary" onclick="handleExcelUploadBdtt()"><i class="fa-solid fa-upload"></i> Import Excel</button>
                         </div>
                         <button class="btn-primary" onclick="openNsModalForAdd('bdtt')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT</button>
                     </div>
@@ -794,7 +802,7 @@
                                     <th>HỌ VÀ TÊN NHÓM TRƯỞNG</th>
                                     <th>CHỨC VỤ</th>
                                     <th>SỐ ĐIỆN THOẠI</th>
-                                    <th>THAO TÁC GỌI / LIÊN HỆ</th>
+                                    <th>THAO TÁC GỌI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -842,6 +850,8 @@
                     </div>
                 </div>
 
+                <!-- BẢNG CHI TIẾT TẤT CẢ THÀNH VIÊN BDTT2026 -->
+                <div class="section-title">Danh Sách Chi Tiết Toàn Bộ Thành Viên BDTT2026</div>
                 <div class="list-table-container">
                     <table class="custom-table" id="nsTable">
                         <thead>
@@ -914,7 +924,7 @@
             }
         }
 
-        // --- QUẢN LÝ MODAL THÊM / SỬA (CHO CẢ 2 TRANG NHÂN SỰ) ---
+        // --- QUẢN LÝ MODAL THÊM / SỬA ---
         function openNsModalForAdd(type) {
             document.getElementById('nsEditIndex').value = -1;
             const fieldsContainer = document.getElementById('modalFieldsContainer');
@@ -928,7 +938,7 @@
                     <div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" placeholder="Kíp 1, Hành chánh..."></div>
                     <div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" placeholder="0901234567"></div>
                     <div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" placeholder="anv@pvcfc.com.vn"></div>
-                    <div class="form-group"><label>ĐANG LÀM (1: Làm, 0: Khác)</label><select id="mDangLam"><option value="1">1 - Đang làm</option><option value="0">0 - Khác</option></select></div>
+                    <div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1">1 - Đang làm</option><option value="0">0 - Khác</option></select></div>
                 `;
             } else {
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
@@ -994,7 +1004,7 @@
                     "ĐANG LÀM": parseInt(document.getElementById('mDangLam').value)
                 };
                 if(idx === -1) nhanSuData.push(newItem); else nhanSuData[idx] = newItem;
-                localStorage.setItem('ammonia_nhansu_v5_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
             } else {
                 let newItem = {
                     "Họ và Tên": name,
@@ -1004,7 +1014,7 @@
                     "Ghi Chú": document.getElementById('mGhiChu').value.trim()
                 };
                 if(idx === -1) bdttNsData.push(newItem); else bdttNsData[idx] = newItem;
-                localStorage.setItem('bdtt2026_nhansu_v2_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
             }
             closeNsModal();
             renderAll();
@@ -1015,76 +1025,174 @@
             if(confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
                 if(type === 'nhansu') {
                     nhanSuData.splice(idx, 1);
-                    localStorage.setItem('ammonia_nhansu_v5_data', JSON.stringify(nhanSuData));
+                    localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
                 } else {
                     bdttNsData.splice(idx, 1);
-                    localStorage.setItem('bdtt2026_nhansu_v2_data', JSON.stringify(bdttNsData));
+                    localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
                 }
                 renderAll();
             }
         }
 
-        // --- UPLOAD EXCEL ---
-        function handleExcelUploadNs() {
-            processExcelFile('excelFileUp', (rows) => {
-                nhanSuData = rows.map(r => ({
-                    "HỌ VÀ TÊN": r["HỌ VÀ TÊN"] || r["HO VA TEN"] || "",
-                    "CHỨC DANH": r["CHỨC DANH"] || "",
-                    "CẤP BẬC": r["CẤP BẬC"] || "",
-                    "CA": r["CA"] || r["KIP"] || "",
-                    "ĐIỆN THOẠI": String(r["ĐIỆN THOẠI"] || ""),
-                    "EMAIL": r["EMAIL"] || "",
-                    "ĐANG LÀM": Number(r["ĐANG LÀM"] ?? 1)
-                }));
-                localStorage.setItem('ammonia_nhansu_v5_data', JSON.stringify(nhanSuData));
-                renderAll();
-                alert('Đã cập nhật ' + nhanSuData.length + ' nhân sự xưởng thành công!');
-            });
-        }
-
+        // --- UPLOAD EXCEL THÔNG MINH (XỬ LÝ MỌI ĐỊNH DẠNG TỪ FILE EXCEL BDTT2026) ---
         function handleExcelUploadBdtt() {
-            processExcelFile('excelFileUpBdtt', (rows) => {
-                let parsed = [];
-                rows.forEach(r => {
-                    let name = r["HỌ VÀ TÊN"] || r["HO VA TÊN"] || r["HỌ VÀ TÊN "] || "";
-                    if(name && !name.includes("DANH SÁCH") && !name.includes("Điện thoại") && name !== "Họ và Tên") {
-                        parsed.push({
-                            "Họ và Tên": name,
-                            "Nhóm / Cụm": r["NHÓM / CỤM"] || r["NHÓM"] || "Cụm 200",
-                            "Điện Thoại": String(r["ĐIỆN THOẠI"] || r["DIEN THOAI"] || ""),
-                            "Chức Vụ": r["CHỨC VỤ"] || "Thành viên",
-                            "Ghi Chú": r["GHI CHÚ"] || ""
-                        });
-                    }
-                });
-                if(parsed.length > 0) {
-                    bdttNsData = parsed;
-                    localStorage.setItem('bdtt2026_nhansu_v2_data', JSON.stringify(bdttNsData));
-                    renderAll();
-                    alert('Đã import thành công ' + bdttNsData.length + ' nhân sự BDTT2026!');
-                } else {
-                    alert('Không tìm thấy dữ liệu hợp lệ trong file!');
-                }
-            });
-        }
-
-        function processExcelFile(inputId, callback) {
-            const fileInput = document.getElementById(inputId);
-            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file Excel!'); return; }
+            const fileInput = document.getElementById('excelFileUpBdtt');
+            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file Excel BDTT2026!'); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
                     const wb = XLSX.read(data, {type: 'array'});
                     const ws = wb.Sheets[wb.SheetNames[0]];
-                    const json = XLSX.utils.sheet_to_json(ws, {defval: ""});
-                    let clean = json.map(row => {
-                        let obj = {};
-                        Object.keys(row).forEach(k => obj[k.trim().toUpperCase()] = row[k]);
-                        return obj;
+                    // Đọc dạng mảng mảng (array of arrays) để quét từ dòng chứa tiêu đề STT, Họ và tên
+                    const rows = XLSX.utils.sheet_to_json(ws, {header: 1, defval: ""});
+                    
+                    let parsedList = [];
+                    let foundHeader = false;
+                    let colNameIdx = 1, colNhomIdx = 2, colPhoneIdx = 3, colCvIdx = 4, colNoteIdx = 5;
+
+                    rows.forEach((r, rIdx) => {
+                        let rowStr = r.map(cell => String(cell).trim().toLowerCase()).join(" ");
+                        if(rowStr.includes("họ và tên") || rowStr.includes("stt") && rowStr.includes("chức vụ")) {
+                            foundHeader = true;
+                            // Xác định vị trí cột
+                            r.forEach((cell, cIdx) => {
+                                let cTxt = String(cell).toLowerCase();
+                                if(cTxt.includes("họ và tên") || cTxt.includes("tên")) colNameIdx = cIdx;
+                                if(cTxt.includes("nhóm") || cTxt.includes("cụm")) colNhomIdx = cIdx;
+                                if(cTxt.includes("điện thoại") || cTxt.includes("sđt") || cTxt.includes("phone")) colPhoneIdx = cIdx;
+                                if(cTxt.includes("chức vụ") || cTxt.includes("chức danh")) colCvIdx = cIdx;
+                                if(cTxt.includes("ghi chú")) colNoteIdx = cIdx;
+                            });
+                            return;
+                        }
+
+                        if(foundHeader || rIdx > 3) {
+                            let name = String(r[colNameIdx] || r[2] || r[1] || "").trim();
+                            let nhom = String(r[colNhomIdx] || r[3] || r[2] || "Cụm 200").trim();
+                            let phone = String(r[colPhoneIdx] || r[4] || r[3] || "").trim();
+                            let cv = String(r[colCvIdx] || r[5] || r[4] || "Thành viên").trim();
+                            let note = String(r[colNoteIdx] || r[6] || r[5] || "").trim();
+
+                            if(name && !name.toLowerCase().includes("danh sách") && !name.toLowerCase().includes("điện thoại") && name !== "Họ và Tên" && name !== "STT") {
+                                parsedList.push({
+                                    "Họ và Tên": name,
+                                    "Nhóm / Cụm": nhom || "Cụm 200",
+                                    "Điện Thoại": phone,
+                                    "Chức Vụ": cv || "Thành viên",
+                                    "Ghi Chú": note
+                                });
+                            }
+                        }
                     });
-                    callback(clean);
+
+                    // Fallback nếu quét theo tiêu đề không ra, quét tất cả dòng có chứa tên
+                    if(parsedList.length === 0) {
+                        const jsonObj = XLSX.utils.sheet_to_json(ws, {defval: ""});
+                        jsonObj.forEach(row => {
+                            let clean = {};
+                            Object.keys(row).forEach(k => clean[k.trim().toUpperCase()] = row[k]);
+                            let name = clean["HỌ VÀ TÊN"] || clean["HO VA TEN"] || clean["THÀNH VIÊN"] || "";
+                            if(name && !String(name).includes("DANH SÁCH") && !String(name).includes("Điện thoại")) {
+                                parsedList.push({
+                                    "Họ và Tên": name,
+                                    "Nhóm / Cụm": clean["NHÓM / CỤM"] || clean["NHÓM"] || clean["CỤM"] || "Cụm 200",
+                                    "Điện Thoại": String(clean["ĐIỆN THOẠI"] || clean["DIEN THOAI"] || ""),
+                                    "Chức Vụ": clean["CHỨC VỤ"] || "Thành viên",
+                                    "Ghi Chú": clean["GHI CHÚ"] || ""
+                                });
+                            }
+                        });
+                    }
+
+                    if(parsedList.length > 0) {
+                        bdttNsData = parsedList;
+                        localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
+                        renderAll();
+                        alert('Đã import thành công ' + bdttNsData.length + ' nhân sự BDTT2026!');
+                    } else {
+                        alert('Không tìm thấy dữ liệu nhân sự hợp lệ trong file Excel.');
+                    }
                 } catch(err) { console.error(err); alert('Lỗi đọc file Excel!'); }
+            };
+            reader.readAsArrayBuffer(fileInput.files[0]);
+        }
+
+        function handleExcelUploadNs() {
+            const fileInput = document.getElementById('excelFileUp');
+            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file!'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+                    const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {defval: ""});
+                    nhanSuData = json.map(r => {
+                        let c = {}; Object.keys(r).forEach(k => c[k.trim().toUpperCase()] = r[k]);
+                        return {
+                            "HỌ VÀ TÊN": c["HỌ VÀ TÊN"] || c["HO VA TEN"] || "",
+                            "CHỨC DANH": c["CHỨC DANH"] || "",
+                            "CẤP BẬC": c["CẤP BẬC"] || "",
+                            "CA": c["CA"] || c["KIP"] || "",
+                            "ĐIỆN THOẠI": String(c["ĐIỆN THOẠI"] || ""),
+                            "EMAIL": c["EMAIL"] || "",
+                            "ĐANG LÀM": Number(c["ĐANG LÀM"] ?? 1)
+                        };
+                    });
+                    localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
+                    renderAll();
+                    alert('Đã cập nhật ' + nhanSuData.length + ' nhân sự xưởng!');
+                } catch(err) { alert('Lỗi đọc file!'); }
+            };
+            reader.readAsArrayBuffer(fileInput.files[0]);
+        }
+
+        // --- RESTORE & EXCEL BACKUP TOÀN BỘ ---
+        function exportExcelAll() {
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(appData), "WebApps_Links");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(nhanSuData), "NhanSu_Xuong");
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(bdttNsData), "Nhansu_BDTT2026");
+            XLSX.writeFile(wb, "Ammonia_Full_Backup_" + new Date().toISOString().slice(0,10) + ".xlsx");
+        }
+
+        function restoreFullBackupExcel() {
+            const fileInput = document.getElementById('masterBackupFile');
+            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file Excel backup (.xlsx)!'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+                    wb.SheetNames.forEach(sheetName => {
+                        const sheetData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {defval: ""});
+                        if(sheetName.toLowerCase().includes("web") || sheetName.toLowerCase().includes("link")) {
+                            if(sheetData.length > 0) {
+                                appData = sheetData.map(r => ({
+                                    section: r.section || "overview",
+                                    name: r.name || r.NAME || "",
+                                    url: r.url || r.URL || "#",
+                                    desc: r.desc || r.DESC || "",
+                                    icon: r.icon || "fa-solid fa-industry",
+                                    isPage: Boolean(r.isPage)
+                                }));
+                                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
+                            }
+                        }
+                        if(sheetName.toLowerCase().includes("xuong")) {
+                            if(sheetData.length > 0) {
+                                nhanSuData = sheetData;
+                                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
+                            }
+                        }
+                        if(sheetName.toLowerCase().includes("bdtt")) {
+                            if(sheetData.length > 0) {
+                                bdttNsData = sheetData;
+                                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
+                            }
+                        }
+                    });
+                    renderAll();
+                    alert('Khôi phục toàn bộ hệ thống từ file Backup thành công!');
+                } catch(err) { console.error(err); alert('Lỗi đọc file Backup Excel!'); }
             };
             reader.readAsArrayBuffer(fileInput.files[0]);
         }
@@ -1109,15 +1217,6 @@
                 let match = txt.includes(keyword) && (!filterNhom || tr.getAttribute('data-nhom') === filterNhom);
                 tr.style.display = match ? '' : 'none';
             });
-        }
-
-        // --- XUẤT EXCEL BACKUP TOÀN BỘ ---
-        function exportExcelAll() {
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(appData), "WebApps_Links");
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(nhanSuData), "NhanSu_Xuong");
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(bdttNsData), "Nhansu_BDTT2026");
-            XLSX.writeFile(wb, "Ammonia_Full_Backup_" + new Date().toISOString().slice(0,10) + ".xlsx");
         }
 
         function switchView(mode) {
@@ -1176,7 +1275,7 @@
             const icon = document.getElementById('itemIcon').value;
             if(!name || !url) { alert('Vui lòng nhập tên và URL!'); return; }
             appData.push({ section, name, url, desc, icon, isPage: false });
-            localStorage.setItem('ammonia_portal_v10_data', JSON.stringify(appData));
+            localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
             renderAll();
             document.getElementById('itemName').value = '';
             document.getElementById('itemUrl').value = '';
@@ -1188,7 +1287,7 @@
             if(!isAdminLoggedIn) { alert('Cần quyền Admin!'); return; }
             if(confirm('Xóa mục này?')) {
                 appData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_v10_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
                 renderAll();
             }
         }
@@ -1197,7 +1296,7 @@
             const newP = document.getElementById('newAdminPass').value;
             if(!newP || newP.length < 4) { alert('Mật khẩu phải từ 4 ký tự!'); return; }
             adminPass = newP;
-            localStorage.setItem('ammonia_admin_v10_pass', adminPass);
+            localStorage.setItem('ammonia_admin_v11_pass', adminPass);
             document.getElementById('newAdminPass').value = '';
             alert('Đổi mật khẩu thành công!');
         }
@@ -1222,9 +1321,9 @@
                 appData = defaultData;
                 nhanSuData = defaultNhanSu;
                 bdttNsData = defaultBdttNs;
-                localStorage.setItem('ammonia_portal_v10_data', JSON.stringify(appData));
-                localStorage.setItem('ammonia_nhansu_v5_data', JSON.stringify(nhanSuData));
-                localStorage.setItem('bdtt2026_nhansu_v2_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
                 renderAll();
                 alert('Đã khôi phục thành công!');
             }
