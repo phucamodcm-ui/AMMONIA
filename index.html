@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="light"><head>
+<html lang="vi" data-theme="light">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Webapp &amp; Quản Trị Xưởng Ammonia - Đạm Cà Mau</title>
+    <title>Hệ thống Webapp & Quản Trị Xưởng Ammonia - Đạm Cà Mau</title>
     
     <!-- Cấu hình chuẩn khi chia sẻ link qua Zalo, Facebook, Teams, v.v. -->
-    <meta property="og:title" content="Hệ thống Webapp &amp; Quản Trị Xưởng Ammonia">
+    <meta property="og:title" content="Hệ thống Webapp & Quản Trị Xưởng Ammonia">
     <meta property="og:description" content="Trung tâm điều hành, quản lý nhân sự xưởng Ammonia và Bảo Dưỡng Tổng Thể BDTT2026 - Nhà máy Phân Bón Cà Mau.">
     <meta property="og:image" content="https://www.pvcfc.com.vn/Templates/Default/images/logo.png">
     <meta property="og:type" content="website">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Thư viện SheetJS đọc/ghi Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -304,10 +305,10 @@
             </div>
         </div>
 
-        <ul class="sidebar-menu" id="sidebarNav"><li class="menu-label">Tổng Quan</li><li><a href="#" target="_blank" class="active"><i class="fa-solid fa-house"></i> Trang Chủ Portal</a></li><li><a onclick="switchPage('nhansu'); toggleMobileSidebar(true);" class=""><i class="fa-solid fa-users"></i> Nhân Sự Xưởng Ammonia</a></li><li><a onclick="switchPage('bdtt2026'); toggleMobileSidebar(true);" class=""><i class="fa-solid fa-users-gear"></i> Nhân Sự BDTT2026 - Xưởng Amo</a></li><li class="menu-label">Các Ứng Dụng Con</li><li><a href="https://script.google.com/macros/s/AKfycbztz3K14cJPlyq44zy7HRLI3vsKQvonBfWyhf4vjod3ITCx7rfFUnlIbpCJ3Y23pnJwsQ/exec" target="_blank" class=""><i class="fa-solid fa-industry"></i> BDTT2026-AMO</a></li><li><a href="https://ammoniaequipments.vercel.app/" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> Kho ảnh thiết bị Xưởng Amo</a></li><li><a href="https://hts-lts-38f336.netlify.app/" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> HTS-LTS</a></li><li class="menu-label">Liên Kết Nhanh</li><li><a href="https://eoffice.pvcfc.com.vn" target="_blank" class=""><i class="fa-solid fa-file-signature"></i> E-Office PVCFC</a></li><li><a href="https://mail.pvcfc.com.vn" target="_blank" class=""><i class="fa-solid fa-envelope"></i> Email Công Ty</a></li><li><a href="https://hrportal.pvcfc.com.vn" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> HRM-Phép</a></li><li><a href="https://hrm.pvcfc.com.vn/PVCFC/vietnamese/base/login" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> HRM-ABC</a></li><li><a href="https://work.pvcfc.com.vn" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> Gapo</a></li><li><a href="https://det.pvcfc.com.vn/" target="_blank" class=""><i class="fa-solid fa-laptop-code"></i> Báo cáo Ca- PVCFC</a></li><li><a href="https://pvcfc.sharepoint.com/sites/PVCFC-DocumentManagementSystem/Shared%20Documents/Forms/17%20Graphic%20snapshot.aspx?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FPDI%2DHTS%2DLTS%2DFull%2D%20marke%20Note%2Epdf&amp;parent=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO&amp;p=true&amp;ga=1" target="_blank" class=""><i class="fa-solid fa-book-bookmark"></i> HTS-LTS- Mark note PID</a></li></ul>
+        <ul class="sidebar-menu" id="sidebarNav"></ul>
 
         <div class="sidebar-admin-footer">
-            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> <span id="adminBtnText">Quản Trị (Đã đăng nhập)</span></button>
+            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> <span id="adminBtnText">Quản Trị Hệ Thống</span></button>
         </div>
     </aside>
 
@@ -335,7 +336,7 @@
 
             <div class="header-actions">
                 <button class="btn-home-header" onclick="switchPage('home')"><i class="fa-solid fa-house"></i> <span style="display:none; @media(min-width:576px){display:inline;}">Trang Chủ</span></button>
-                <div id="adminBackupHeaderBtn"><button class="btn-export" onclick="exportExcelAll()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Backup</button></div>
+                <div id="adminBackupHeaderBtn"></div>
                 <button class="theme-toggle-btn" onclick="toggleTheme()" title="Chuyển đổi Sáng / Tối">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
@@ -343,25 +344,16 @@
         </header>
 
         <main class="content-container" id="mainContentContainer">
-                <div class="toolbar-section">
-                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh ứng dụng, báo cáo, liên kết..."></div>
-                    <div class="view-mode-buttons">
-                        <button class="view-btn active" onclick="switchView('grid')" id="btnGrid"><i class="fa-solid fa-grip"></i> Thẻ Lớn</button>
-                        <button class="view-btn" onclick="switchView('compact')" id="btnCompact"><i class="fa-solid fa-table-cells"></i> Rút Gọn</button>
-                        <button class="view-btn" onclick="switchView('list')" id="btnList"><i class="fa-solid fa-list"></i> Danh Sách</button>
-                    </div>
-                </div>
-                <div class="section-title">Danh Mục Ứng Dụng &amp; Liên Kết Quản Lý</div>
-                <div id="mainDisplayArea"><div class="cards-grid"><a href="#" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-house"></i></div><div class="card-body"><h3>Trang Chủ Portal <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.</p></div></div><div class="card-footer-tags"><span class="tag">OVERVIEW</span><span onclick="event.preventDefault(); deleteItem(0)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a onclick="switchPage('nhansu')" style="cursor:pointer;" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-users"></i></div><div class="card-body"><h3>Nhân Sự Xưởng Ammonia <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.</p></div></div><div class="card-footer-tags"><span class="tag">OVERVIEW</span><span onclick="event.preventDefault(); deleteItem(1)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a onclick="switchPage('bdtt2026')" style="cursor:pointer;" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-users-gear"></i></div><div class="card-body"><h3>Nhân Sự BDTT2026 - Xưởng Amo <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.</p></div></div><div class="card-footer-tags"><span class="tag">OVERVIEW</span><span onclick="event.preventDefault(); deleteItem(2)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://eoffice.pvcfc.com.vn" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-file-signature"></i></div><div class="card-body"><h3>E-Office PVCFC <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(3)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://mail.pvcfc.com.vn" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-envelope"></i></div><div class="card-body"><h3>Email Công Ty <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Hệ thống hộp thư điện tử chính thức của công ty.</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(4)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://script.google.com/macros/s/AKfycbztz3K14cJPlyq44zy7HRLI3vsKQvonBfWyhf4vjod3ITCx7rfFUnlIbpCJ3Y23pnJwsQ/exec" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-industry"></i></div><div class="card-body"><h3>BDTT2026-AMO <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Tiến độ BDTT2026 Xưởng Amo</p></div></div><div class="card-footer-tags"><span class="tag">APPS</span><span onclick="event.preventDefault(); deleteItem(5)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://hrportal.pvcfc.com.vn" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>HRM-Phép <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Viết phép mới</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(6)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://hrm.pvcfc.com.vn/PVCFC/vietnamese/base/login" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>HRM-ABC <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>ABC</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(7)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://work.pvcfc.com.vn" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>Gapo <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Gapo Truyền thông PVCFC</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(8)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://det.pvcfc.com.vn/" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>Báo cáo Ca- PVCFC <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Webapp báo cáo ca- ĐCM</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(9)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://ammoniaequipments.vercel.app/" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>Kho ảnh thiết bị Xưởng Amo <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Kho ảnh thiết bị Xưởng Amo</p></div></div><div class="card-footer-tags"><span class="tag">APPS</span><span onclick="event.preventDefault(); deleteItem(10)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://hts-lts-38f336.netlify.app/" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-laptop-code"></i></div><div class="card-body"><h3>HTS-LTS <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Theo dõi dự án HTS-LTS Xưởng Amo</p></div></div><div class="card-footer-tags"><span class="tag">APPS</span><span onclick="event.preventDefault(); deleteItem(11)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a><a href="https://pvcfc.sharepoint.com/sites/PVCFC-DocumentManagementSystem/Shared%20Documents/Forms/17%20Graphic%20snapshot.aspx?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FPDI%2DHTS%2DLTS%2DFull%2D%20marke%20Note%2Epdf&amp;parent=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO&amp;p=true&amp;ga=1" target="_blank" class="sub-card"><div><div class="card-header-icon"><i class="fa-solid fa-book-bookmark"></i></div><div class="card-body"><h3>HTS-LTS- Mark note PID <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>Đánh dấu PID HTS-LTS</p></div></div><div class="card-footer-tags"><span class="tag">LINKS</span><span onclick="event.preventDefault(); deleteItem(12)" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div></a></div></div>
-            </main>
+            <!-- Nội dung chính load động -->
+        </main>
     </div>
 
     <!-- MODAL QUẢN TRỊ CẤU HÌNH -->
-    <div class="modal-overlay" id="adminModal" style="display: flex;">
+    <div class="modal-overlay" id="adminModal" style="display: none;">
         <div class="modal">
             <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
             
-            <div id="loginSection" style="display: none;">
+            <div id="loginSection" style="display: block;">
                 <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">Trạng thái hiện tại: <b style="color:#059669;">Chưa đăng nhập (Khách)</b>. Vui lòng nhập mật khẩu quản trị để thực hiện các thao tác quản lý.</p>
                 <div class="form-group">
                     <label>Mật khẩu Quản Trị</label>
@@ -370,7 +362,7 @@
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
-            <div id="dashboardAdminSection" style="display: block;">
+            <div id="dashboardAdminSection" style="display: none;">
                 <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã đăng nhập Quản Trị thành công.</p>
                 
                 <!-- NÚT LƯU & XUẤT BẢN CODE ĐỂ ĐỒNG BỘ CHO LINK DÙNG CHUNG -->
@@ -432,7 +424,7 @@
                 <button class="btn-secondary" onclick="changeAdminPassword()">Cập Nhật Mật Khẩu</button>
 
                 <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý &amp; Xóa Mục</h3>
-                <div id="adminItemsList" style="max-height: 120px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-house" style="margin-right:6px; color:var(--primary-green);"></i> <b>[overview]</b> Trang Chủ Portal</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(0)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-users" style="margin-right:6px; color:var(--primary-green);"></i> <b>[overview]</b> Nhân Sự Xưởng Ammonia</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(1)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-users-gear" style="margin-right:6px; color:var(--primary-green);"></i> <b>[overview]</b> Nhân Sự BDTT2026 - Xưởng Amo</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(2)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-file-signature" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> E-Office PVCFC</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(3)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-envelope" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> Email Công Ty</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(4)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-industry" style="margin-right:6px; color:var(--primary-green);"></i> <b>[apps]</b> BDTT2026-AMO</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(5)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> HRM-Phép</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(6)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> HRM-ABC</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(7)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> Gapo</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(8)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> Báo cáo Ca- PVCFC</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(9)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[apps]</b> Kho ảnh thiết bị Xưởng Amo</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(10)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-laptop-code" style="margin-right:6px; color:var(--primary-green);"></i> <b>[apps]</b> HTS-LTS</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(11)">[Xóa]</span></div><div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="fa-solid fa-book-bookmark" style="margin-right:6px; color:var(--primary-green);"></i> <b>[links]</b> HTS-LTS- Mark note PID</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(12)">[Xóa]</span></div></div>
+                <div id="adminItemsList" style="max-height: 120px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"></div>
 
                 <div class="modal-btns" style="margin-top: 18px;">
                     <button class="btn-secondary" onclick="resetDefaultData()">Khôi Phục Mặc Định</button>
@@ -443,7 +435,7 @@
     </div>
 
     <!-- MODAL THÊM / SỬA NHÂN SỰ -->
-    <div class="modal-overlay" id="nsModal">
+    <div class="modal-overlay" id="nsModal" style="display: none;">
         <div class="modal">
             <h2 id="nsModalTitle"><span><i class="fa-solid fa-user-pen"></i> Thêm / Sửa Nhân Sự</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i></h2>
             <input type="hidden" id="nsEditIndex" value="-1">
@@ -458,1005 +450,30 @@
     <!-- JAVASCRIPT HỆ THỐNG -->
     <script>
         const defaultData = [
-    {
-        "section": "overview",
-        "name": "Trang Chủ Portal",
-        "url": "#",
-        "desc": "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.",
-        "icon": "fa-solid fa-house",
-        "isPage": false
-    },
-    {
-        "section": "overview",
-        "name": "Nhân Sự Xưởng Ammonia",
-        "url": "#nhansu",
-        "desc": "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.",
-        "icon": "fa-solid fa-users",
-        "isPage": true
-    },
-    {
-        "id": 3,
-        "section": "overview",
-        "name": "Nhân Sự BDTT2026 - Xưởng Amo",
-        "url": "#bdtt2026",
-        "desc": "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.",
-        "icon": "fa-solid fa-users-gear",
-        "isPage": true
-    },
-    {
-        "section": "links",
-        "name": "E-Office PVCFC",
-        "url": "https://eoffice.pvcfc.com.vn",
-        "desc": "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.",
-        "icon": "fa-solid fa-file-signature",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "Email Công Ty",
-        "url": "https://mail.pvcfc.com.vn",
-        "desc": "Hệ thống hộp thư điện tử chính thức của công ty.",
-        "icon": "fa-solid fa-envelope",
-        "isPage": false
-    },
-    {
-        "section": "apps",
-        "name": "BDTT2026-AMO",
-        "url": "https://script.google.com/macros/s/AKfycbztz3K14cJPlyq44zy7HRLI3vsKQvonBfWyhf4vjod3ITCx7rfFUnlIbpCJ3Y23pnJwsQ/exec",
-        "desc": "Tiến độ BDTT2026 Xưởng Amo",
-        "icon": "fa-solid fa-industry",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "HRM-Phép",
-        "url": "https://hrportal.pvcfc.com.vn",
-        "desc": "Viết phép mới",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "HRM-ABC",
-        "url": "https://hrm.pvcfc.com.vn/PVCFC/vietnamese/base/login",
-        "desc": "ABC",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "Gapo",
-        "url": "https://work.pvcfc.com.vn",
-        "desc": "Gapo Truyền thông PVCFC",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "Báo cáo Ca- PVCFC",
-        "url": "https://det.pvcfc.com.vn/",
-        "desc": "Webapp báo cáo ca- ĐCM",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "apps",
-        "name": "Kho ảnh thiết bị Xưởng Amo",
-        "url": "https://ammoniaequipments.vercel.app/",
-        "desc": "Kho ảnh thiết bị Xưởng Amo",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "apps",
-        "name": "HTS-LTS",
-        "url": "https://hts-lts-38f336.netlify.app/",
-        "desc": "Theo dõi dự án HTS-LTS Xưởng Amo",
-        "icon": "fa-solid fa-laptop-code",
-        "isPage": false
-    },
-    {
-        "section": "links",
-        "name": "HTS-LTS- Mark note PID",
-        "url": "https://pvcfc.sharepoint.com/sites/PVCFC-DocumentManagementSystem/Shared%20Documents/Forms/17%20Graphic%20snapshot.aspx?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FPDI%2DHTS%2DLTS%2DFull%2D%20marke%20Note%2Epdf&parent=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO&p=true&ga=1",
-        "desc": "Đánh dấu PID HTS-LTS",
-        "icon": "fa-solid fa-book-bookmark",
-        "isPage": false
-    }
-];
+            { "section": "overview", "name": "Trang Chủ Portal", "url": "#", "desc": "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", "icon": "fa-solid fa-house", "isPage": false },
+            { "section": "overview", "name": "Nhân Sự Xưởng Ammonia", "url": "#nhansu", "desc": "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.", "icon": "fa-solid fa-users", "isPage": true },
+            { "id": 3, "section": "overview", "name": "Nhân Sự BDTT2026 - Xưởng Amo", "url": "#bdtt2026", "desc": "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", "icon": "fa-solid fa-users-gear", "isPage": true },
+            { "section": "links", "name": "E-Office PVCFC", "url": "https://eoffice.pvcfc.com.vn", "desc": "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.", "icon": "fa-solid fa-file-signature", "isPage": false },
+            { "section": "links", "name": "Email Công Ty", "url": "https://mail.pvcfc.com.vn", "desc": "Hệ thống hộp thư điện tử chính thức của công ty.", "icon": "fa-solid fa-envelope", "isPage": false },
+            { "section": "apps", "name": "BDTT2026-AMO", "url": "https://script.google.com/macros/s/AKfycbztz3K14cJPlyq44zy7HRLI3vsKQvonBfWyhf4vjod3ITCx7rfFUnlIbpCJ3Y23pnJwsQ/exec", "desc": "Tiến độ BDTT2026 Xưởng Amo", "icon": "fa-solid fa-industry", "isPage": false },
+            { "section": "links", "name": "HRM-Phép", "url": "https://hrportal.pvcfc.com.vn", "desc": "Viết phép mới", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "links", "name": "HRM-ABC", "url": "https://hrm.pvcfc.com.vn/PVCFC/vietnamese/base/login", "desc": "ABC", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "links", "name": "Gapo", "url": "https://work.pvcfc.com.vn", "desc": "Gapo Truyền thông PVCFC", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "links", "name": "Báo cáo Ca- PVCFC", "url": "https://det.pvcfc.com.vn/", "desc": "Webapp báo cáo ca- ĐCM", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "apps", "name": "Kho ảnh thiết bị Xưởng Amo", "url": "https://ammoniaequipments.vercel.app/", "desc": "Kho ảnh thiết bị Xưởng Amo", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "apps", "name": "HTS-LTS", "url": "https://hts-lts-38f336.netlify.app/", "desc": "Theo dõi dự án HTS-LTS Xưởng Amo", "icon": "fa-solid fa-laptop-code", "isPage": false },
+            { "section": "links", "name": "HTS-LTS- Mark note PID", "url": "https://pvcfc.sharepoint.com/sites/PVCFC-DocumentManagementSystem/Shared%20Documents/Forms/17%20Graphic%20snapshot.aspx?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FPDI%2DHTS%2DLTS%2DFull%2D%20marke%20Note%2Epdf&parent=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO&p=true&ga=1", "desc": "Đánh dấu PID HTS-LTS", "icon": "fa-solid fa-book-bookmark", "isPage": false }
+        ];
 
         const defaultNhanSu = [
-    {
-        "HỌ VÀ TÊN": "Nguyễn Lê Lịnh",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0902369122",
-        "EMAIL": "linhnl@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Cao Tiến Phát",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "",
-        "EMAIL": "phatct@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Trần Ngọc Anh Vũ",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0935439594",
-        "EMAIL": "vutna@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Lê Quang Vũ",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0973900474",
-        "EMAIL": "vulq@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Cảnh Lam",
-        "CHỨC DANH": "TF",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0978290348",
-        "EMAIL": "lamnc@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Văn Phúc",
-        "CHỨC DANH": "TCX",
-        "CẤP BẬC": "Trưởng ca",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0985015945",
-        "EMAIL": "phucnv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Hà Hoàng Vũ",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0986567111",
-        "EMAIL": "vuhh@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Văn Tiệp",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0984924116",
-        "EMAIL": "tiepnv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Đỗ Lợi",
-        "CHỨC DANH": "TCX",
-        "CẤP BẬC": "Trưởng ca",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0981942626",
-        "EMAIL": "loid@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Lê Minh Thuẩn",
-        "CHỨC DANH": "PQĐ",
-        "CẤP BẬC": "Phó quản đốc",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0939083685",
-        "EMAIL": "thuanlm@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Lê Văn Toản",
-        "CHỨC DANH": "QĐ",
-        "CẤP BẬC": "Quản đốc",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0917459068",
-        "EMAIL": "toanlv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Thanh Bình",
-        "CHỨC DANH": "TTDCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0986057168",
-        "EMAIL": "binhnt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Mai Đức Anh",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0975395279",
-        "EMAIL": "anhmd@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phan Văn Tuyển",
-        "CHỨC DANH": "TCX",
-        "CẤP BẬC": "Trưởng ca",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0906546924",
-        "EMAIL": "tuyenpv1@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Đức Chính",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0961709654",
-        "EMAIL": "chinhnd@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Đào Hoàng Mãi",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0937809567",
-        "EMAIL": "maidh@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Võ Hữu Hải",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0353809068",
-        "EMAIL": "haivh@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Huỳnh Lê Nghi",
-        "CHỨC DANH": "TTDCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0222292901",
-        "EMAIL": "nghihl@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phạm Khắc Nguyên",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0932158698",
-        "EMAIL": "nguyenpk@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Việt Dũng",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0917096999",
-        "EMAIL": "dungnv1@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Hồ Văn Duy",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "",
-        "EMAIL": "duyhv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phan Bá Kiên",
-        "CHỨC DANH": "TF",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 1",
-        "ĐIỆN THOẠI": "0973112940",
-        "EMAIL": "kienpb@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Dương Trường Vũ",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0973418801",
-        "EMAIL": "vudt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Vĩnh Giang",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0326583915",
-        "EMAIL": "giangnv1@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Duy Sơn",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0973422123",
-        "EMAIL": "sonnd@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Lý Thị Thùy Linh",
-        "CHỨC DANH": "TH",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Hành chánh",
-        "ĐIỆN THOẠI": "0942700997",
-        "EMAIL": "linhltt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Xuân Trường",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0367996963",
-        "EMAIL": "truongnx@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Trần Khắc Vũ",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0939677893",
-        "EMAIL": "vutk@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Tăng Minh Nhân",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0948731731",
-        "EMAIL": "nhantm@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phạm Văn Hùng",
-        "CHỨC DANH": "TTDCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0818157666",
-        "EMAIL": "hungpv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phạm Minh Cương",
-        "CHỨC DANH": "TTDCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0376065604",
-        "EMAIL": "cuongpm1@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Huỳnh Khánh Duy",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0914907739",
-        "EMAIL": "duykh@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Văn Hiếu",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0912572485",
-        "EMAIL": "hieunv1@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Ngọc Khánh",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0969225268",
-        "EMAIL": "khanhnn@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Vũ Văn Dũng",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0932998138",
-        "EMAIL": "dungvv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Lê Duy Khang",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0943685608",
-        "EMAIL": "khangld@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Cam Minh Tuấn",
-        "CHỨC DANH": "TCX",
-        "CẤP BẬC": "Trưởng ca",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0989620504",
-        "EMAIL": "tuancm@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Đào Quang Nhuận",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0907743548",
-        "EMAIL": "nhuandq@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Hải Thạch",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "",
-        "EMAIL": "thachnh@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Từ Vũ Á",
-        "CHỨC DANH": "TCX",
-        "CẤP BẬC": "Trưởng ca",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0919631105",
-        "EMAIL": "atv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Đào Thanh Sang",
-        "CHỨC DANH": "TF",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0942233008",
-        "EMAIL": "sangdt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Trịnh Quốc Nam",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0817570737",
-        "EMAIL": "namtq@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Cao Hữu Miện",
-        "CHỨC DANH": "TF",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0982058872",
-        "EMAIL": "miench@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Cao Thái",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0978279142",
-        "EMAIL": "thainc@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phan Đình Tuân",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0367639620",
-        "EMAIL": "tuanpd@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Trần Tuấn Anh",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "",
-        "EMAIL": "anhtt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Ngọc Hoàng",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0385571088",
-        "EMAIL": "hoangnn@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Huỳnh Khánh My",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0946623777",
-        "EMAIL": "myhk@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Trần Trọng Thức",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "",
-        "EMAIL": "thuctt@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Đoàn Duy Thức",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0941810161",
-        "EMAIL": "thucdd@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Đình Tới",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0396271022",
-        "EMAIL": "toind@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phạm Văn Lâm",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 3",
-        "ĐIỆN THOẠI": "0347484961",
-        "EMAIL": "lampv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Vũ Khắc Đạt",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 2",
-        "ĐIỆN THOẠI": "0968798648",
-        "EMAIL": "datvk@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Nguyễn Bảo Yên",
-        "CHỨC DANH": "Field",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0945473774",
-        "EMAIL": "yennb@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    },
-    {
-        "HỌ VÀ TÊN": "Phạm Văn Đồng",
-        "CHỨC DANH": "DCS",
-        "CẤP BẬC": "Nhân viên",
-        "CA": "Kíp 4",
-        "ĐIỆN THOẠI": "0978153637",
-        "EMAIL": "dongpv@pvcfc.com.vn",
-        "ĐANG LÀM": 1
-    }
-];
+            { "HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1 },
+            { "HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1 },
+            { "HỌ VÀ TÊN": "Nguyễn Văn Phúc", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Hành chánh", "ĐIỆN THOẠI": "0985015945", "EMAIL": "phucnv@pvcfc.com.vn", "ĐANG LÀM": 1 }
+        ];
 
         const defaultBdttNs = [
-    {
-        "Họ và Tên": "Lê Văn Toản",
-        "Nhóm / Cụm": "Chỉ Huy Trưởng",
-        "Điện Thoại": "0917459068",
-        "Chức Vụ": "Quản đốc / CHT",
-        "Ghi Chú": "Chỉ đạo"
-    },
-    {
-        "Họ và Tên": "Lê Minh Thuẩn",
-        "Nhóm / Cụm": "Chỉ Huy Trưởng",
-        "Điện Thoại": "0939083685",
-        "Chức Vụ": "PQĐ – Phó CHT",
-        "Ghi Chú": "Chỉ huy chung"
-    },
-    {
-        "Họ và Tên": "Lý Thị Thùy Linh",
-        "Nhóm / Cụm": "Hành Chính",
-        "Điện Thoại": "0942700997",
-        "Chức Vụ": "Tổng hợp BC / HC",
-        "Ghi Chú": "Tổng hợp BC / HC"
-    },
-    {
-        "Họ và Tên": "Nguyễn Thị Thu Hằng",
-        "Nhóm / Cụm": "Hành Chính",
-        "Điện Thoại": "0389023510",
-        "Chức Vụ": "Hậu cần",
-        "Ghi Chú": "Hậu cần"
-    },
-    {
-        "Họ và Tên": "Cam Minh Tuấn",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0989620504",
-        "Chức Vụ": "Nhóm trưởng",
-        "Ghi Chú": "Nhóm trưởng"
-    },
-    {
-        "Họ và Tên": "Trần Ngọc Anh Vũ",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0935439594",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Bảo Yên",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0945473774",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Phạm Văn Lâm",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0347484961",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Đình Tới",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0396271022",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Huỳnh Khánh Duy",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0914907739",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Võ Hữu Hải",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0353809068",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Lê Lịnh",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0902369122",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Phan Đình Tuân",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0367639620",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Huỳnh Khánh My",
-        "Nhóm / Cụm": "Cụm 200",
-        "Điện Thoại": "0946623777",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Từ Vũ Á",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "0919631105",
-        "Chức Vụ": "Nhóm trưởng",
-        "Ghi Chú": "Nhóm trưởng"
-    },
-    {
-        "Họ và Tên": "Trần Trọng Thức",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "0961709654",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Phạm Khắc Nguyên",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "0932158698",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Mai Đức Anh",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "387573115",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Đức Chính",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "0961709654",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Trần Khắc Vũ",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "0939677893",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Hồ Văn Duy",
-        "Nhóm / Cụm": "Cụm 300",
-        "Điện Thoại": "46203002212",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Đỗ Lợi",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0981942626",
-        "Chức Vụ": "Nhóm trưởng",
-        "Ghi Chú": "Nhóm trưởng"
-    },
-    {
-        "Họ và Tên": "Phạm Văn Đồng",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0978153637",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Ngọc Khánh",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0969225268",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Vũ Khắc Đạt",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0976232094",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Cảnh Lam",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0978290348",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Lê Quang Vũ",
-        "Nhóm / Cụm": "Cụm 400-700",
-        "Điện Thoại": "0973900474",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Phan Văn Tuyển",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0906546924",
-        "Chức Vụ": "Nhóm trưởng",
-        "Ghi Chú": "Nhóm trưởng"
-    },
-    {
-        "Họ và Tên": "Nguyễn Văn Tiệp",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0984924116",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Cao Thái",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0978279142",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Hà Hoàng Vũ",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0986567111",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Tăng Minh Nhân",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0948731731",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Đào Hoàng Mãi",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0937809567",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Văn Hiếu",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0912572485",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Trần Tuấn Anh",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0961709654",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Hải Thạch",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0961709654",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Đoàn Duy Thức",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0941810161",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Cao Tiến Phát",
-        "Nhóm / Cụm": "Cụm 500",
-        "Điện Thoại": "0393374107",
-        "Chức Vụ": "Thành viên",
-        "Ghi Chú": "Thành viên"
-    },
-    {
-        "Họ và Tên": "Nguyễn Văn Phúc",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0985015945",
-        "Chức Vụ": "Nhóm trưởng TĐH",
-        "Ghi Chú": "Nhóm trưởng TĐH"
-    },
-    {
-        "Họ và Tên": "Lê Duy Khang",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0943685608",
-        "Chức Vụ": "Van PSV",
-        "Ghi Chú": "Van PSV"
-    },
-    {
-        "Họ và Tên": "Vũ Văn Dũng",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0932998138",
-        "Chức Vụ": "Test Van WS",
-        "Ghi Chú": "Test Van WS"
-    },
-    {
-        "Họ và Tên": "Nguyễn Ngọc Hoàng",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0385571088",
-        "Chức Vụ": "Kiểm định thiết bị",
-        "Ghi Chú": "Kiểm định thiết bị"
-    },
-    {
-        "Họ và Tên": "Dương Trường Vũ",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0973418801",
-        "Chức Vụ": "ATVSV",
-        "Ghi Chú": "ATVSV"
-    },
-    {
-        "Họ và Tên": "Nguyễn Vĩnh Giang",
-        "Nhóm / Cụm": "TĐH/DCS",
-        "Điện Thoại": "0326583915",
-        "Chức Vụ": "Kiểm tra TBT",
-        "Ghi Chú": "Kiểm tra TBT"
-    },
-    {
-        "Họ và Tên": "Huỳnh Lê Nghi",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0122292901",
-        "Chức Vụ": "Kíp 1 – DCS",
-        "Ghi Chú": "Nhóm trưởng đi Ca"
-    },
-    {
-        "Họ và Tên": "Phan Bá Kiên",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0973112940",
-        "Chức Vụ": "Kíp 1 – Field",
-        "Ghi Chú": "Kíp 1 – Field"
-    },
-    {
-        "Họ và Tên": "Nguyễn Việt Dũng",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0978886852",
-        "Chức Vụ": "Kíp 1 – Field",
-        "Ghi Chú": "Kíp 1 – Field"
-    },
-    {
-        "Họ và Tên": "Nguyễn Thanh Bình",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0986057168",
-        "Chức Vụ": "Kíp 2 – DCS",
-        "Ghi Chú": "Nhóm trưởng đi Ca"
-    },
-    {
-        "Họ và Tên": "Nguyễn Duy Sơn",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0973422123",
-        "Chức Vụ": "Kíp 2 – Field",
-        "Ghi Chú": "Kíp 2 – Field"
-    },
-    {
-        "Họ và Tên": "Trịnh Quốc Nam",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0817570737",
-        "Chức Vụ": "Kíp 2 – Field",
-        "Ghi Chú": "Kíp 2 – Field"
-    },
-    {
-        "Họ và Tên": "Phạm Văn Hùng",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0818157666",
-        "Chức Vụ": "Kíp 3 – DCS",
-        "Ghi Chú": "Nhóm trưởng đi Ca"
-    },
-    {
-        "Họ và Tên": "Cao Hữu Miện",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0982058872",
-        "Chức Vụ": "Kíp 3 – Field",
-        "Ghi Chú": "Kíp 3 – Field"
-    },
-    {
-        "Họ và Tên": "Đào Quang Nhuận",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0907743548",
-        "Chức Vụ": "Kíp 3 – Field",
-        "Ghi Chú": "Kíp 3 – Field"
-    },
-    {
-        "Họ và Tên": "Phạm Minh Cương",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0376065604",
-        "Chức Vụ": "Kíp 4 – DCS",
-        "Ghi Chú": "Nhóm trưởng đi Ca"
-    },
-    {
-        "Họ và Tên": "Đào Thanh Sang",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0942233008",
-        "Chức Vụ": "Kíp 4 – Field",
-        "Ghi Chú": "Kíp 4 – Field"
-    },
-    {
-        "Họ và Tên": "Nguyễn Xuân Trường",
-        "Nhóm / Cụm": "Đi Ca",
-        "Điện Thoại": "0367996963",
-        "Chức Vụ": "Kíp 4 – Field",
-        "Ghi Chú": "Kíp 4 – Field"
-    }
-];
+            { "Họ và Tên": "Lê Văn Toản", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0917459068", "Chức Vụ": "Quản đốc / CHT", "Ghi Chú": "Chỉ đạo" }
+        ];
 
         let savedData = localStorage.getItem('ammonia_portal_v17_data') || localStorage.getItem('ammonia_portal_v16_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
@@ -1467,13 +484,12 @@
         let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v9_data') || localStorage.getItem('bdtt2026_nhansu_v8_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        // Đảm bảo luôn tồn tại nút điều hướng trang BDTT2026 và Trang Chủ trong appData
         if (!appData.some(item => item.url === '#bdtt2026')) {
             appData.splice(2, 0, { id: 3, section: "overview", name: "Nhân Sự BDTT2026 - Xưởng Amo", url: "#bdtt2026", desc: "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", icon: "fa-solid fa-users-gear", isPage: true });
         }
 
         let adminPass = localStorage.getItem('ammonia_admin_v17_pass') || 'admin123';
-        let isAdminLoggedIn = false; // Mặc định ở chế độ chưa đăng nhập
+        let isAdminLoggedIn = false; // LUÔN MẶC ĐỊNH LÀ FALSE (CHƯA ĐĂNG NHẬP) KHI LOAD TRANG
         let currentView = 'grid';
         let activePage = 'home';
         let chartInstance1 = null;
@@ -1647,7 +663,6 @@
             chartInstance2 = new Chart(document.getElementById('chartBdttCv'), { type: 'bar', data: { labels: Object.keys(cC), datasets: [{ data: Object.values(cC), backgroundColor: '#2563EB', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { color: '#1A2E26', anchor: 'end', align: 'top', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } } } });
         }
 
-        // --- HÀM TẢI VỀ FILE INDEX.HTML MỚI NHẤT ĐỂ ĐẨY LÊN GITHUB ---
         function publishAndDownloadCode() {
             let fullHtmlCode = `<!DOCTYPE html>\n` + document.documentElement.outerHTML;
             fullHtmlCode = fullHtmlCode.replace(/const defaultData = \[[\s\S]*?\];/, `const defaultData = ${JSON.stringify(appData, null, 4)};`);
@@ -1665,7 +680,6 @@
             alert('Đã tải xuống file index.html mới nhất! Kéo file này đè lên repository trên GitHub để link dùng chung tự động cập nhật toàn bộ.');
         }
 
-        // --- MODAL & QUẢN LÝ ---
         function openNsModalForAdd(type) {
             document.getElementById('nsEditIndex').value = -1;
             const fc = document.getElementById('modalFieldsContainer');
@@ -1713,7 +727,7 @@
             }
             closeNsModal();
             renderAll();
-            alert('Lưu thành công! Đừng quên vào Admin bấm "Tải về file index.html mới nhất" để cập nhật lên link chung.');
+            alert('Lưu thành công!');
         }
 
         function deleteNsItem(type, idx) {
@@ -1772,7 +786,6 @@
             reader.readAsArrayBuffer(fi.files[0]);
         }
 
-        // --- RESTORE BACKUP ĐỌC CHUẨN 3 SHEET VÀ TỰ GẮN TRANG BDTT NẾU THIẾU ---
         function restoreFullBackupExcel() {
             const fi = document.getElementById('masterBackupFile');
             if(!fi.files || fi.files.length === 0) { alert('Chọn file backup (.xlsx)!'); return; }
@@ -1785,7 +798,6 @@
                         let snLower = snClean.toLowerCase();
                         const sheetObj = wb.Sheets[sn];
                         
-                        // 1. Đọc sheet WebApps & Links
                         if(snLower.includes("web") || snLower.includes("link") || snClean === "WebApps_Links") {
                             const sd = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
                             if(sd.length > 0) {
@@ -1801,7 +813,6 @@
                             }
                         }
                         
-                        // 2. Đọc sheet Nhân sự xưởng
                         if(snLower.includes("xuong") || snClean === "NhanSu_Xuong") {
                             const sd = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
                             if(sd.length > 0) {
@@ -1810,7 +821,6 @@
                             }
                         }
                         
-                        // 3. Đọc chuẩn xác sheet Nhân Sự BDTT2026
                         if(snClean === "Nhansu_BDTT2026" || snLower.includes("bdtt")) {
                             const sdJson = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
                             let parsedList = [];
@@ -1839,15 +849,14 @@
                         }
                     });
 
-                    // Đảm bảo menu sidebar luôn có nút mở trang BDTT2026
                     if (!appData.some(item => item.url === '#bdtt2026')) {
                         appData.splice(2, 0, { id: 3, section: "overview", name: "Nhân Sự BDTT2026 - Xưởng Amo", url: "#bdtt2026", desc: "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", icon: "fa-solid fa-users-gear", isPage: true });
                         localStorage.setItem('ammonia_portal_v17_data', JSON.stringify(appData));
                     }
 
                     renderAll(); 
-                    alert('Khôi phục backup thành công 100%! Đã nạp đầy đủ dữ liệu 3 Sheet và hiển thị trang Nhân Sự BDTT2026.');
-                } catch(err) { console.error(err); alert('Lỗi đọc file Backup Excel!'); }
+                    alert('Khôi phục backup thành công!');
+                } catch(err) { alert('Lỗi đọc file Backup Excel!'); }
             };
             reader.readAsArrayBuffer(fi.files[0]);
         }
@@ -1862,12 +871,12 @@
 
         function filterNhanSuTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fC = document.getElementById('filterCa').value, fT = document.getElementById('filterTrangThai').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam') === fT); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam'] === fT); tr.style.display = match ? '' : 'none'; });
         }
 
         function filterBdttTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fN = document.getElementById('filterNhom').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom') === fN); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom'] === fN); tr.style.display = match ? '' : 'none'; });
         }
 
         function switchView(mode) {
@@ -1881,7 +890,16 @@
 
         function filterCards() { renderCardsGrid(appData, document.getElementById('searchInput').value); }
         function toggleTheme() { const h = document.documentElement, i = document.getElementById('themeIcon'); if(h.getAttribute('data-theme')==='light') { h.setAttribute('data-theme','dark'); i.className='fa-solid fa-sun'; } else { h.setAttribute('data-theme','light'); i.className='fa-solid fa-moon'; } }
-        function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
+        
+        function openAdminModal() { 
+            // Khi bấm nút quản trị hệ thống, hiển thị modal và ép buộc hiển thị phần form đăng nhập
+            document.getElementById('adminModal').style.display = 'flex'; 
+            if (!isAdminLoggedIn) {
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('dashboardAdminSection').style.display = 'none';
+            }
+        }
+        
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         function verifyAdminLogin() {
@@ -1911,7 +929,7 @@
             appData.push({ section: s, name: n, url: u, desc: d, icon: ic, isPage: false });
             localStorage.setItem('ammonia_portal_v17_data', JSON.stringify(appData));
             renderAll(); document.getElementById('itemName').value = ''; document.getElementById('itemUrl').value = ''; document.getElementById('itemDesc').value = '';
-            alert('Thêm thành công! Hãy vào Admin bấm "Tải về file index.html mới nhất" để cập nhật lên link chung.');
+            alert('Thêm thành công!');
         }
 
         function deleteItem(idx) {
@@ -1944,9 +962,8 @@
             }
         }
 
+        // Khởi chạy hệ thống ở trạng thái Khách mặc định
         renderAll();
     </script>
-
-
-
-</body></html>
+</body>
+</html>
