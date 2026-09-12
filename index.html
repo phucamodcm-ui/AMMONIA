@@ -158,7 +158,7 @@
             margin-bottom: 22px; gap: 15px; flex-wrap: wrap;
         }
 
-        .search-box-wrapper { position: relative; flex: 1; min-width: 240px; max-width: 360px; }
+        .search-box-wrapper { position: relative; flex: 1; min-width: 220px; max-width: 320px; }
         .search-box-wrapper input {
             width: 100%; padding: 11px 16px 11px 42px; border-radius: 10px;
             border: 1px solid var(--border-color); background: var(--card-bg); color: var(--text-main);
@@ -229,7 +229,7 @@
         .chart-card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .chart-card h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 14px; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
 
-        /* MODAL CHUNG & FORM NHÂN SỰ */
+        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 1000; backdrop-filter: blur(3px);
@@ -309,7 +309,7 @@
         </main>
     </div>
 
-    <!-- MODAL QUẢN TRỊ CẤU HÌNH APP / LINK -->
+    <!-- MODAL QUẢN TRỊ CẤU HÌNH -->
     <div class="modal-overlay" id="adminModal">
         <div class="modal">
             <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
@@ -378,44 +378,44 @@
         </div>
     </div>
 
-    <!-- MODAL THÊM / SỬA NHÂN SỰ CHI TIẾT -->
+    <!-- MODAL THÊM / SỬA NHÂN SỰ ĐẦY ĐỦ CÁC TRƯỜNG -->
     <div class="modal-overlay" id="nsModal">
         <div class="modal">
             <h2 id="nsModalTitle"><span><i class="fa-solid fa-user-pen"></i> Thêm / Sửa Nhân Sự</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i></h2>
             <input type="hidden" id="nsEditIndex" value="-1">
             <div class="form-group">
-                <label>Họ và Tên (*)</label>
+                <label>HỌ VÀ TÊN (*)</label>
                 <input type="text" id="nsName" placeholder="VD: Nguyễn Văn A">
             </div>
             <div class="form-group">
-                <label>Chức Danh</label>
+                <label>CHỨC DANH</label>
                 <input type="text" id="nsChucDan" placeholder="VD: DCS, Field, TCX, QĐ...">
             </div>
             <div class="form-group">
-                <label>Cấp Bậc</label>
+                <label>CẤP BẬC</label>
                 <input type="text" id="nsCapBac" placeholder="VD: Nhân viên, Trưởng ca, Quản đốc...">
             </div>
             <div class="form-group">
-                <label>Ca / Kíp</label>
+                <label>CA / KÍP</label>
                 <input type="text" id="nsCa" placeholder="VD: Kíp 1, Kíp 2, Hành chánh...">
             </div>
             <div class="form-group">
-                <label>Điện Thoại</label>
+                <label>ĐIỆN THOẠI</label>
                 <input type="text" id="nsPhone" placeholder="VD: 0901234567">
             </div>
             <div class="form-group">
-                <label>Email Công Ty</label>
+                <label>EMAIL</label>
                 <input type="text" id="nsEmail" placeholder="VD: anv@pvcfc.com.vn">
             </div>
             <div class="form-group">
-                <label>Đang Làm (1: Đang làm, 0: Khác)</label>
+                <label>ĐANG LÀM (1: Đang làm, 0: Khác)</label>
                 <select id="nsDangLam">
                     <option value="1">1 - Đang làm việc</option>
-                    <option value="0">0 - Nghỉ / Khác</option>
+                    <option value="0">0 - Khác</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Hoàn Thành Nhiệm Vụ (1: Đã hoàn thành, 0: Chưa)</label>
+                <label>HOÀN THÀNH (1: Đã hoàn thành, 0: Chưa)</label>
                 <select id="nsHoanThanh">
                     <option value="0">0 - Chưa hoàn thành</option>
                     <option value="1">1 - Đã hoàn thành</option>
@@ -428,7 +428,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT XỬ LÝ TOÀN DIỆN -->
+    <!-- JAVASCRIPT HỆ THỐNG BẢO TOÀN DỮ LIỆU -->
     <script>
         const defaultData = [
             { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house", isPage: false },
@@ -458,13 +458,14 @@
             {"HỌ VÀ TÊN": "Nguyễn Đức Chính", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "961709654", "EMAIL": "chinhnd@pvcfc.com.vn", "ĐANG LÀM": 1, "HOÀN THÀNH": 0}
         ];
 
-        let savedData = localStorage.getItem('ammonia_portal_v6_data');
+        // Cơ chế bám sát và kế thừa dữ liệu từ mọi version trước (v4, v5, v6) để không bao giờ bị mất dữ liệu
+        let savedData = localStorage.getItem('ammonia_portal_v7_data') || localStorage.getItem('ammonia_portal_v6_data') || localStorage.getItem('ammonia_portal_v5_data') || localStorage.getItem('ammonia_portal_v4_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
 
-        let savedNs = localStorage.getItem('ammonia_nhansu_v2_data');
+        let savedNs = localStorage.getItem('ammonia_nhansu_v3_data') || localStorage.getItem('ammonia_nhansu_v2_data') || localStorage.getItem('ammonia_nhansu_v1_data');
         let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
 
-        let adminPass = localStorage.getItem('ammonia_admin_v6_pass') || 'admin123';
+        let adminPass = localStorage.getItem('ammonia_admin_v7_pass') || localStorage.getItem('ammonia_admin_v6_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
         let activePage = 'home'; // 'home' hoặc 'nhansu'
@@ -719,12 +720,10 @@
             html += `</tbody></table></div>`;
             container.innerHTML = html;
 
-            // Vẽ biểu đồ sau khi render xong DOM
             setTimeout(renderCharts, 100);
         }
 
         function renderCharts() {
-            // Thống kê theo Kíp
             let kipCounts = {};
             nhanSuData.forEach(item => {
                 let k = item["CA"] || "Chưa phân loại";
@@ -747,7 +746,6 @@
                 });
             }
 
-            // Thống kê theo Chức danh
             let cdCounts = {};
             nhanSuData.forEach(item => {
                 let cd = item["CHỨC DANH"] || "Khác";
@@ -773,7 +771,7 @@
             }
         }
 
-        // --- XỬ LÝ MODAL THÊM / SỬA NHÂN SỰ ---
+        // --- QUẢN LÝ MODAL THÊM / SỬA NHÂN SỰ ĐẦY ĐỦ TRƯỜNG ---
         function openNsModalForAdd() {
             document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự Mới</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
             document.getElementById('nsEditIndex').value = -1;
@@ -832,7 +830,7 @@
                 nhanSuData[idx] = newItem;
             }
 
-            localStorage.setItem('ammonia_nhansu_v2_data', JSON.stringify(nhanSuData));
+            localStorage.setItem('ammonia_nhansu_v3_data', JSON.stringify(nhanSuData));
             closeNsModal();
             renderAll();
             alert('Lưu thông tin nhân sự thành công!');
@@ -841,12 +839,12 @@
         function deleteNs(idx) {
             if(confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
                 nhanSuData.splice(idx, 1);
-                localStorage.setItem('ammonia_nhansu_v2_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v3_data', JSON.stringify(nhanSuData));
                 renderAll();
             }
         }
 
-        // --- UPLOAD EXCEL KHẮC PHỤC TRIỆT ĐỂ ---
+        // --- UPLOAD EXCEL ---
         function handleExcelUpload() {
             const fileInput = document.getElementById('excelFileUp');
             if(!fileInput.files || fileInput.files.length === 0) {
@@ -864,7 +862,6 @@
                     const jsonRows = XLSX.utils.sheet_to_json(worksheet, {defval: ""});
                     
                     if(jsonRows.length > 0) {
-                        // Chuẩn hóa tên các key (loại bỏ khoảng trắng thừa hoặc đổi format nếu cần)
                         nhanSuData = jsonRows.map(row => {
                             let cleanRow = {};
                             Object.keys(row).forEach(k => {
@@ -882,15 +879,15 @@
                             };
                         });
 
-                        localStorage.setItem('ammonia_nhansu_v2_data', JSON.stringify(nhanSuData));
+                        localStorage.setItem('ammonia_nhansu_v3_data', JSON.stringify(nhanSuData));
                         renderAll();
-                        alert('Đã cập nhật dữ liệu từ file Excel thành công (' + nhanSuData.length + ' nhân sự)!');
+                        alert('Đã cập nhật dữ liệu nhân sự thành công (' + nhanSuData.length + ' nhân sự)!');
                     } else {
                         alert('File Excel không chứa dữ liệu!');
                     }
                 } catch(err) {
                     console.error(err);
-                    alert('Lỗi đọc file Excel! Hãy đảm bảo file đúng định dạng.');
+                    alert('Lỗi đọc file Excel!');
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -928,7 +925,6 @@
             XLSX.writeFile(wb, "Ammonia_Backup_Data_" + new Date().toISOString().slice(0,10) + ".xlsx");
         }
 
-        // --- CÁC HÀM TIỆN ÍCH KHÁC ---
         function switchView(mode) {
             currentView = mode;
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
@@ -994,7 +990,7 @@
             }
 
             appData.push({ section, name, url, desc, icon, isPage: false });
-            localStorage.setItem('ammonia_portal_v6_data', JSON.stringify(appData));
+            localStorage.setItem('ammonia_portal_v7_data', JSON.stringify(appData));
             renderAll();
 
             document.getElementById('itemName').value = '';
@@ -1010,7 +1006,7 @@
             }
             if(confirm('Bạn có chắc muốn xóa mục này?')) {
                 appData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_v6_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_portal_v7_data', JSON.stringify(appData));
                 renderAll();
             }
         }
@@ -1022,7 +1018,7 @@
                 return;
             }
             adminPass = newP;
-            localStorage.setItem('ammonia_admin_v6_pass', adminPass);
+            localStorage.setItem('ammonia_admin_v7_pass', adminPass);
             document.getElementById('newAdminPass').value = '';
             alert('Cập nhật mật khẩu thành công!');
         }
@@ -1049,14 +1045,14 @@
             if(confirm('Khôi phục toàn bộ dữ liệu mặc định?')) {
                 appData = defaultData;
                 nhanSuData = defaultNhanSu;
-                localStorage.setItem('ammonia_portal_v6_data', JSON.stringify(appData));
-                localStorage.setItem('ammonia_nhansu_v2_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_portal_v7_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v3_data', JSON.stringify(nhanSuData));
                 renderAll();
                 alert('Đã khôi phục thành công!');
             }
         }
 
-        // Khởi chạy khi load trang
+        // Khởi chạy hệ thống
         renderAll();
     </script>
 </body>
