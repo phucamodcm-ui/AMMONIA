@@ -342,7 +342,7 @@
 
                 <!-- UPLOAD FILE BACKUP / EXCEL NHANH -->
                 <div style="background:var(--card-bg); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--border-color);">
-                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup Toàn Hệ Thống (.xlsx)</label>
+                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup 3 Sheet (.xlsx)</label>
                     <div style="display:flex; gap:8px;">
                         <input type="file" id="masterBackupFile" accept=".xlsx, .xls" style="font-size:11px; flex:1;">
                         <button class="btn-primary" style="padding:6px 12px; font-size:12px; background:#2563EB;" onclick="restoreFullBackupExcel()">Restore</button>
@@ -448,16 +448,16 @@
             {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": ""}
         ];
 
-        let savedData = localStorage.getItem('ammonia_portal_v14_data') || localStorage.getItem('ammonia_portal_v13_data');
+        let savedData = localStorage.getItem('ammonia_portal_v15_data') || localStorage.getItem('ammonia_portal_v14_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
 
-        let savedNs = localStorage.getItem('ammonia_nhansu_v9_data') || localStorage.getItem('ammonia_nhansu_v8_data');
+        let savedNs = localStorage.getItem('ammonia_nhansu_v10_data') || localStorage.getItem('ammonia_nhansu_v9_data');
         let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
 
-        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v6_data') || localStorage.getItem('bdtt2026_nhansu_v5_data');
+        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v7_data') || localStorage.getItem('bdtt2026_nhansu_v6_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        let adminPass = localStorage.getItem('ammonia_admin_v14_pass') || 'admin123';
+        let adminPass = localStorage.getItem('ammonia_admin_v15_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
         let activePage = 'home';
@@ -674,11 +674,11 @@
             if(type === 'nhansu') {
                 let item = { "HỌ VÀ TÊN": name, "CHỨC DANH": document.getElementById('mChucDan').value.trim(), "CẤP BẬC": document.getElementById('mCapBac').value.trim(), "CA": document.getElementById('mCa').value.trim(), "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(), "EMAIL": document.getElementById('mEmail').value.trim(), "ĐANG LÀM": parseInt(document.getElementById('mDangLam').value) };
                 if(idx === -1) nhanSuData.push(item); else nhanSuData[idx] = item;
-                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v10_data', JSON.stringify(nhanSuData));
             } else {
                 let item = { "Họ và Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
                 if(idx === -1) bdttNsData.push(item); else bdttNsData[idx] = item;
-                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('bdtt2026_nhansu_v7_data', JSON.stringify(bdttNsData));
             }
             closeNsModal();
             renderAll();
@@ -687,8 +687,8 @@
 
         function deleteNsItem(type, idx) {
             if(confirm('Xóa nhân sự này?')) {
-                if(type === 'nhansu') { nhanSuData.splice(idx, 1); localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData)); }
-                else { bdttNsData.splice(idx, 1); localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData)); }
+                if(type === 'nhansu') { nhanSuData.splice(idx, 1); localStorage.setItem('ammonia_nhansu_v10_data', JSON.stringify(nhanSuData)); }
+                else { bdttNsData.splice(idx, 1); localStorage.setItem('bdtt2026_nhansu_v7_data', JSON.stringify(bdttNsData)); }
                 renderAll();
             }
         }
@@ -719,9 +719,9 @@
                     });
                     if(list.length > 0) {
                         bdttNsData = list;
-                        localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
+                        localStorage.setItem('bdtt2026_nhansu_v7_data', JSON.stringify(bdttNsData));
                         renderAll();
-                        alert('Import thành công ' + bdttNsData.length + ' nhân sự!');
+                        alert('Import thành công ' + bdttNsData.length + ' nhân sự BDTT!');
                     } else { alert('Không tìm thấy dữ liệu hợp lệ.'); }
                 } catch(err) { alert('Lỗi đọc file!'); }
             };
@@ -736,13 +736,13 @@
                 const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
                 const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {defval: ""});
                 nhanSuData = json.map(r => { let c = {}; Object.keys(r).forEach(k => c[k.trim().toUpperCase()] = r[k]); return { "HỌ VÀ TÊN": c["HỌ VÀ TÊN"] || c["HO VA TEN"] || "", "CHỨC DANH": c["CHỨC DANH"] || "", "CẤP BẬC": c["CẤP BẬC"] || "", "CA": c["CA"] || c["KIP"] || "", "ĐIỆN THOẠI": String(c["ĐIỆN THOẠI"] || ""), "EMAIL": c["EMAIL"] || "", "ĐANG LÀM": Number(c["ĐANG LÀM"] ?? 1) }; });
-                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v10_data', JSON.stringify(nhanSuData));
                 renderAll(); alert('Import thành công!');
             };
             reader.readAsArrayBuffer(fi.files[0]);
         }
 
-        // --- RESTORE BACKUP TOÀN HỆ THỐNG (ĐÃ SỬA CHUẨN NHẬN DIỆN SHEET Nhansu_BDTT2026) ---
+        // --- RESTORE BACKUP ĐỌC CHUẨN 3 SHEET (WebApps_Links, NhanSu_Xuong, Nhansu_BDTT2026) ---
         function restoreFullBackupExcel() {
             const fi = document.getElementById('masterBackupFile');
             if(!fi.files || fi.files.length === 0) { alert('Chọn file backup (.xlsx)!'); return; }
@@ -753,10 +753,11 @@
                     wb.SheetNames.forEach(sn => {
                         let snClean = sn.trim();
                         let snLower = snClean.toLowerCase();
+                        const sheetObj = wb.Sheets[sn];
                         
-                        // Đọc sheet WebApps & Links
+                        // 1. Đọc sheet WebApps & Links
                         if(snLower.includes("web") || snLower.includes("link") || snClean === "WebApps_Links") {
-                            const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
+                            const sd = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
                             if(sd.length > 0) {
                                 appData = sd.map(r => ({
                                     section: r.section || r.SECTION || "overview",
@@ -766,22 +767,22 @@
                                     icon: r.icon || r.ICON || "fa-solid fa-industry",
                                     isPage: Boolean(r.isPage ?? r.ISPAGE)
                                 }));
-                                localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
+                                localStorage.setItem('ammonia_portal_v15_data', JSON.stringify(appData));
                             }
                         }
                         
-                        // Đọc sheet Nhân sự xưởng
+                        // 2. Đọc sheet Nhân sự xưởng
                         if(snLower.includes("xuong") || snClean === "NhanSu_Xuong") {
-                            const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
+                            const sd = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
                             if(sd.length > 0) {
                                 nhanSuData = sd;
-                                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
+                                localStorage.setItem('ammonia_nhansu_v10_data', JSON.stringify(nhanSuData));
                             }
                         }
                         
-                        // Đọc chuẩn xác sheet Nhân Sự BDTT2026 (Nhận diện chính xác tên Nhansu_BDTT2026 hoặc chứa bdtt)
+                        // 3. Đọc chuẩn xác sheet Nhân Sự BDTT2026 (Bao gồm cả sheet có tên Nhansu_BDTT2026 hoặc chứa từ bdtt)
                         if(snClean === "Nhansu_BDTT2026" || snLower.includes("bdtt")) {
-                            const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], {header: 1, defval: ""});
+                            const rows = XLSX.utils.sheet_to_json(sheetObj, {header: 1, defval: ""});
                             let parsedList = [];
                             let found = false;
                             let cN = 1, cNh = 2, cP = 3, cCv = 4, cG = 5;
@@ -814,14 +815,32 @@
                                 }
                             });
 
+                            // Fallback nếu đọc dạng json trực tiếp
+                            if(parsedList.length === 0) {
+                                const sdJson = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
+                                sdJson.forEach(row => {
+                                    let clean = {}; Object.keys(row).forEach(k => clean[k.trim().toUpperCase()] = row[k]);
+                                    let name = clean["HỌ VÀ TÊN"] || clean["HO VÀ TÊN"] || clean["HỌ VÀ TÊN "] || clean["TÊN"] || "";
+                                    if(name && !String(name).includes("DANH SÁCH") && !String(name).includes("Điện thoại") && name !== "Họ và Tên") {
+                                        parsedList.push({
+                                            "Họ và Tên": name,
+                                            "Nhóm / Cụm": clean["NHÓM / CỤM"] || clean["NHÓM"] || clean["CỤM"] || "Cụm 200",
+                                            "Điện Thoại": String(clean["ĐIỆN THOẠI"] || clean["DIEN THOAI"] || clean["SĐT"] || ""),
+                                            "Chức Vụ": clean["CHỨC VỤ"] || clean["CHỨC DANH"] || "Thành viên",
+                                            "Ghi Chú": clean["GHI CHÚ"] || ""
+                                        });
+                                    }
+                                });
+                            }
+
                             if(parsedList.length > 0) {
                                 bdttNsData = parsedList;
-                                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
+                                localStorage.setItem('bdtt2026_nhansu_v7_data', JSON.stringify(bdttNsData));
                             }
                         }
                     });
                     renderAll(); 
-                    alert('Khôi phục toàn bộ backup thành công! Trang Nhân Sự BDTT2026 đã sẵn sàng.');
+                    alert('Khôi phục toàn bộ 3 sheet Backup thành công! Trang Nhân Sự BDTT2026 đã hiển thị đầy đủ.');
                 } catch(err) { console.error(err); alert('Lỗi đọc file Backup Excel!'); }
             };
             reader.readAsArrayBuffer(fi.files[0]);
@@ -875,20 +894,20 @@
             let s = document.getElementById('itemSection').value, n = document.getElementById('itemName').value.trim(), u = document.getElementById('itemUrl').value.trim(), d = document.getElementById('itemDesc').value.trim(), ic = document.getElementById('itemIcon').value;
             if(!n || !u) { alert('Nhập tên và URL!'); return; }
             appData.push({ section: s, name: n, url: u, desc: d, icon: ic, isPage: false });
-            localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
+            localStorage.setItem('ammonia_portal_v15_data', JSON.stringify(appData));
             renderAll(); document.getElementById('itemName').value = ''; document.getElementById('itemUrl').value = ''; document.getElementById('itemDesc').value = '';
             alert('Thêm thành công! Hãy vào Admin bấm "Tải về file index.html mới nhất" để cập nhật lên link chung.');
         }
 
         function deleteItem(idx) {
             if(!isAdminLoggedIn) return;
-            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData)); renderAll(); }
+            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); localStorage.setItem('ammonia_portal_v15_data', JSON.stringify(appData)); renderAll(); }
         }
 
         function changeAdminPassword() {
             let np = document.getElementById('newAdminPass').value;
             if(!np || np.length < 4) { alert('Mật khẩu tối thiểu 4 ký tự!'); return; }
-            adminPass = np; localStorage.setItem('ammonia_admin_v14_pass', adminPass); document.getElementById('newAdminPass').value = ''; alert('Đổi mật khẩu thành công!');
+            adminPass = np; localStorage.setItem('ammonia_admin_v15_pass', adminPass); document.getElementById('newAdminPass').value = ''; alert('Đổi mật khẩu thành công!');
         }
 
         function renderAdminList() {
@@ -903,9 +922,9 @@
             if(!isAdminLoggedIn) return;
             if(confirm('Khôi phục mặc định?')) {
                 appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
-                localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
-                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
-                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('ammonia_portal_v15_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v10_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('bdtt2026_nhansu_v7_data', JSON.stringify(bdttNsData));
                 renderAll(); alert('Đã khôi phục!');
             }
         }
