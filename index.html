@@ -448,16 +448,16 @@
             {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": ""}
         ];
 
-        let savedData = localStorage.getItem('ammonia_portal_v13_data') || localStorage.getItem('ammonia_portal_v12_data');
+        let savedData = localStorage.getItem('ammonia_portal_v14_data') || localStorage.getItem('ammonia_portal_v13_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
 
-        let savedNs = localStorage.getItem('ammonia_nhansu_v8_data') || localStorage.getItem('ammonia_nhansu_v7_data');
+        let savedNs = localStorage.getItem('ammonia_nhansu_v9_data') || localStorage.getItem('ammonia_nhansu_v8_data');
         let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
 
-        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v5_data') || localStorage.getItem('bdtt2026_nhansu_v4_data');
+        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v6_data') || localStorage.getItem('bdtt2026_nhansu_v5_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        let adminPass = localStorage.getItem('ammonia_admin_v13_pass') || 'admin123';
+        let adminPass = localStorage.getItem('ammonia_admin_v14_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
         let activePage = 'home';
@@ -674,11 +674,11 @@
             if(type === 'nhansu') {
                 let item = { "HỌ VÀ TÊN": name, "CHỨC DANH": document.getElementById('mChucDan').value.trim(), "CẤP BẬC": document.getElementById('mCapBac').value.trim(), "CA": document.getElementById('mCa').value.trim(), "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(), "EMAIL": document.getElementById('mEmail').value.trim(), "ĐANG LÀM": parseInt(document.getElementById('mDangLam').value) };
                 if(idx === -1) nhanSuData.push(item); else nhanSuData[idx] = item;
-                localStorage.setItem('ammonia_nhansu_v8_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
             } else {
                 let item = { "Họ và Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
                 if(idx === -1) bdttNsData.push(item); else bdttNsData[idx] = item;
-                localStorage.setItem('bdtt2026_nhansu_v5_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
             }
             closeNsModal();
             renderAll();
@@ -687,8 +687,8 @@
 
         function deleteNsItem(type, idx) {
             if(confirm('Xóa nhân sự này?')) {
-                if(type === 'nhansu') { nhanSuData.splice(idx, 1); localStorage.setItem('ammonia_nhansu_v8_data', JSON.stringify(nhanSuData)); }
-                else { bdttNsData.splice(idx, 1); localStorage.setItem('bdtt2026_nhansu_v5_data', JSON.stringify(bdttNsData)); }
+                if(type === 'nhansu') { nhanSuData.splice(idx, 1); localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData)); }
+                else { bdttNsData.splice(idx, 1); localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData)); }
                 renderAll();
             }
         }
@@ -719,7 +719,7 @@
                     });
                     if(list.length > 0) {
                         bdttNsData = list;
-                        localStorage.setItem('bdtt2026_nhansu_v5_data', JSON.stringify(bdttNsData));
+                        localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
                         renderAll();
                         alert('Import thành công ' + bdttNsData.length + ' nhân sự!');
                     } else { alert('Không tìm thấy dữ liệu hợp lệ.'); }
@@ -736,13 +736,13 @@
                 const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
                 const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {defval: ""});
                 nhanSuData = json.map(r => { let c = {}; Object.keys(r).forEach(k => c[k.trim().toUpperCase()] = r[k]); return { "HỌ VÀ TÊN": c["HỌ VÀ TÊN"] || c["HO VA TEN"] || "", "CHỨC DANH": c["CHỨC DANH"] || "", "CẤP BẬC": c["CẤP BẬC"] || "", "CA": c["CA"] || c["KIP"] || "", "ĐIỆN THOẠI": String(c["ĐIỆN THOẠI"] || ""), "EMAIL": c["EMAIL"] || "", "ĐANG LÀM": Number(c["ĐANG LÀM"] ?? 1) }; });
-                localStorage.setItem('ammonia_nhansu_v8_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
                 renderAll(); alert('Import thành công!');
             };
             reader.readAsArrayBuffer(fi.files[0]);
         }
 
-        // --- RESTORE BACKUP TOÀN HỆ THỐNG VỚI BỘ QUÉT SHEET THÔNG MINH ---
+        // --- RESTORE BACKUP TOÀN HỆ THỐNG (ĐÃ SỬA CHUẨN NHẬN DIỆN SHEET Nhansu_BDTT2026) ---
         function restoreFullBackupExcel() {
             const fi = document.getElementById('masterBackupFile');
             if(!fi.files || fi.files.length === 0) { alert('Chọn file backup (.xlsx)!'); return; }
@@ -751,11 +751,12 @@
                 try {
                     const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
                     wb.SheetNames.forEach(sn => {
-                        const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
-                        let snLower = sn.toLowerCase();
+                        let snClean = sn.trim();
+                        let snLower = snClean.toLowerCase();
                         
-                        // Quét sheet WebApps & Links
-                        if(snLower.includes("web") || snLower.includes("link") || sn.includes("WebApps")) {
+                        // Đọc sheet WebApps & Links
+                        if(snLower.includes("web") || snLower.includes("link") || snClean === "WebApps_Links") {
+                            const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
                             if(sd.length > 0) {
                                 appData = sd.map(r => ({
                                     section: r.section || r.SECTION || "overview",
@@ -765,41 +766,62 @@
                                     icon: r.icon || r.ICON || "fa-solid fa-industry",
                                     isPage: Boolean(r.isPage ?? r.ISPAGE)
                                 }));
-                                localStorage.setItem('ammonia_portal_v13_data', JSON.stringify(appData));
+                                localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
                             }
                         }
-                        // Quét sheet Nhân sự xưởng
-                        if(snLower.includes("xuong") || snLower.includes("nhansu_xuong") || sn.includes("NhanSu_Xuong")) {
+                        
+                        // Đọc sheet Nhân sự xưởng
+                        if(snLower.includes("xuong") || snClean === "NhanSu_Xuong") {
+                            const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
                             if(sd.length > 0) {
                                 nhanSuData = sd;
-                                localStorage.setItem('ammonia_nhansu_v8_data', JSON.stringify(nhanSuData));
+                                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
                             }
                         }
-                        // Quét sheet BDTT2026 (Nhận diện mọi tên sheet BDTT hoặc sheet có cột chứa thông tin BDTT)
-                        if(snLower.includes("bdtt") || snLower.includes("nhansu_bdtt") || sn.includes("Nhansu_BDTT2026") || snLower.includes("sheet1") || sd.length > 0) {
-                            let parsedBdtt = [];
-                            sd.forEach(row => {
-                                let clean = {}; Object.keys(row).forEach(k => clean[k.trim().toUpperCase()] = row[k]);
-                                let name = clean["HỌ VÀ TÊN"] || clean["HO VÀ TÊN"] || clean["HỌ VÀ TÊN "] || clean["TÊN"] || "";
-                                if(name && !String(name).includes("DANH SÁCH") && !String(name).includes("Điện thoại") && name !== "Họ và Tên") {
-                                    parsedBdtt.push({
-                                        "Họ và Tên": name,
-                                        "Nhóm / Cụm": clean["NHÓM / CỤM"] || clean["NHÓM"] || clean["CỤM"] || "Cụm 200",
-                                        "Điện Thoại": String(clean["ĐIỆN THOẠI"] || clean["DIEN THOAI"] || clean["SĐT"] || ""),
-                                        "Chức Vụ": clean["CHỨC VỤ"] || clean["CHỨC DANH"] || "Thành viên",
-                                        "Ghi Chú": clean["GHI CHÚ"] || ""
+                        
+                        // Đọc chuẩn xác sheet Nhân Sự BDTT2026 (Nhận diện chính xác tên Nhansu_BDTT2026 hoặc chứa bdtt)
+                        if(snClean === "Nhansu_BDTT2026" || snLower.includes("bdtt")) {
+                            const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], {header: 1, defval: ""});
+                            let parsedList = [];
+                            let found = false;
+                            let cN = 1, cNh = 2, cP = 3, cCv = 4, cG = 5;
+
+                            rows.forEach((r, i) => {
+                                let str = r.map(c => String(c).trim().toLowerCase()).join(" ");
+                                if(str.includes("họ và tên") || (str.includes("stt") && str.includes("chức vụ"))) {
+                                    found = true;
+                                    r.forEach((c, idx) => {
+                                        let t = String(c).toLowerCase();
+                                        if(t.includes("họ và tên") || t.includes("tên")) cN = idx;
+                                        if(t.includes("nhóm") || t.includes("cụm")) cNh = idx;
+                                        if(t.includes("điện thoại") || t.includes("sđt")) cP = idx;
+                                        if(t.includes("chức vụ")) cCv = idx;
+                                        if(t.includes("ghi chú")) cG = idx;
                                     });
+                                    return;
+                                }
+                                if(found || i > 0) {
+                                    let name = String(r[cN] || r[2] || r[1] || "").trim();
+                                    if(name && !name.toLowerCase().includes("danh sách") && !name.toLowerCase().includes("điện thoại") && name !== "Họ và Tên" && name !== "STT") {
+                                        parsedList.push({
+                                            "Họ và Tên": name,
+                                            "Nhóm / Cụm": String(r[cNh] || r[3] || "Cụm 200").trim(),
+                                            "Điện Thoại": String(r[cP] || r[4] || "").trim(),
+                                            "Chức Vụ": String(r[cCv] || r[5] || "Thành viên").trim(),
+                                            "Ghi Chú": String(r[cG] || r[6] || "").trim()
+                                        });
+                                    }
                                 }
                             });
-                            // Nếu sheet này tìm thấy dữ liệu chuẩn BDTT thì cập nhật
-                            if(parsedBdtt.length >= 5) {
-                                bdttNsData = parsedBdtt;
-                                localStorage.setItem('bdtt2026_nhansu_v5_data', JSON.stringify(bdttNsData));
+
+                            if(parsedList.length > 0) {
+                                bdttNsData = parsedList;
+                                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
                             }
                         }
                     });
                     renderAll(); 
-                    alert('Khôi phục toàn bộ backup thành công! Trang Nhân Sự BDTT2026 đã được cập nhật đầy đủ.');
+                    alert('Khôi phục toàn bộ backup thành công! Trang Nhân Sự BDTT2026 đã sẵn sàng.');
                 } catch(err) { console.error(err); alert('Lỗi đọc file Backup Excel!'); }
             };
             reader.readAsArrayBuffer(fi.files[0]);
@@ -853,20 +875,20 @@
             let s = document.getElementById('itemSection').value, n = document.getElementById('itemName').value.trim(), u = document.getElementById('itemUrl').value.trim(), d = document.getElementById('itemDesc').value.trim(), ic = document.getElementById('itemIcon').value;
             if(!n || !u) { alert('Nhập tên và URL!'); return; }
             appData.push({ section: s, name: n, url: u, desc: d, icon: ic, isPage: false });
-            localStorage.setItem('ammonia_portal_v13_data', JSON.stringify(appData));
+            localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
             renderAll(); document.getElementById('itemName').value = ''; document.getElementById('itemUrl').value = ''; document.getElementById('itemDesc').value = '';
             alert('Thêm thành công! Hãy vào Admin bấm "Tải về file index.html mới nhất" để cập nhật lên link chung.');
         }
 
         function deleteItem(idx) {
             if(!isAdminLoggedIn) return;
-            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); localStorage.setItem('ammonia_portal_v13_data', JSON.stringify(appData)); renderAll(); }
+            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData)); renderAll(); }
         }
 
         function changeAdminPassword() {
             let np = document.getElementById('newAdminPass').value;
             if(!np || np.length < 4) { alert('Mật khẩu tối thiểu 4 ký tự!'); return; }
-            adminPass = np; localStorage.setItem('ammonia_admin_v13_pass', adminPass); document.getElementById('newAdminPass').value = ''; alert('Đổi mật khẩu thành công!');
+            adminPass = np; localStorage.setItem('ammonia_admin_v14_pass', adminPass); document.getElementById('newAdminPass').value = ''; alert('Đổi mật khẩu thành công!');
         }
 
         function renderAdminList() {
@@ -881,9 +903,9 @@
             if(!isAdminLoggedIn) return;
             if(confirm('Khôi phục mặc định?')) {
                 appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
-                localStorage.setItem('ammonia_portal_v13_data', JSON.stringify(appData));
-                localStorage.setItem('ammonia_nhansu_v8_data', JSON.stringify(nhanSuData));
-                localStorage.setItem('bdtt2026_nhansu_v5_data', JSON.stringify(bdttNsData));
+                localStorage.setItem('ammonia_portal_v14_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v9_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('bdtt2026_nhansu_v6_data', JSON.stringify(bdttNsData));
                 renderAll(); alert('Đã khôi phục!');
             }
         }
