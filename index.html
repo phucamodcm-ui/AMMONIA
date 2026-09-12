@@ -333,12 +333,19 @@
             <div id="dashboardAdminSection" style="display:none;">
                 <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã đăng nhập quản trị thành công.</p>
                 
+                <!-- NÚT LƯU & XUẤT BẢN CODE ĐỂ ĐỒNG BỘ CHO LINK DÙNG CHUNG -->
+                <div style="background:var(--primary-green-light); padding:14px; border-radius:10px; margin-bottom:16px; border:1px solid var(--primary-green);">
+                    <label style="font-size:12.5px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-code"></i> Lưu & Xuất Bản Code Cho Link Dùng Chung</label>
+                    <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Bấm nút này để tải về file <code>index.html</code> chứa toàn bộ dữ liệu mới nhất. Sau đó đẩy file này lên GitHub để mọi người khi bấm link đều thấy dữ liệu mới.</p>
+                    <button class="btn-primary" style="width:100%; justify-content:center;" onclick="publishAndDownloadCode()"><i class="fa-solid fa-download"></i> Tải Về File Index.html Mới Nhất</button>
+                </div>
+
                 <!-- UPLOAD FILE BACKUP / EXCEL NHANH -->
-                <div style="background:var(--primary-green-light); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--primary-green);">
-                    <label style="font-size:12px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup Toàn Hệ Thống (.xlsx)</label>
+                <div style="background:var(--card-bg); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--border-color);">
+                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup Toàn Hệ Thống (.xlsx)</label>
                     <div style="display:flex; gap:8px;">
                         <input type="file" id="masterBackupFile" accept=".xlsx, .xls" style="font-size:11px; flex:1;">
-                        <button class="btn-primary" style="padding:6px 12px; font-size:12px;" onclick="restoreFullBackupExcel()">Restore</button>
+                        <button class="btn-primary" style="padding:6px 12px; font-size:12px; background:#2563EB;" onclick="restoreFullBackupExcel()">Restore</button>
                     </div>
                 </div>
 
@@ -400,9 +407,7 @@
         <div class="modal">
             <h2 id="nsModalTitle"><span><i class="fa-solid fa-user-pen"></i> Thêm / Sửa Nhân Sự</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i></h2>
             <input type="hidden" id="nsEditIndex" value="-1">
-            <div id="modalFieldsContainer">
-                <!-- Render động -->
-            </div>
+            <div id="modalFieldsContainer"></div>
             <div class="modal-btns">
                 <button class="btn-secondary" onclick="closeNsModal()">Hủy</button>
                 <button class="btn-primary" onclick="saveNsDataModal()"><i class="fa-solid fa-floppy-disk"></i> Lưu Thông Tin</button>
@@ -443,33 +448,27 @@
             {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": ""}
         ];
 
-        // Kế thừa dữ liệu từ mọi version trước
-        let savedData = localStorage.getItem('ammonia_portal_v11_data') || localStorage.getItem('ammonia_portal_v10_data');
+        let savedData = localStorage.getItem('ammonia_portal_v12_data') || localStorage.getItem('ammonia_portal_v11_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
 
-        let savedNs = localStorage.getItem('ammonia_nhansu_v6_data') || localStorage.getItem('ammonia_nhansu_v5_data');
+        let savedNs = localStorage.getItem('ammonia_nhansu_v7_data') || localStorage.getItem('ammonia_nhansu_v6_data');
         let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
 
-        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v3_data') || localStorage.getItem('bdtt2026_nhansu_v2_data');
+        let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v4_data') || localStorage.getItem('bdtt2026_nhansu_v3_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        let adminPass = localStorage.getItem('ammonia_admin_v11_pass') || 'admin123';
+        let adminPass = localStorage.getItem('ammonia_admin_v12_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
-        let activePage = 'home'; // 'home', 'nhansu', 'bdtt2026'
-        
+        let activePage = 'home';
         let chartInstance1 = null;
         let chartInstance2 = null;
 
         function renderAll() {
             renderSidebar();
-            if(activePage === 'home') {
-                renderHomeContent();
-            } else if(activePage === 'nhansu') {
-                renderNhanSuContent();
-            } else if(activePage === 'bdtt2026') {
-                renderBdttContent();
-            }
+            if(activePage === 'home') renderHomeContent();
+            else if(activePage === 'nhansu') renderNhanSuContent();
+            else if(activePage === 'bdtt2026') renderBdttContent();
             renderAdminList();
             renderHeaderBackupBtn();
         }
@@ -485,8 +484,7 @@
 
             sections.forEach(sec => {
                 nav.innerHTML += `<li class="menu-label">${sec.label}</li>`;
-                const filtered = appData.filter(item => item.section === sec.key);
-                filtered.forEach(item => {
+                appData.filter(item => item.section === sec.key).forEach(item => {
                     let pageKey = item.url.replace('#','');
                     let clickAction = item.isPage ? `onclick="switchPage('${pageKey}')"` : `href="${item.url}" target="_blank"`;
                     nav.innerHTML += `<li><a ${clickAction} class="${(activePage === pageKey) ? 'active' : ''}"><i class="${item.icon}"></i> ${item.name}</a></li>`;
@@ -494,30 +492,16 @@
             });
         }
 
-        function switchPage(pageName) {
-            activePage = pageName;
-            renderAll();
-        }
-
+        function switchPage(pageName) { activePage = pageName; renderAll(); }
         function renderHeaderBackupBtn() {
-            const btnContainer = document.getElementById('adminBackupHeaderBtn');
-            if(isAdminLoggedIn) {
-                btnContainer.innerHTML = `<button class="btn-export" onclick="exportExcelAll()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Backup</button>`;
-            } else {
-                btnContainer.innerHTML = '';
-            }
+            document.getElementById('adminBackupHeaderBtn').innerHTML = isAdminLoggedIn ? `<button class="btn-export" onclick="exportExcelAll()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Backup</button>` : '';
         }
 
-        // --- 1. TRANG CHỦ PORTAL ---
         function renderHomeContent() {
             document.getElementById('pageMainTitle').innerText = "Hệ thống Webapp và link Xưởng Ammonia";
-            const container = document.getElementById('mainContentContainer');
-            container.innerHTML = `
+            document.getElementById('mainContentContainer').innerHTML = `
                 <div class="toolbar-section">
-                    <div class="search-box-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh ứng dụng, báo cáo, liên kết...">
-                    </div>
+                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh ứng dụng, báo cáo, liên kết..."></div>
                     <div class="view-mode-buttons">
                         <button class="view-btn active" onclick="switchView('grid')" id="btnGrid"><i class="fa-solid fa-grip"></i> Thẻ Lớn</button>
                         <button class="view-btn" onclick="switchView('compact')" id="btnCompact"><i class="fa-solid fa-table-cells"></i> Rút Gọn</button>
@@ -533,454 +517,149 @@
         function renderCardsGrid(dataToRender, filterText = '') {
             const area = document.getElementById('mainDisplayArea');
             if(!area) return;
-            const filtered = dataToRender.filter(item => 
-                item.name.toLowerCase().includes(filterText.toLowerCase()) || 
-                item.desc.toLowerCase().includes(filterText.toLowerCase())
-            );
-
-            if(filtered.length === 0) {
-                area.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:30px;">Không tìm thấy mục phù hợp.</p>`;
-                return;
-            }
+            const filtered = dataToRender.filter(item => item.name.toLowerCase().includes(filterText.toLowerCase()) || item.desc.toLowerCase().includes(filterText.toLowerCase()));
+            if(filtered.length === 0) { area.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:30px;">Không tìm thấy mục phù hợp.</p>`; return; }
 
             const deleteBtnHtml = (idx) => isAdminLoggedIn ? `<span onclick="event.preventDefault(); deleteItem(${idx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>` : '';
 
             if(currentView === 'list') {
-                let html = `
-                    <div class="list-table-container">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Icon</th>
-                                    <th>Tên Ứng Dụng / Link</th>
-                                    <th>Phân Nhóm</th>
-                                    <th>Mô Tả</th>
-                                    <th style="text-align:right;">Thao Tác</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                `;
+                let html = `<div class="list-table-container"><table class="custom-table"><thead><tr><th>Icon</th><th>Tên Ứng Dụng / Link</th><th>Phân Nhóm</th><th>Mô Tả</th><th style="text-align:right;">Thao Tác</th></tr></thead><tbody>`;
                 filtered.forEach((item, idx) => {
                     let pageKey = item.isPage ? item.url.replace('#','') : '';
                     let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="color:var(--primary-green); font-weight:600; cursor:pointer;"` : `href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;"`;
-                    html += `
-                        <tr>
-                            <td><i class="${item.icon}" style="color:var(--primary-green); font-size:16px;"></i></td>
-                            <td><a ${actionAttr}>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.6;"></i></a></td>
-                            <td><span class="tag">${item.section.toUpperCase()}</span></td>
-                            <td style="color:var(--text-muted);">${item.desc}</td>
-                            <td style="text-align:right;">${deleteBtnHtml(idx)}</td>
-                        </tr>
-                    `;
+                    html += `<tr><td><i class="${item.icon}" style="color:var(--primary-green); font-size:16px;"></i></td><td><a ${actionAttr}>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.6;"></i></a></td><td><span class="tag">${item.section.toUpperCase()}</span></td><td style="color:var(--text-muted);">${item.desc}</td><td style="text-align:right;">${deleteBtnHtml(idx)}</td></tr>`;
                 });
-                html += `</tbody></table></div>`;
-                area.innerHTML = html;
+                area.innerHTML = html + `</tbody></table></div>`;
             } else {
-                let gridClass = currentView === 'compact' ? 'cards-grid compact-view' : 'cards-grid';
-                let html = `<div class="${gridClass}">`;
+                let html = `<div class="${currentView === 'compact' ? 'cards-grid compact-view' : 'cards-grid'}">`;
                 filtered.forEach((item, idx) => {
                     let pageKey = item.isPage ? item.url.replace('#','') : '';
                     let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="cursor:pointer;"` : `href="${item.url}" target="_blank"`;
-                    html += `
-                        <a ${actionAttr} class="sub-card">
-                            <div>
-                                <div class="card-header-icon"><i class="${item.icon}"></i></div>
-                                <div class="card-body">
-                                    <h3>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3>
-                                    <p>${item.desc}</p>
-                                </div>
-                            </div>
-                            <div class="card-footer-tags">
-                                <span class="tag">${item.section.toUpperCase()}</span>
-                                ${deleteBtnHtml(idx)}
-                            </div>
-                        </a>
-                    `;
+                    html += `<a ${actionAttr} class="sub-card"><div><div class="card-header-icon"><i class="${item.icon}"></i></div><div class="card-body"><h3>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; opacity:0.6;"></i></h3><p>${item.desc}</p></div></div><div class="card-footer-tags"><span class="tag">${item.section.toUpperCase()}</span>${deleteBtnHtml(idx)}</div></a>`;
                 });
-                html += `</div>`;
-                area.innerHTML = html;
+                area.innerHTML = html + `</div>`;
             }
         }
 
-        // --- 2. TRANG NHÂN SỰ XƯỞNG AMMONIA (CŨ) ---
         function renderNhanSuContent() {
             document.getElementById('pageMainTitle').innerText = "Quản Lý Nhân Sự Xưởng Ammonia";
             const container = document.getElementById('mainContentContainer');
+            let totalNs = nhanSuData.length, dangLam = nhanSuData.filter(x => Number(x["ĐANG LÀM"]) === 1).length;
+            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;"><div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;"><span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Cập nhật từ Excel:</span><input type="file" id="excelFileUp" accept=".xlsx, .xls" style="font-size:12px;"><button class="btn-primary" onclick="handleExcelUploadNs()"><i class="fa-solid fa-upload"></i> Import</button></div><button class="btn-primary" onclick="openNsModalForAdd('nhansu')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự</button></div>` : '';
 
-            let totalNs = nhanSuData.length;
-            let dangLam = nhanSuData.filter(x => Number(x["ĐANG LÀM"]) === 1).length;
-
-            let adminToolsHtml = '';
-            if(isAdminLoggedIn) {
-                adminToolsHtml = `
-                    <div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;">
-                        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-                            <span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Cập nhật từ File Excel:</span>
-                            <input type="file" id="excelFileUp" accept=".xlsx, .xls" style="font-size:12px;">
-                            <button class="btn-primary" onclick="handleExcelUploadNs()"><i class="fa-solid fa-upload"></i> Import Excel</button>
-                        </div>
-                        <button class="btn-primary" onclick="openNsModalForAdd('nhansu')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự Mới</button>
-                    </div>
-                `;
-            }
-
-            let html = `
-                <div class="ns-stats-grid">
-                    <div class="ns-stat-card">
-                        <h4>Tổng số nhân sự</h4>
-                        <div class="val">${totalNs}</div>
-                    </div>
-                    <div class="ns-stat-card">
-                        <h4>Đang làm việc tại xưởng</h4>
-                        <div class="val" style="color:#059669;">${dangLam}</div>
-                    </div>
-                </div>
-
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-pie" style="color:var(--primary-green);"></i> Thống kê nhân sự theo Kíp</h3>
-                        <div class="chart-wrapper"><canvas id="chartNsKip"></canvas></div>
-                    </div>
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-column" style="color:#2563EB;"></i> Thống kê nhân sự theo Chức danh</h3>
-                        <div class="chart-wrapper"><canvas id="chartNsCd"></canvas></div>
-                    </div>
-                </div>
-
+            let html = `<div class="ns-stats-grid"><div class="ns-stat-card"><h4>Tổng số nhân sự</h4><div class="val">${totalNs}</div></div><div class="ns-stat-card"><h4>Đang làm việc tại xưởng</h4><div class="val" style="color:#059669;">${dangLam}</div></div></div>
+                <div class="charts-container"><div class="chart-card"><h3><i class="fa-solid fa-chart-pie" style="color:var(--primary-green);"></i> Thống kê theo Kíp</h3><div class="chart-wrapper"><canvas id="chartNsKip"></canvas></div></div><div class="chart-card"><h3><i class="fa-solid fa-chart-column" style="color:#2563EB;"></i> Thống kê theo Chức danh</h3><div class="chart-wrapper"><canvas id="chartNsCd"></canvas></div></div></div>
                 ${adminToolsHtml}
-
-                <div class="toolbar-section">
-                    <div class="search-box-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="nsSearchInput" onkeyup="filterNhanSuTable()" placeholder="Tìm tên, chức danh, email...">
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <select id="filterCa" class="filter-select" onchange="filterNhanSuTable()">
-                            <option value="">-- Tất cả Ca / Kíp --</option>
-                            <option value="Kíp 1">Kíp 1</option>
-                            <option value="Kíp 2">Kíp 2</option>
-                            <option value="Kíp 3">Kíp 3</option>
-                            <option value="Kíp 4">Kíp 4</option>
-                            <option value="Hành chánh">Hành chánh</option>
-                        </select>
-                        <select id="filterTrangThai" class="filter-select" onchange="filterNhanSuTable()">
-                            <option value="">-- Tất cả trạng thái --</option>
-                            <option value="1">Đang làm việc</option>
-                            <option value="0">Khác / Nghỉ</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="list-table-container">
-                    <table class="custom-table" id="nsTable">
-                        <thead>
-                            <tr>
-                                <th>HỌ VÀ TÊN</th>
-                                <th>CHỨC DANH</th>
-                                <th>CẤP BẬC</th>
-                                <th>CA / KÍP</th>
-                                <th>ĐIỆN THOẠI</th>
-                                <th>EMAIL</th>
-                                <th>TRẠNG THÁI</th>
-                                ${isAdminLoggedIn ? '<th style="text-align:right;">THAO TÁC</th>' : ''}
-                            </tr>
-                        </thead>
-                        <tbody id="nsTableBody">
-            `;
+                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterNhanSuTable()" placeholder="Tìm tên, chức danh..."></div><div style="display:flex; gap:10px;"><select id="filterCa" class="filter-select" onchange="filterNhanSuTable()"><option value="">-- Tất cả Ca --</option><option value="Kíp 1">Kíp 1</option><option value="Kíp 2">Kíp 2</option><option value="Kíp 3">Kíp 3</option><option value="Kíp 4">Kíp 4</option><option value="Hành chánh">Hành chánh</option></select><select id="filterTrangThai" class="filter-select" onchange="filterNhanSuTable()"><option value="">-- Trạng thái --</option><option value="1">Đang làm</option><option value="0">Khác</option></select></div></div>
+                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>HỌ VÀ TÊN</th><th>CHỨC DANH</th><th>CẤP BẬC</th><th>CA / KÍP</th><th>ĐIỆN THOẠI</th><th>EMAIL</th><th>TRẠNG THÁI</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
 
             nhanSuData.forEach((ns, idx) => {
-                let dangLamVal = Number(ns["ĐANG LÀM"]) === 1;
-                let statusBadge = dangLamVal ? '<span style="color:#059669; font-weight:600;">● Đang làm</span>' : '<span style="color:#94a3b8;">Nghỉ / Khác</span>';
-                let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('nhansu', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteNsItem('nhansu', ${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;" title="Xóa"><i class="fa-solid fa-trash"></i></button></td>` : '';
-                html += `
-                    <tr data-ca="${ns["CA"] || ''}" data-danglam="${ns["ĐANG LÀM"] ?? 1}">
-                        <td style="font-weight:600;">${ns["HỌ VÀ TÊN"] || ''}</td>
-                        <td>${ns["CHỨC DANH"] || ''}</td>
-                        <td>${ns["CẤP BẬC"] || ''}</td>
-                        <td><span class="tag">${ns["CA"] || ''}</span></td>
-                        <td>${ns["ĐIỆN THOẠI"] || ''}</td>
-                        <td>${ns["EMAIL"] || ''}</td>
-                        <td>${statusBadge}</td>
-                        ${actionTd}
-                    </tr>
-                `;
+                let dl = Number(ns["ĐANG LÀM"]) === 1;
+                let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('nhansu', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteNsItem('nhansu', ${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>` : '';
+                html += `<tr data-ca="${ns["CA"] || ''}" data-danglam="${ns["ĐANG LÀM"] ?? 1}"><td style="font-weight:600;">${ns["HỌ VÀ TÊN"] || ''}</td><td>${ns["CHỨC DANH"] || ''}</td><td>${ns["CẤP BẬC"] || ''}</td><td><span class="tag">${ns["CA"] || ''}</span></td><td>${ns["ĐIỆN THOẠI"] || ''}</td><td>${ns["EMAIL"] || ''}</td><td>${dl?'<span style="color:#059669; font-weight:600;">● Đang làm</span>':'<span style="color:#94a3b8;">Khác</span>'}</td>${actionTd}</tr>`;
             });
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
+            container.innerHTML = html + `</tbody></table></div>`;
             setTimeout(renderChartsNs, 100);
         }
 
         function renderChartsNs() {
             Chart.register(ChartDataLabels);
-            let kipCounts = {};
-            nhanSuData.forEach(item => { let k = item["CA"] || "Chưa phân loại"; kipCounts[k] = (kipCounts[k] || 0) + 1; });
+            let kC = {}; nhanSuData.forEach(x => { let k = x["CA"] || "Khác"; kC[k] = (kC[k] || 0) + 1; });
+            if(chartInstance1) chartInstance1.destroy();
+            chartInstance1 = new Chart(document.getElementById('chartNsKip'), { type: 'doughnut', data: { labels: Object.keys(kC), datasets: [{ data: Object.values(kC), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } } } });
 
-            let ctx1 = document.getElementById('chartNsKip');
-            if(ctx1) {
-                if(chartInstance1) chartInstance1.destroy();
-                chartInstance1 = new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: { labels: Object.keys(kipCounts), datasets: [{ data: Object.values(kipCounts), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488', '#E11D48'] }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } } }
-                });
-            }
-
-            let cdCounts = {};
-            nhanSuData.forEach(item => { let cd = item["CHỨC DANH"] || "Khác"; cdCounts[cd] = (cdCounts[cd] || 0) + 1; });
-
-            let ctx2 = document.getElementById('chartNsCd');
-            if(ctx2) {
-                if(chartInstance2) chartInstance2.destroy();
-                chartInstance2 = new Chart(ctx2, {
-                    type: 'bar',
-                    data: { labels: Object.keys(cdCounts), datasets: [{ label: 'Số lượng', data: Object.values(cdCounts), backgroundColor: '#00682B', borderRadius: 6 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { color: '#1A2E26', anchor: 'end', align: 'top', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } }
-                });
-            }
+            let cC = {}; nhanSuData.forEach(x => { let c = x["CHỨC DANH"] || "Khác"; cC[c] = (cC[c] || 0) + 1; });
+            if(chartInstance2) chartInstance2.destroy();
+            chartInstance2 = new Chart(document.getElementById('chartNsCd'), { type: 'bar', data: { labels: Object.keys(cC), datasets: [{ data: Object.values(cC), backgroundColor: '#00682B', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { color: '#1A2E26', anchor: 'end', align: 'top', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } } });
         }
 
-        // --- 3. TRANG NHÂN SỰ BDTT2026 - XƯỞNG AMO (ĐẦY ĐỦ BẢNG CHI TIẾT & IMPORT EXCEL CHUẨN XÁC) ---
         function renderBdttContent() {
             document.getElementById('pageMainTitle').innerText = "Nhân Sự BDTT2026 - Xưởng Amo";
             const container = document.getElementById('mainContentContainer');
+            let totalNs = bdttNsData.length, nhomCount = new Set(bdttNsData.map(x => x["Nhóm / Cụm"])).size;
+            let nhomTruongList = bdttNsData.filter(x => { let cv = (x["Chức Vụ"] || "").toLowerCase(), n = (x["Nhóm / Cụm"] || "").toLowerCase(); return cv.includes("trưởng") || cv.includes("chỉ huy") || cv.includes("quản đốc") || n.includes("chỉ huy"); });
 
-            let totalNs = bdttNsData.length;
-            let nhomCount = new Set(bdttNsData.map(x => x["Nhóm / Cụm"])).size;
+            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;"><div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;"><span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Import Excel BDTT2026:</span><input type="file" id="excelFileUpBdtt" accept=".xlsx, .xls" style="font-size:12px;"><button class="btn-primary" onclick="handleExcelUploadBdtt()"><i class="fa-solid fa-upload"></i> Import</button></div><button class="btn-primary" onclick="openNsModalForAdd('bdtt')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT</button></div>` : '';
 
-            let nhomTruongList = bdttNsData.filter(x => {
-                let cv = (x["Chức Vụ"] || "").toLowerCase();
-                let nhom = (x["Nhóm / Cụm"] || "").toLowerCase();
-                return cv.includes("trưởng") || cv.includes("chỉ huy") || cv.includes("quản đốc") || nhom.includes("chỉ huy");
-            });
-
-            let adminToolsHtml = '';
-            if(isAdminLoggedIn) {
-                adminToolsHtml = `
-                    <div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;">
-                        <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-                            <span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Import File Excel BDTT2026:</span>
-                            <input type="file" id="excelFileUpBdtt" accept=".xlsx, .xls" style="font-size:12px;">
-                            <button class="btn-primary" onclick="handleExcelUploadBdtt()"><i class="fa-solid fa-upload"></i> Import Excel</button>
-                        </div>
-                        <button class="btn-primary" onclick="openNsModalForAdd('bdtt')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT</button>
-                    </div>
-                `;
-            }
-
-            let html = `
-                <div class="ns-stats-grid">
-                    <div class="ns-stat-card">
-                        <h4>Tổng nhân sự BDTT 2026</h4>
-                        <div class="val">${totalNs}</div>
-                    </div>
-                    <div class="ns-stat-card">
-                        <h4>Tổng số Nhóm / Cụm</h4>
-                        <div class="val" style="color:#059669;">${nhomCount}</div>
-                    </div>
-                </div>
-
-                <div class="charts-container">
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-pie" style="color:var(--primary-green);"></i> Phân bổ nhân sự theo Nhóm / Cụm</h3>
-                        <div class="chart-wrapper"><canvas id="chartBdttNhom"></canvas></div>
-                    </div>
-                    <div class="chart-card">
-                        <h3><i class="fa-solid fa-chart-column" style="color:#2563EB;"></i> Thống kê theo Chức vụ</h3>
-                        <div class="chart-wrapper"><canvas id="chartBdttCv"></canvas></div>
-                    </div>
-                </div>
-
-                <!-- BẢNG DANH SÁCH NHÓM TRƯỞNG & SĐT LIÊN HỆ -->
-                <div class="chart-card" style="margin-bottom: 24px;">
-                    <h3 style="margin-bottom: 14px;"><i class="fa-solid fa-address-book" style="color:#D97706;"></i> Danh Sách Nhóm Trưởng & Số Điện Thoại Liên Hệ Nhanh</h3>
-                    <div class="list-table-container" style="margin-bottom: 0; box-shadow: none;">
-                        <table class="custom-table" style="font-size: 12.5px;">
-                            <thead>
-                                <tr>
-                                    <th>NHÓM / CỤM</th>
-                                    <th>HỌ VÀ TÊN NHÓM TRƯỞNG</th>
-                                    <th>CHỨC VỤ</th>
-                                    <th>SỐ ĐIỆN THOẠI</th>
-                                    <th>THAO TÁC GỌI</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-            `;
+            let html = `<div class="ns-stats-grid"><div class="ns-stat-card"><h4>Tổng nhân sự BDTT 2026</h4><div class="val">${totalNs}</div></div><div class="ns-stat-card"><h4>Tổng số Nhóm / Cụm</h4><div class="val" style="color:#059669;">${nhomCount}</div></div></div>
+                <div class="charts-container"><div class="chart-card"><h3><i class="fa-solid fa-chart-pie" style="color:var(--primary-green);"></i> Phân bổ theo Nhóm / Cụm</h3><div class="chart-wrapper"><canvas id="chartBdttNhom"></canvas></div></div><div class="chart-card"><h3><i class="fa-solid fa-chart-column" style="color:#2563EB;"></i> Thống kê theo Chức vụ</h3><div class="chart-wrapper"><canvas id="chartBdttCv"></canvas></div></div></div>
+                <div class="chart-card" style="margin-bottom: 24px;"><h3 style="margin-bottom: 14px;"><i class="fa-solid fa-address-book" style="color:#D97706;"></i> Danh Sách Nhóm Trưởng & SĐT Liên Hệ Nhanh</h3>
+                <div class="list-table-container" style="margin-bottom: 0; box-shadow: none;"><table class="custom-table" style="font-size: 12.5px;"><thead><tr><th>NHÓM / CỤM</th><th>HỌ VÀ TÊN NHÓM TRƯỞNG</th><th>CHỨC VỤ</th><th>SỐ ĐIỆN THOẠI</th><th>THAO TÁC GỌI</th></tr></thead><tbody>`;
 
             nhomTruongList.forEach(nt => {
                 let sdt = nt["Điện Thoại"] || "";
-                let callBtn = sdt ? `<a href="tel:${sdt}" class="tag" style="background:#059669; color:#fff; text-decoration:none; padding:4px 10px; display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-phone"></i> Gọi ${sdt}</a>` : '<span style="color:#94a3b8;">Chưa có SĐT</span>';
-                html += `
-                    <tr>
-                        <td><span class="tag">${nt["Nhóm / Cụm"] || ''}</span></td>
-                        <td style="font-weight:700;">${nt["Họ và Tên"] || ''}</td>
-                        <td>${nt["Chức Vụ"] || ''}</td>
-                        <td style="font-weight:600; color:var(--primary-green);">${sdt}</td>
-                        <td>${callBtn}</td>
-                    </tr>
-                `;
+                html += `<tr><td><span class="tag">${nt["Nhóm / Cụm"] || ''}</span></td><td style="font-weight:700;">${nt["Họ và Tên"] || ''}</td><td>${nt["Chức Vụ"] || ''}</td><td style="font-weight:600; color:var(--primary-green);">${sdt}</td><td>${sdt?`<a href="tel:${sdt}" class="tag" style="background:#059669; color:#fff; text-decoration:none; padding:4px 10px; display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-phone"></i> Gọi ${sdt}</a>`:'--'}</td></tr>`;
             });
 
-            html += `
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+            html += `</tbody></table></div></div>
                 ${adminToolsHtml}
-
-                <div class="toolbar-section">
-                    <div class="search-box-wrapper">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm tên, nhóm, chức vụ, sđt...">
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <select id="filterNhom" class="filter-select" onchange="filterBdttTable()">
-                            <option value="">-- Tất cả Nhóm / Cụm --</option>
-                            <option value="Chỉ Huy Trưởng">Chỉ Huy Trưởng</option>
-                            <option value="Hành Chính">Hành Chính</option>
-                            <option value="Cụm 200">Cụm 200</option>
-                            <option value="Cụm 300">Cụm 300</option>
-                            <option value="Cụm 400-700">Cụm 400-700</option>
-                            <option value="Cụm 500">Cụm 500</option>
-                            <option value="TĐH/DCS">TĐH/DCS</option>
-                            <option value="Đi Ca">Đi Ca</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- BẢNG CHI TIẾT TẤT CẢ THÀNH VIÊN BDTT2026 -->
+                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm tên, nhóm, chức vụ, sđt..."></div><div style="display:flex; gap:10px;"><select id="filterNhom" class="filter-select" onchange="filterBdttTable()"><option value="">-- Tất cả Nhóm / Cụm --</option><option value="Chỉ Huy Trưởng">Chỉ Huy Trưởng</option><option value="Hành Chính">Hành Chính</option><option value="Cụm 200">Cụm 200</option><option value="Cụm 300">Cụm 300</option><option value="Cụm 400-700">Cụm 400-700</option><option value="Cụm 500">Cụm 500</option><option value="TĐH/DCS">TĐH/DCS</option><option value="Đi Ca">Đi Ca</option></select></div></div>
                 <div class="section-title">Danh Sách Chi Tiết Toàn Bộ Thành Viên BDTT2026</div>
-                <div class="list-table-container">
-                    <table class="custom-table" id="nsTable">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>HỌ VÀ TÊN</th>
-                                <th>NHÓM / CỤM</th>
-                                <th>ĐIỆN THOẠI</th>
-                                <th>CHỨC VỤ</th>
-                                <th>GHI CHÚ</th>
-                                ${isAdminLoggedIn ? '<th style="text-align:right;">THAO TÁC</th>' : ''}
-                            </tr>
-                        </thead>
-                        <tbody id="nsTableBody">
-            `;
+                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>NHÓM / CỤM</th><th>ĐIỆN THOẠI</th><th>CHỨC VỤ</th><th>GHI CHÚ</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
 
             bdttNsData.forEach((ns, idx) => {
-                let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('bdtt', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;" title="Sửa"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteNsItem('bdtt', ${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;" title="Xóa"><i class="fa-solid fa-trash"></i></button></td>` : '';
-                html += `
-                    <tr data-nhom="${ns["Nhóm / Cụm"] || ''}">
-                        <td>${idx + 1}</td>
-                        <td style="font-weight:600;">${ns["Họ và Tên"] || ''}</td>
-                        <td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td>
-                        <td>${ns["Điện Thoại"] || ''}</td>
-                        <td>${ns["Chức Vụ"] || ''}</td>
-                        <td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>
-                        ${actionTd}
-                    </tr>
-                `;
+                let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('bdtt', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteNsItem('bdtt', ${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>` : '';
+                html += `<tr data-nhom="${ns["Nhóm / Cụm"] || ''}"><td>${idx + 1}</td><td style="font-weight:600;">${ns["Họ và Tên"] || ''}</td><td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
             });
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
-
+            container.innerHTML = html + `</tbody></table></div>`;
             setTimeout(renderChartsBdtt, 100);
         }
 
         function renderChartsBdtt() {
             Chart.register(ChartDataLabels);
-            let nhomCounts = {};
-            bdttNsData.forEach(item => { let n = item["Nhóm / Cụm"] || "Chưa phân loại"; nhomCounts[n] = (nhomCounts[n] || 0) + 1; });
+            let nC = {}; bdttNsData.forEach(x => { let n = x["Nhóm / Cụm"] || "Khác"; nC[n] = (nC[n] || 0) + 1; });
+            if(chartInstance1) chartInstance1.destroy();
+            chartInstance1 = new Chart(document.getElementById('chartBdttNhom'), { type: 'doughnut', data: { labels: Object.keys(nC), datasets: [{ data: Object.values(nC), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488', '#E11D48', '#EA580C', '#4F46E5'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } } } });
 
-            let ctx1 = document.getElementById('chartBdttNhom');
-            if(ctx1) {
-                if(chartInstance1) chartInstance1.destroy();
-                chartInstance1 = new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: { labels: Object.keys(nhomCounts), datasets: [{ data: Object.values(nhomCounts), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488', '#E11D48', '#EA580C', '#4F46E5'] }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } }, datalabels: { color: '#fff', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } } }
-                });
-            }
-
-            let cvCounts = {};
-            bdttNsData.forEach(item => {
-                let cv = item["Chức Vụ"] || "Thành viên";
-                if(cv.toLowerCase().includes("trưởng") || cv.toLowerCase().includes("trách") || cv.toLowerCase().includes("quản đốc")) {
-                    cvCounts["Chủ chốt / Nhóm trưởng"] = (cvCounts["Chủ chốt / Nhóm trưởng"] || 0) + 1;
-                } else {
-                    cvCounts["Thành viên"] = (cvCounts["Thành viên"] || 0) + 1;
-                }
-            });
-
-            let ctx2 = document.getElementById('chartBdttCv');
-            if(ctx2) {
-                if(chartInstance2) chartInstance2.destroy();
-                chartInstance2 = new Chart(ctx2, {
-                    type: 'bar',
-                    data: { labels: Object.keys(cvCounts), datasets: [{ label: 'Số lượng', data: Object.values(cvCounts), backgroundColor: '#2563EB', borderRadius: 6 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { color: '#1A2E26', anchor: 'end', align: 'top', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } } }
-                });
-            }
+            let cC = {}; bdttNsData.forEach(x => { let cv = (x["Chức Vụ"] || "").toLowerCase(); let key = (cv.includes("trưởng") || cv.includes("trách") || cv.includes("quản đốc")) ? "Chủ chốt / Nhóm trưởng" : "Thành viên"; cC[key] = (cC[key] || 0) + 1; });
+            if(chartInstance2) chartInstance2.destroy();
+            chartInstance2 = new Chart(document.getElementById('chartBdttCv'), { type: 'bar', data: { labels: Object.keys(cC), datasets: [{ data: Object.values(cC), backgroundColor: '#2563EB', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { color: '#1A2E26', anchor: 'end', align: 'top', font: { weight: 'bold', size: 11 }, formatter: v => v > 0 ? v : '' } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 5 } } } } });
         }
 
-        // --- QUẢN LÝ MODAL THÊM / SỬA ---
+        // --- HÀM TẢI VỀ FILE INDEX.HTML MỚI NHẤT ĐỂ ĐẨY LÊN GITHUB ---
+        function publishAndDownloadCode() {
+            let fullHtmlCode = `<!DOCTYPE html>\n` + document.documentElement.outerHTML;
+            // Thay thế tự động các mảng mặc định thành dữ liệu hiện tại trong trình duyệt
+            fullHtmlCode = fullHtmlCode.replace(/const defaultData = \[[\s\S]*?\];/, `const defaultData = ${JSON.stringify(appData, null, 4)};`);
+            fullHtmlCode = fullHtmlCode.replace(/const defaultNhanSu = \[[\s\S]*?\];/, `const defaultNhanSu = ${JSON.stringify(nhanSuData, null, 4)};`);
+            fullHtmlCode = fullHtmlCode.replace(/const defaultBdttNs = \[[\s\S]*?\];/, `const defaultBdttNs = ${JSON.stringify(bdttNsData, null, 4)};`);
+
+            const blob = new Blob([fullHtmlCode], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'index.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            alert('Đã tải xuống file index.html mới nhất! Bạn chỉ cần kéo file này đè lên repository trên GitHub là link dùng chung sẽ tự động cập nhật ngay lập tức.');
+        }
+
+        // --- MODAL & QUẢN LÝ ---
         function openNsModalForAdd(type) {
             document.getElementById('nsEditIndex').value = -1;
-            const fieldsContainer = document.getElementById('modalFieldsContainer');
+            const fc = document.getElementById('modalFieldsContainer');
             if(type === 'nhansu') {
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự Xưởng</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fieldsContainer.innerHTML = `
-                    <input type="hidden" id="modalType" value="nhansu">
-                    <div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" placeholder="Nguyễn Văn A"></div>
-                    <div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" placeholder="DCS, Field, TCX..."></div>
-                    <div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" placeholder="Nhân viên, Trưởng ca..."></div>
-                    <div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" placeholder="Kíp 1, Hành chánh..."></div>
-                    <div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" placeholder="0901234567"></div>
-                    <div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" placeholder="anv@pvcfc.com.vn"></div>
-                    <div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1">1 - Đang làm</option><option value="0">0 - Khác</option></select></div>
-                `;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" placeholder="Nguyễn Văn A"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" placeholder="DCS, Field..."></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" placeholder="Nhân viên..."></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" placeholder="Kíp 1..."></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" placeholder="0901234567"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" placeholder="email@pvcfc.com.vn"></div><div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1">1 - Đang làm</option><option value="0">0 - Khác</option></select></div>`;
             } else {
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fieldsContainer.innerHTML = `
-                    <input type="hidden" id="modalType" value="bdtt">
-                    <div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" placeholder="Nguyễn Văn A"></div>
-                    <div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" placeholder="Cụm 200, Hành Chính..."></div>
-                    <div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" placeholder="0901234567"></div>
-                    <div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" placeholder="Nhóm trưởng, Thành viên..."></div>
-                    <div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" placeholder="Chỉ đạo..."></div>
-                `;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" placeholder="Nguyễn Văn A"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" placeholder="Cụm 200..."></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" placeholder="0901234567"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" placeholder="Thành viên..."></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" placeholder="Ghi chú..."></div>`;
             }
             document.getElementById('nsModal').style.display = 'flex';
         }
 
         function openNsModalForEdit(type, idx) {
             document.getElementById('nsEditIndex').value = idx;
-            const fieldsContainer = document.getElementById('modalFieldsContainer');
+            const fc = document.getElementById('modalFieldsContainer');
             if(type === 'nhansu') {
                 let ns = nhanSuData[idx];
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-pen"></i> Sửa Nhân Sự Xưởng</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fieldsContainer.innerHTML = `
-                    <input type="hidden" id="modalType" value="nhansu">
-                    <div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["HỌ VÀ TÊN"] || ''}"></div>
-                    <div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" value="${ns["CHỨC DANH"] || ''}"></div>
-                    <div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" value="${ns["CẤP BẬC"] || ''}"></div>
-                    <div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" value="${ns["CA"] || ''}"></div>
-                    <div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["ĐIỆN THOẠI"] || ''}"></div>
-                    <div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" value="${ns["EMAIL"] || ''}"></div>
-                    <div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1" ${Number(ns["ĐANG LÀM"])===1?'selected':''}>1 - Đang làm</option><option value="0" ${Number(ns["ĐANG LÀM"])===0?'selected':''}>0 - Khác</option></select></div>
-                `;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["HỌ VÀ TÊN"]||''}"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" value="${ns["CHỨC DANH"]||''}"></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" value="${ns["CẤP BẬC"]||''}"></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" value="${ns["CA"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["ĐIỆN THOẠI"]||''}"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" value="${ns["EMAIL"]||''}"></div><div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1" ${Number(ns["ĐANG LÀM"])===1?'selected':''}>1 - Đang làm</option><option value="0" ${Number(ns["ĐANG LÀM"])===0?'selected':''}>0 - Khác</option></select></div>`;
             } else {
                 let ns = bdttNsData[idx];
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-pen"></i> Sửa Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fieldsContainer.innerHTML = `
-                    <input type="hidden" id="modalType" value="bdtt">
-                    <div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["Họ và Tên"] || ''}"></div>
-                    <div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" value="${ns["Nhóm / Cụm"] || ''}"></div>
-                    <div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["Điện Thoại"] || ''}"></div>
-                    <div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" value="${ns["Chức Vụ"] || ''}"></div>
-                    <div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" value="${ns["Ghi Chú"] || ''}"></div>
-                `;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["Họ và Tên"]||''}"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" value="${ns["Nhóm / Cụm"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["Điện Thoại"]||''}"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" value="${ns["Chức Vụ"]||''}"></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" value="${ns["Ghi Chú"]||''}"></div>`;
             }
             document.getElementById('nsModal').style.display = 'flex';
         }
@@ -991,162 +670,96 @@
             let type = document.getElementById('modalType').value;
             let idx = parseInt(document.getElementById('nsEditIndex').value);
             let name = document.getElementById('mName').value.trim();
-            if(!name) { alert('Vui lòng nhập Họ và Tên!'); return; }
+            if(!name) { alert('Vui lòng nhập họ tên!'); return; }
 
             if(type === 'nhansu') {
-                let newItem = {
-                    "HỌ VÀ TÊN": name,
-                    "CHỨC DANH": document.getElementById('mChucDan').value.trim(),
-                    "CẤP BẬC": document.getElementById('mCapBac').value.trim(),
-                    "CA": document.getElementById('mCa').value.trim(),
-                    "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(),
-                    "EMAIL": document.getElementById('mEmail').value.trim(),
-                    "ĐANG LÀM": parseInt(document.getElementById('mDangLam').value)
-                };
-                if(idx === -1) nhanSuData.push(newItem); else nhanSuData[idx] = newItem;
-                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
+                let item = { "HỌ VÀ TÊN": name, "CHỨC DANH": document.getElementById('mChucDan').value.trim(), "CẤP BẬC": document.getElementById('mCapBac').value.trim(), "CA": document.getElementById('mCa').value.trim(), "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(), "EMAIL": document.getElementById('mEmail').value.trim(), "ĐANG LÀM": parseInt(document.getElementById('mDangLam').value) };
+                if(idx === -1) nhanSuData.push(item); else nhanSuData[idx] = item;
+                localStorage.setItem('ammonia_nhansu_v7_data', JSON.stringify(nhanSuData));
             } else {
-                let newItem = {
-                    "Họ và Tên": name,
-                    "Nhóm / Cụm": document.getElementById('mNhom').value.trim(),
-                    "Điện Thoại": document.getElementById('mPhone').value.trim(),
-                    "Chức Vụ": document.getElementById('mChucVu').value.trim(),
-                    "Ghi Chú": document.getElementById('mGhiChu').value.trim()
-                };
-                if(idx === -1) bdttNsData.push(newItem); else bdttNsData[idx] = newItem;
-                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
+                let item = { "Họ và Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
+                if(idx === -1) bdttNsData.push(item); else bdttNsData[idx] = item;
+                localStorage.setItem('bdtt2026_nhansu_v4_data', JSON.stringify(bdttNsData));
             }
             closeNsModal();
             renderAll();
-            alert('Lưu thông tin thành công!');
+            alert('Lưu thành công! Đừng quên vào Admin bấm "Tải về file index.html mới nhất" và đẩy lên GitHub để link chung cập nhật nhé.');
         }
 
         function deleteNsItem(type, idx) {
-            if(confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
-                if(type === 'nhansu') {
-                    nhanSuData.splice(idx, 1);
-                    localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
-                } else {
-                    bdttNsData.splice(idx, 1);
-                    localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
-                }
+            if(confirm('Xóa nhân sự này?')) {
+                if(type === 'nhansu') { nhanSuData.splice(idx, 1); localStorage.setItem('ammonia_nhansu_v7_data', JSON.stringify(nhanSuData)); }
+                else { bdttNsData.splice(idx, 1); localStorage.setItem('bdtt2026_nhansu_v4_data', JSON.stringify(bdttNsData)); }
                 renderAll();
             }
         }
 
-        // --- UPLOAD EXCEL THÔNG MINH (XỬ LÝ MỌI ĐỊNH DẠNG TỪ FILE EXCEL BDTT2026) ---
+        // --- UPLOAD EXCEL ---
         function handleExcelUploadBdtt() {
-            const fileInput = document.getElementById('excelFileUpBdtt');
-            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file Excel BDTT2026!'); return; }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = new Uint8Array(e.target.result);
-                    const wb = XLSX.read(data, {type: 'array'});
-                    const ws = wb.Sheets[wb.SheetNames[0]];
-                    // Đọc dạng mảng mảng (array of arrays) để quét từ dòng chứa tiêu đề STT, Họ và tên
-                    const rows = XLSX.utils.sheet_to_json(ws, {header: 1, defval: ""});
-                    
-                    let parsedList = [];
-                    let foundHeader = false;
-                    let colNameIdx = 1, colNhomIdx = 2, colPhoneIdx = 3, colCvIdx = 4, colNoteIdx = 5;
-
-                    rows.forEach((r, rIdx) => {
-                        let rowStr = r.map(cell => String(cell).trim().toLowerCase()).join(" ");
-                        if(rowStr.includes("họ và tên") || rowStr.includes("stt") && rowStr.includes("chức vụ")) {
-                            foundHeader = true;
-                            // Xác định vị trí cột
-                            r.forEach((cell, cIdx) => {
-                                let cTxt = String(cell).toLowerCase();
-                                if(cTxt.includes("họ và tên") || cTxt.includes("tên")) colNameIdx = cIdx;
-                                if(cTxt.includes("nhóm") || cTxt.includes("cụm")) colNhomIdx = cIdx;
-                                if(cTxt.includes("điện thoại") || cTxt.includes("sđt") || cTxt.includes("phone")) colPhoneIdx = cIdx;
-                                if(cTxt.includes("chức vụ") || cTxt.includes("chức danh")) colCvIdx = cIdx;
-                                if(cTxt.includes("ghi chú")) colNoteIdx = cIdx;
-                            });
-                            return;
-                        }
-
-                        if(foundHeader || rIdx > 3) {
-                            let name = String(r[colNameIdx] || r[2] || r[1] || "").trim();
-                            let nhom = String(r[colNhomIdx] || r[3] || r[2] || "Cụm 200").trim();
-                            let phone = String(r[colPhoneIdx] || r[4] || r[3] || "").trim();
-                            let cv = String(r[colCvIdx] || r[5] || r[4] || "Thành viên").trim();
-                            let note = String(r[colNoteIdx] || r[6] || r[5] || "").trim();
-
-                            if(name && !name.toLowerCase().includes("danh sách") && !name.toLowerCase().includes("điện thoại") && name !== "Họ và Tên" && name !== "STT") {
-                                parsedList.push({
-                                    "Họ và Tên": name,
-                                    "Nhóm / Cụm": nhom || "Cụm 200",
-                                    "Điện Thoại": phone,
-                                    "Chức Vụ": cv || "Thành viên",
-                                    "Ghi Chú": note
-                                });
-                            }
-                        }
-                    });
-
-                    // Fallback nếu quét theo tiêu đề không ra, quét tất cả dòng có chứa tên
-                    if(parsedList.length === 0) {
-                        const jsonObj = XLSX.utils.sheet_to_json(ws, {defval: ""});
-                        jsonObj.forEach(row => {
-                            let clean = {};
-                            Object.keys(row).forEach(k => clean[k.trim().toUpperCase()] = row[k]);
-                            let name = clean["HỌ VÀ TÊN"] || clean["HO VA TEN"] || clean["THÀNH VIÊN"] || "";
-                            if(name && !String(name).includes("DANH SÁCH") && !String(name).includes("Điện thoại")) {
-                                parsedList.push({
-                                    "Họ và Tên": name,
-                                    "Nhóm / Cụm": clean["NHÓM / CỤM"] || clean["NHÓM"] || clean["CỤM"] || "Cụm 200",
-                                    "Điện Thoại": String(clean["ĐIỆN THOẠI"] || clean["DIEN THOAI"] || ""),
-                                    "Chức Vụ": clean["CHỨC VỤ"] || "Thành viên",
-                                    "Ghi Chú": clean["GHI CHÚ"] || ""
-                                });
-                            }
-                        });
-                    }
-
-                    if(parsedList.length > 0) {
-                        bdttNsData = parsedList;
-                        localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
-                        renderAll();
-                        alert('Đã import thành công ' + bdttNsData.length + ' nhân sự BDTT2026!');
-                    } else {
-                        alert('Không tìm thấy dữ liệu nhân sự hợp lệ trong file Excel.');
-                    }
-                } catch(err) { console.error(err); alert('Lỗi đọc file Excel!'); }
-            };
-            reader.readAsArrayBuffer(fileInput.files[0]);
-        }
-
-        function handleExcelUploadNs() {
-            const fileInput = document.getElementById('excelFileUp');
-            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file!'); return; }
+            const fi = document.getElementById('excelFileUpBdtt');
+            if(!fi.files || fi.files.length === 0) { alert('Chọn file excel!'); return; }
             const reader = new FileReader();
             reader.onload = function(e) {
                 try {
                     const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                    const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {defval: ""});
-                    nhanSuData = json.map(r => {
-                        let c = {}; Object.keys(r).forEach(k => c[k.trim().toUpperCase()] = r[k]);
-                        return {
-                            "HỌ VÀ TÊN": c["HỌ VÀ TÊN"] || c["HO VA TEN"] || "",
-                            "CHỨC DANH": c["CHỨC DANH"] || "",
-                            "CẤP BẬC": c["CẤP BẬC"] || "",
-                            "CA": c["CA"] || c["KIP"] || "",
-                            "ĐIỆN THOẠI": String(c["ĐIỆN THOẠI"] || ""),
-                            "EMAIL": c["EMAIL"] || "",
-                            "ĐANG LÀM": Number(c["ĐANG LÀM"] ?? 1)
-                        };
+                    const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {header: 1, defval: ""});
+                    let list = []; let found = false; let cN = 1, cNh = 2, cP = 3, cCv = 4, cG = 5;
+                    rows.forEach((r, i) => {
+                        let str = r.map(c => String(c).trim().toLowerCase()).join(" ");
+                        if(str.includes("họ và tên") || (str.includes("stt") && str.includes("chức vụ"))) {
+                            found = true;
+                            r.forEach((c, idx) => { let t = String(c).toLowerCase(); if(t.includes("họ và tên")||t.includes("tên")) cN=idx; if(t.includes("nhóm")||t.includes("cụm")) cNh=idx; if(t.includes("điện thoại")||t.includes("sđt")) cP=idx; if(t.includes("chức vụ")) cCv=idx; if(t.includes("ghi chú")) cG=idx; });
+                            return;
+                        }
+                        if(found || i > 3) {
+                            let name = String(r[cN] || r[2] || r[1] || "").trim();
+                            if(name && !name.toLowerCase().includes("danh sách") && !name.toLowerCase().includes("điện thoại") && name !== "Họ và Tên" && name !== "STT") {
+                                list.push({ "Họ và Tên": name, "Nhóm / Cụm": String(r[cNh] || r[3] || "Cụm 200").trim(), "Điện Thoại": String(r[cP] || r[4] || "").trim(), "Chức Vụ": String(r[cCv] || r[5] || "Thành viên").trim(), "Ghi Chú": String(r[cG] || r[6] || "").trim() });
+                            }
+                        }
                     });
-                    localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
-                    renderAll();
-                    alert('Đã cập nhật ' + nhanSuData.length + ' nhân sự xưởng!');
+                    if(list.length > 0) {
+                        bdttNsData = list;
+                        localStorage.setItem('bdtt2026_nhansu_v4_data', JSON.stringify(bdttNsData));
+                        renderAll();
+                        alert('Import thành công ' + bdttNsData.length + ' nhân sự!');
+                    } else { alert('Không tìm thấy dữ liệu hợp lệ.'); }
                 } catch(err) { alert('Lỗi đọc file!'); }
             };
-            reader.readAsArrayBuffer(fileInput.files[0]);
+            reader.readAsArrayBuffer(fi.files[0]);
         }
 
-        // --- RESTORE & EXCEL BACKUP TOÀN BỘ ---
+        function handleExcelUploadNs() {
+            const fi = document.getElementById('excelFileUp');
+            if(!fi.files || fi.files.length === 0) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+                const json = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], {defval: ""});
+                nhanSuData = json.map(r => { let c = {}; Object.keys(r).forEach(k => c[k.trim().toUpperCase()] = r[k]); return { "HỌ VÀ TÊN": c["HỌ VÀ TÊN"] || c["HO VA TEN"] || "", "CHỨC DANH": c["CHỨC DANH"] || "", "CẤP BẬC": c["CẤP BẬC"] || "", "CA": c["CA"] || c["KIP"] || "", "ĐIỆN THOẠI": String(c["ĐIỆN THOẠI"] || ""), "EMAIL": c["EMAIL"] || "", "ĐANG LÀM": Number(c["ĐANG LÀM"] ?? 1) }; });
+                localStorage.setItem('ammonia_nhansu_v7_data', JSON.stringify(nhanSuData));
+                renderAll(); alert('Import thành công!');
+            };
+            reader.readAsArrayBuffer(fi.files[0]);
+        }
+
+        function restoreFullBackupExcel() {
+            const fi = document.getElementById('masterBackupFile');
+            if(!fi.files || fi.files.length === 0) { alert('Chọn file backup (.xlsx)!'); return; }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+                wb.SheetNames.forEach(sn => {
+                    const sd = XLSX.utils.sheet_to_json(wb.Sheets[sn], {defval: ""});
+                    if(sn.toLowerCase().includes("web") && sd.length > 0) { appData = sd.map(r => ({ section: r.section || "overview", name: r.name || r.NAME || "", url: r.url || r.URL || "#", desc: r.desc || r.DESC || "", icon: r.icon || "fa-solid fa-industry", isPage: Boolean(r.isPage) })); localStorage.setItem('ammonia_portal_v12_data', JSON.stringify(appData)); }
+                    if(sn.toLowerCase().includes("xuong") && sd.length > 0) { nhanSuData = sd; localStorage.setItem('ammonia_nhansu_v7_data', JSON.stringify(nhanSuData)); }
+                    if(sn.toLowerCase().includes("bdtt") && sd.length > 0) { bdttNsData = sd; localStorage.setItem('bdtt2026_nhansu_v4_data', JSON.stringify(bdttNsData)); }
+                });
+                renderAll(); alert('Khôi phục backup thành công!');
+            };
+            reader.readAsArrayBuffer(fi.files[0]);
+        }
+
         function exportExcelAll() {
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(appData), "WebApps_Links");
@@ -1155,68 +768,14 @@
             XLSX.writeFile(wb, "Ammonia_Full_Backup_" + new Date().toISOString().slice(0,10) + ".xlsx");
         }
 
-        function restoreFullBackupExcel() {
-            const fileInput = document.getElementById('masterBackupFile');
-            if(!fileInput.files || fileInput.files.length === 0) { alert('Vui lòng chọn file Excel backup (.xlsx)!'); return; }
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                    wb.SheetNames.forEach(sheetName => {
-                        const sheetData = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {defval: ""});
-                        if(sheetName.toLowerCase().includes("web") || sheetName.toLowerCase().includes("link")) {
-                            if(sheetData.length > 0) {
-                                appData = sheetData.map(r => ({
-                                    section: r.section || "overview",
-                                    name: r.name || r.NAME || "",
-                                    url: r.url || r.URL || "#",
-                                    desc: r.desc || r.DESC || "",
-                                    icon: r.icon || "fa-solid fa-industry",
-                                    isPage: Boolean(r.isPage)
-                                }));
-                                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
-                            }
-                        }
-                        if(sheetName.toLowerCase().includes("xuong")) {
-                            if(sheetData.length > 0) {
-                                nhanSuData = sheetData;
-                                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
-                            }
-                        }
-                        if(sheetName.toLowerCase().includes("bdtt")) {
-                            if(sheetData.length > 0) {
-                                bdttNsData = sheetData;
-                                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
-                            }
-                        }
-                    });
-                    renderAll();
-                    alert('Khôi phục toàn bộ hệ thống từ file Backup thành công!');
-                } catch(err) { console.error(err); alert('Lỗi đọc file Backup Excel!'); }
-            };
-            reader.readAsArrayBuffer(fileInput.files[0]);
-        }
-
-        // --- BỘ LỌC THÔNG MINH ---
         function filterNhanSuTable() {
-            const keyword = document.getElementById('nsSearchInput').value.toLowerCase();
-            const filterCa = document.getElementById('filterCa').value;
-            const filterTT = document.getElementById('filterTrangThai').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => {
-                let txt = tr.innerText.toLowerCase();
-                let match = txt.includes(keyword) && (!filterCa || tr.getAttribute('data-ca') === filterCa) && (!filterTT || tr.getAttribute('data-danglam') === filterTT);
-                tr.style.display = match ? '' : 'none';
-            });
+            const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fC = document.getElementById('filterCa').value, fT = document.getElementById('filterTrangThai').value;
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam') === fT); tr.style.display = match ? '' : 'none'; });
         }
 
         function filterBdttTable() {
-            const keyword = document.getElementById('nsSearchInput').value.toLowerCase();
-            const filterNhom = document.getElementById('filterNhom').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => {
-                let txt = tr.innerText.toLowerCase();
-                let match = txt.includes(keyword) && (!filterNhom || tr.getAttribute('data-nhom') === filterNhom);
-                tr.style.display = match ? '' : 'none';
-            });
+            const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fN = document.getElementById('filterNhom').value;
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom') === fN); tr.style.display = match ? '' : 'none'; });
         }
 
         function switchView(mode) {
@@ -1229,107 +788,61 @@
         }
 
         function filterCards() { renderCardsGrid(appData, document.getElementById('searchInput').value); }
-
-        function toggleTheme() {
-            const html = document.documentElement;
-            const icon = document.getElementById('themeIcon');
-            if(html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                html.setAttribute('data-theme', 'light');
-                icon.className = 'fa-solid fa-moon';
-            }
-        }
-
+        function toggleTheme() { const h = document.documentElement, i = document.getElementById('themeIcon'); if(h.getAttribute('data-theme')==='light') { h.setAttribute('data-theme','dark'); i.className='fa-solid fa-sun'; } else { h.setAttribute('data-theme','light'); i.className='fa-solid fa-moon'; } }
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         function verifyAdminLogin() {
-            const val = document.getElementById('adminPassInput').value;
-            if(val === adminPass) {
+            if(document.getElementById('adminPassInput').value === adminPass) {
                 isAdminLoggedIn = true;
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('dashboardAdminSection').style.display = 'block';
                 document.getElementById('adminBtnText').innerText = "Quản Trị (Đã đăng nhập)";
-                closeAdminModal();
-                renderAll();
-            } else { alert('Mật khẩu quản trị không chính xác!'); }
+                closeAdminModal(); renderAll();
+            } else alert('Sai mật khẩu!');
         }
 
-        function logoutAdmin() {
-            isAdminLoggedIn = false;
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('dashboardAdminSection').style.display = 'none';
-            document.getElementById('adminPassInput').value = '';
-            document.getElementById('adminBtnText').innerText = "Quản Trị Hệ Thống";
-            closeAdminModal();
-            renderAll();
-        }
+        function logoutAdmin() { isAdminLoggedIn = false; document.getElementById('loginSection').style.display = 'block'; document.getElementById('dashboardAdminSection').style.display = 'none'; document.getElementById('adminPassInput').value = ''; document.getElementById('adminBtnText').innerText = "Quản Trị Hệ Thống"; closeAdminModal(); renderAll(); }
 
         function addItem() {
-            const section = document.getElementById('itemSection').value;
-            const name = document.getElementById('itemName').value;
-            const url = document.getElementById('itemUrl').value;
-            const desc = document.getElementById('itemDesc').value;
-            const icon = document.getElementById('itemIcon').value;
-            if(!name || !url) { alert('Vui lòng nhập tên và URL!'); return; }
-            appData.push({ section, name, url, desc, icon, isPage: false });
-            localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
-            renderAll();
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemUrl').value = '';
-            document.getElementById('itemDesc').value = '';
-            alert('Đã thêm mục thành công!');
+            let s = document.getElementById('itemSection').value, n = document.getElementById('itemName').value.trim(), u = document.getElementById('itemUrl').value.trim(), d = document.getElementById('itemDesc').value.trim(), ic = document.getElementById('itemIcon').value;
+            if(!n || !u) { alert('Nhập tên và URL!'); return; }
+            appData.push({ section: s, name: n, url: u, desc: d, icon: ic, isPage: false });
+            localStorage.setItem('ammonia_portal_v12_data', JSON.stringify(appData));
+            renderAll(); document.getElementById('itemName').value = ''; document.getElementById('itemUrl').value = ''; document.getElementById('itemDesc').value = '';
+            alert('Thêm thành công! Hãy vào Admin bấm "Tải về file index.html mới nhất" để cập nhật lên link chung.');
         }
 
-        function deleteItem(index) {
-            if(!isAdminLoggedIn) { alert('Cần quyền Admin!'); return; }
-            if(confirm('Xóa mục này?')) {
-                appData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
-                renderAll();
-            }
+        function deleteItem(idx) {
+            if(!isAdminLoggedIn) return;
+            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); localStorage.setItem('ammonia_portal_v12_data', JSON.stringify(appData)); renderAll(); }
         }
 
         function changeAdminPassword() {
-            const newP = document.getElementById('newAdminPass').value;
-            if(!newP || newP.length < 4) { alert('Mật khẩu phải từ 4 ký tự!'); return; }
-            adminPass = newP;
-            localStorage.setItem('ammonia_admin_v11_pass', adminPass);
-            document.getElementById('newAdminPass').value = '';
-            alert('Đổi mật khẩu thành công!');
+            let np = document.getElementById('newAdminPass').value;
+            if(!np || np.length < 4) { alert('Mật khẩu tối thiểu 4 ký tự!'); return; }
+            adminPass = np; localStorage.setItem('ammonia_admin_v12_pass', adminPass); document.getElementById('newAdminPass').value = ''; alert('Đổi mật khẩu thành công!');
         }
 
         function renderAdminList() {
             const list = document.getElementById('adminItemsList');
-            if(!list) return;
-            list.innerHTML = '';
+            if(!list) return; list.innerHTML = '';
             appData.forEach((item, idx) => {
-                list.innerHTML += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);">
-                        <span><i class="${item.icon}" style="margin-right:6px; color:var(--primary-green);"></i> <b>[${item.section}]</b> ${item.name}</span>
-                        <span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(${idx})">[Xóa]</span>
-                    </div>
-                `;
+                list.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; border-bottom:1px solid var(--border-color);"><span><i class="${item.icon}" style="margin-right:6px; color:var(--primary-green);"></i> <b>[${item.section}]</b> ${item.name}</span><span style="color:#ef4444; cursor:pointer;" onclick="deleteItem(${idx})">[Xóa]</span></div>`;
             });
         }
 
         function resetDefaultData() {
-            if(!isAdminLoggedIn) { alert('Cần quyền Admin!'); return; }
+            if(!isAdminLoggedIn) return;
             if(confirm('Khôi phục mặc định?')) {
-                appData = defaultData;
-                nhanSuData = defaultNhanSu;
-                bdttNsData = defaultBdttNs;
-                localStorage.setItem('ammonia_portal_v11_data', JSON.stringify(appData));
-                localStorage.setItem('ammonia_nhansu_v6_data', JSON.stringify(nhanSuData));
-                localStorage.setItem('bdtt2026_nhansu_v3_data', JSON.stringify(bdttNsData));
-                renderAll();
-                alert('Đã khôi phục thành công!');
+                appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
+                localStorage.setItem('ammonia_portal_v12_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v7_data', JSON.stringify(nhanSuData));
+                localStorage.setItem('bdtt2026_nhansu_v4_data', JSON.stringify(bdttNsData));
+                renderAll(); alert('Đã khôi phục!');
             }
         }
 
-        // Khởi chạy hệ thống
         renderAll();
     </script>
 </body>
