@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ thống Webapp & Link Xưởng Ammonia</title>
+    <title>Hệ thống Webapp & Quản Trị Xưởng Ammonia</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Thư viện SheetJS hỗ trợ đọc/ghi File Excel trực tiếp trên trình duyệt -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <style>
         :root {
@@ -88,21 +90,19 @@
             display: flex; align-items: center; gap: 12px;
             padding: 10px 14px; color: #F1F5F9; text-decoration: none;
             border-radius: 8px; font-size: 13px; font-weight: 500;
-            transition: var(--transition); margin-bottom: 3px;
+            transition: var(--transition); margin-bottom: 3px; cursor: pointer;
         }
         .sidebar-menu li a:hover, .sidebar-menu li a.active {
-            background: rgba(255, 255, 255, 0.12); color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.15); color: #FFFFFF;
             transform: translateX(4px);
         }
 
-        /* PHỐI MÀU ICON SIDEBAR CAO CẤP ĐA SẮC */
         .sidebar-menu li a i { font-size: 15px; width: 20px; text-align: center; transition: var(--transition); }
         .sidebar-menu li a i.fa-house, .sidebar-menu li a i.fa-file-signature { color: #38BDF8; }
         .sidebar-menu li a i.fa-sliders, .sidebar-menu li a i.fa-microchip, .sidebar-menu li a i.fa-chart-line { color: #34D399; }
         .sidebar-menu li a i.fa-clipboard-list, .sidebar-menu li a i.fa-book-bookmark { color: #FBBF24; }
         .sidebar-menu li a i.fa-shield-halved, .sidebar-menu li a i.fa-triangle-exclamation { color: #FB7185; }
-        .sidebar-menu li a i.fa-envelope, .sidebar-menu li a i.fa-link, .sidebar-menu li a i.fa-industry { color: #C084FC; }
-        .sidebar-menu li a:hover i { transform: scale(1.2); filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+        .sidebar-menu li a i.fa-envelope, .sidebar-menu li a i.fa-link, .sidebar-menu li a i.fa-industry, .sidebar-menu li a i.fa-users { color: #C084FC; }
 
         .sidebar-admin-footer {
             padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.08);
@@ -118,7 +118,7 @@
         /* --- MAIN WRAPPER --- */
         .main-wrapper { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
-        /* HEADER VỚI LOGO ĐẠM CÀ MAU ĐẸP HOÀN HẢO */
+        /* HEADER */
         .top-header {
             background: var(--card-bg); padding: 10px 28px;
             display: flex; justify-content: space-between; align-items: center;
@@ -212,6 +212,12 @@
         .custom-table td { padding: 12px 16px; border-top: 1px solid var(--border-color); color: var(--text-main); }
         .custom-table tr:hover { background: rgba(0,0,0,0.02); }
 
+        /* NHAN SU DASHBOARD & TABLE */
+        .ns-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .ns-stat-card { background: var(--card-bg); border-radius: 12px; padding: 18px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
+        .ns-stat-card h4 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+        .ns-stat-card .val { font-size: 22px; font-weight: 800; color: var(--primary-green); margin-top: 6px; }
+
         /* ADMIN MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -226,8 +232,9 @@
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
         .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-main); border-radius: 6px; font-size: 13px; outline: none; }
         .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
-        .btn-primary { background: var(--primary-green); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-primary { background: var(--primary-green); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
         .btn-secondary { background: var(--border-color); color: var(--text-main); border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-export { background: #2563EB; color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
 
         @media(max-width: 768px) {
             .sidebar { transform: translateX(-100%); }
@@ -252,7 +259,7 @@
         </ul>
 
         <div class="sidebar-admin-footer">
-            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> Quản Trị Hệ Thống</button>
+            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> <span id="adminBtnText">Quản Trị Hệ Thống</span></button>
         </div>
     </aside>
 
@@ -260,7 +267,6 @@
     <div class="main-wrapper">
         <header class="top-header">
             <div class="header-brand-group">
-                <!-- LOGO ĐẠM CÀ MAU CHUẨN ĐẸP CAO CẤP -->
                 <div class="logo-dcm-container">
                     <svg class="logo-svg" viewBox="0 0 280 75" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="36" cy="35" r="26" fill="#ED1C24"/>
@@ -273,34 +279,21 @@
                 </div>
 
                 <div class="header-title">
-                    <h1>Hệ thống Webapp và link Xưởng Ammonia</h1>
+                    <h1 id="pageMainTitle">Hệ thống Webapp và link Xưởng Ammonia</h1>
                     <p>Xưởng Ammonia Nhà máy Đạm Cà Mau</p>
                 </div>
             </div>
 
             <div class="header-actions">
+                <div id="adminBackupHeaderBtn"></div>
                 <button class="theme-toggle-btn" onclick="toggleTheme()" title="Chuyển đổi Sáng / Tối">
                     <i class="fa-solid fa-moon" id="themeIcon"></i>
                 </button>
             </div>
         </header>
 
-        <main class="content-container">
-            <div class="toolbar-section">
-                <div class="search-box-wrapper">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh ứng dụng, báo cáo, liên kết...">
-                </div>
-
-                <div class="view-mode-buttons">
-                    <button class="view-btn active" onclick="switchView('grid')" id="btnGrid"><i class="fa-solid fa-grip"></i> Thẻ Lớn</button>
-                    <button class="view-btn" onclick="switchView('compact')" id="btnCompact"><i class="fa-solid fa-table-cells"></i> Rút Gọn</button>
-                    <button class="view-btn" onclick="switchView('list')" id="btnList"><i class="fa-solid fa-list"></i> Danh Sách</button>
-                </div>
-            </div>
-
-            <div class="section-title">Danh Mục Ứng Dụng & Liên Kết Quản Lý</div>
-            <div id="mainDisplayArea"></div>
+        <main class="content-container" id="mainContentContainer">
+            <!-- Nội dung thay đổi linh hoạt giữa Trang chủ và Trang Nhân Sự -->
         </main>
     </div>
 
@@ -312,13 +305,13 @@
             <div id="loginSection">
                 <div class="form-group">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị...">
                 </div>
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
             <div id="dashboardAdminSection" style="display:none;">
-                <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã cấp quyền quản trị viên thành công.</p>
+                <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã đăng nhập quản trị thành công.</p>
                 
                 <h3 style="font-size: 13.5px; margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Thêm Ứng Dụng / Link Mới</h3>
                 <div class="form-group">
@@ -342,8 +335,8 @@
                     <input type="text" id="itemDesc" placeholder="Mô tả công năng chi tiết...">
                 </div>
                 <div class="form-group">
-                    <label>Chọn hoặc Nhập Icon chuyên nghiệp (FontAwesome)</label>
-                    <select id="itemIconSelect" onchange="document.getElementById('itemIcon').value = this.value" style="margin-bottom:6px;">
+                    <label>Chọn Icon chuyên nghiệp (FontAwesome)</label>
+                    <select id="itemIcon" style="margin-bottom:6px;">
                         <option value="fa-solid fa-industry">🏭 Nhà máy / Xưởng sản xuất (Industry)</option>
                         <option value="fa-solid fa-gauge-high">📊 Đồng hồ đo KPI / Hiệu suất (Gauge)</option>
                         <option value="fa-solid fa-shield-halved">🛡️ An toàn / PSM Management (Shield)</option>
@@ -351,11 +344,9 @@
                         <option value="fa-solid fa-chart-line">📈 Biểu đồ dữ liệu / Trend (Chart)</option>
                         <option value="fa-solid fa-book-bookmark">📖 Tài liệu SOP / Sổ tay (Book)</option>
                         <option value="fa-solid fa-laptop-code">💻 Hệ thống Webapp nội bộ (Code)</option>
-                        <option value="fa-solid fa-screwdriver-wrench">🔧 Bảo dưỡng / Thiết bị (Tools)</option>
                     </select>
-                    <input type="text" id="itemIcon" value="fa-solid fa-industry" placeholder="Hoặc nhập mã icon thủ công...">
                 </div>
-                <button class="btn-primary" onclick="addItem()"><i class="fa-solid fa-plus"></i> Thêm Mới Vào Hệ Thống</button>
+                <button class="btn-primary" onclick="addItem()"><i class="fa-solid fa-plus"></i> Thêm Mới</button>
 
                 <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Đổi Mật Khẩu Quản Trị</h3>
                 <div class="form-group">
@@ -365,7 +356,7 @@
                 <button class="btn-secondary" onclick="changeAdminPassword()">Cập Nhật Mật Khẩu</button>
 
                 <h3 style="font-size: 13.5px; margin: 18px 0 8px 0; border-bottom: 1px solid var(--border-color); padding-bottom: 4px;">Danh Sách Quản Lý & Xóa Mục</h3>
-                <div id="adminItemsList" style="max-height: 150px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"></div>
+                <div id="adminItemsList" style="max-height: 120px; overflow-y: auto; font-size: 12px; border: 1px solid var(--border-color); padding: 8px; border-radius: 6px;"></div>
 
                 <div class="modal-btns" style="margin-top: 18px;">
                     <button class="btn-secondary" onclick="resetDefaultData()">Khôi Phục Mặc Định</button>
@@ -375,29 +366,57 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT BẢO TOÀN DỮ LIỆU & ICON ĐA DẠNG -->
+    <!-- JAVASCRIPT XỬ LÝ TOÀN DIỆN -->
     <script>
         const defaultData = [
-            { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house" },
-            { id: 2, section: "overview", name: "Giám Sát Vận Hành", url: "#", desc: "Theo dõi các thông số nhiệt độ, áp suất, lưu lượng thiết bị.", icon: "fa-solid fa-sliders" },
-            { id: 3, section: "apps", name: "Nhật Ký Ca Điện Tử", url: "#", desc: "Ghi chép thông số vận hành và nhật ký giao nhận ca trực.", icon: "fa-solid fa-clipboard-list" },
-            { id: 4, section: "apps", name: "Equipment KPI", url: "#", desc: "Hiệu suất Máy nén, Lò cải biến (Reformer) và Tháp tổng hợp NH3.", icon: "fa-solid fa-microchip" },
-            { id: 5, section: "apps", name: "Thư Viện SOP & WI", url: "#", desc: "Tra cứu quy trình vận hành chuẩn và hướng dẫn công việc.", icon: "fa-solid fa-book-bookmark" },
-            { id: 6, section: "links", name: "E-Office PVCFC", url: "https://eoffice.pvcfc.com.vn", desc: "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.", icon: "fa-solid fa-file-signature" },
-            { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope" }
+            { id: 1, section: "overview", name: "Trang Chủ Portal", url: "#", desc: "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", icon: "fa-solid fa-house", isPage: false },
+            { id: 2, section: "overview", name: "Nhân Sự Xưởng Ammonia", url: "#nhansu", desc: "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.", icon: "fa-solid fa-users", isPage: true },
+            { id: 3, section: "apps", name: "Nhật Ký Ca Điện Tử", url: "#", desc: "Ghi chép thông số vận hành và nhật ký giao nhận ca trực.", icon: "fa-solid fa-clipboard-list", isPage: false },
+            { id: 4, section: "apps", name: "Equipment KPI", url: "#", desc: "Hiệu suất Máy nén, Lò cải biến (Reformer) và Tháp tổng hợp NH3.", icon: "fa-solid fa-microchip", isPage: false },
+            { id: 5, section: "apps", name: "Thư Viện SOP & WI", url: "#", desc: "Tra cứu quy trình vận hành chuẩn và hướng dẫn công việc.", icon: "fa-solid fa-book-bookmark", isPage: false },
+            { id: 6, section: "links", name: "E-Office PVCFC", url: "https://eoffice.pvcfc.com.vn", desc: "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.", icon: "fa-solid fa-file-signature", isPage: false },
+            { id: 7, section: "links", name: "Email Công Ty", url: "https://mail.pvcfc.com.vn", desc: "Hệ thống hộp thư điện tử chính thức của công ty.", icon: "fa-solid fa-envelope", isPage: false }
         ];
 
-        // Sử dụng key v4 để giữ trọn vẹn dữ liệu người dùng đã thêm từ các phiên bản trước
-        let savedData = localStorage.getItem('ammonia_portal_v4_data') || localStorage.getItem('ammonia_portal_v3_data');
+        // Dữ liệu Nhân sự mặc định lấy từ file Excel chuẩn của xưởng Ammonia
+        const defaultNhanSu = [
+            {"HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Trần Ngọc Anh Vũ", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "935439594", "EMAIL": "vutna@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Lê Quang Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "973900474", "EMAIL": "vulq@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Nguyễn Cảnh Lam", "CHỨC DANH": "TF", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "978290348", "EMAIL": "lamnc@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Nguyễn Văn Phúc", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Hành chánh", "ĐIỆN THOẠI": "985015945", "EMAIL": "phucnv@pvcfc.com.vn", "ĐANG LÀM": 1, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Hà Hoàng Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "986567111", "EMAIL": "vuhh@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Nguyễn Văn Tiệp", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "984924116", "EMAIL": "tiepnv@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Đỗ Lợi", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 2", "ĐIỆN THOẠI": "981942626", "EMAIL": "loid@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Lê Minh Thuẩn", "CHỨC DANH": "PQĐ", "CẤP BẬC": "Phó quản đốc", "CA": "Hành chánh", "ĐIỆN THOẠI": "939083685", "EMAIL": "thuanlm@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Lê Văn Toản", "CHỨC DANH": "QĐ", "CẤP BẬC": "Quản đốc", "CA": "Hành chánh", "ĐIỆN THOẠI": "917459068", "EMAIL": "toanlv@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Nguyễn Thanh Bình", "CHỨC DANH": "TTDCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "986057168", "EMAIL": "binhnt@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Mai Đức Anh", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "975395279", "EMAIL": "anhmd@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Phan Văn Tuyển", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 1", "ĐIỆN THOẠI": "906546924", "EMAIL": "tuyenpv1@pvcfc.com.vn", "ĐANG LÀM": 0, "HOÀN THÀNH": 0},
+            {"HỌ VÀ TÊN": "Nguyễn Đức Chính", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "961709654", "EMAIL": "chinhnd@pvcfc.com.vn", "ĐANG LÀM": 1, "HOÀN THÀNH": 0}
+        ];
+
+        let savedData = localStorage.getItem('ammonia_portal_v5_data');
         let appData = savedData ? JSON.parse(savedData) : defaultData;
-        let adminPass = localStorage.getItem('ammonia_admin_v4_pass') || localStorage.getItem('ammonia_admin_v3_pass') || 'admin123';
+
+        let savedNs = localStorage.getItem('ammonia_nhansu_v1_data');
+        let nhanSuData = savedNs ? JSON.parse(savedNs) : defaultNhanSu;
+
+        let adminPass = localStorage.getItem('ammonia_admin_v5_pass') || 'admin123';
         let isAdminLoggedIn = false;
         let currentView = 'grid';
+        let activePage = 'home'; // 'home' hoặc 'nhansu'
 
         function renderAll() {
             renderSidebar();
-            renderMainContent();
+            if(activePage === 'home') {
+                renderHomeContent();
+            } else if(activePage === 'nhansu') {
+                renderNhanSuContent();
+            }
             renderAdminList();
+            renderHeaderBackupBtn();
         }
 
         function renderSidebar() {
@@ -413,14 +432,52 @@
                 nav.innerHTML += `<li class="menu-label">${sec.label}</li>`;
                 const filtered = appData.filter(item => item.section === sec.key);
                 filtered.forEach(item => {
-                    nav.innerHTML += `<li><a href="${item.url}" target="_blank"><i class="${item.icon}"></i> ${item.name}</a></li>`;
+                    let clickAction = item.isPage ? `onclick="switchPage('${item.url.replace('#','')}')"` : `href="${item.url}" target="_blank"`;
+                    nav.innerHTML += `<li><a ${clickAction} class="${(activePage === item.url.replace('#','')) ? 'active' : ''}"><i class="${item.icon}"></i> ${item.name}</a></li>`;
                 });
             });
         }
 
-        function renderMainContent(filterText = '') {
+        function switchPage(pageName) {
+            activePage = pageName;
+            renderAll();
+        }
+
+        function renderHeaderBackupBtn() {
+            const btnContainer = document.getElementById('adminBackupHeaderBtn');
+            if(isAdminLoggedIn) {
+                btnContainer.innerHTML = `<button class="btn-export" onclick="exportExcelAll()"><i class="fa-solid fa-file-excel"></i> Xuất Excel Backup</button>`;
+            } else {
+                btnContainer.innerHTML = '';
+            }
+        }
+
+        // --- RENDER TRANG CHỦ ---
+        function renderHomeContent() {
+            document.getElementById('pageMainTitle').innerText = "Hệ thống Webapp và link Xưởng Ammonia";
+            const container = document.getElementById('mainContentContainer');
+            container.innerHTML = `
+                <div class="toolbar-section">
+                    <div class="search-box-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh ứng dụng, báo cáo, liên kết...">
+                    </div>
+                    <div class="view-mode-buttons">
+                        <button class="view-btn active" onclick="switchView('grid')" id="btnGrid"><i class="fa-solid fa-grip"></i> Thẻ Lớn</button>
+                        <button class="view-btn" onclick="switchView('compact')" id="btnCompact"><i class="fa-solid fa-table-cells"></i> Rút Gọn</button>
+                        <button class="view-btn" onclick="switchView('list')" id="btnList"><i class="fa-solid fa-list"></i> Danh Sách</button>
+                    </div>
+                </div>
+                <div class="section-title">Danh Mục Ứng Dụng & Liên Kết Quản Lý</div>
+                <div id="mainDisplayArea"></div>
+            `;
+            renderCardsGrid(appData);
+        }
+
+        function renderCardsGrid(dataToRender, filterText = '') {
             const area = document.getElementById('mainDisplayArea');
-            const filtered = appData.filter(item => 
+            if(!area) return;
+            const filtered = dataToRender.filter(item => 
                 item.name.toLowerCase().includes(filterText.toLowerCase()) || 
                 item.desc.toLowerCase().includes(filterText.toLowerCase())
             );
@@ -448,10 +505,11 @@
                             <tbody>
                 `;
                 filtered.forEach((item, idx) => {
+                    let actionAttr = item.isPage ? `onclick="switchPage('${item.url.replace('#','')}')" style="color:var(--primary-green); font-weight:600; cursor:pointer;"` : `href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;"`;
                     html += `
                         <tr>
                             <td><i class="${item.icon}" style="color:var(--primary-green); font-size:16px;"></i></td>
-                            <td><a href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;">${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.6;"></i></a></td>
+                            <td><a ${actionAttr}>${item.name} <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px; opacity:0.6;"></i></a></td>
                             <td><span class="tag">${item.section.toUpperCase()}</span></td>
                             <td style="color:var(--text-muted);">${item.desc}</td>
                             <td style="text-align:right;">${deleteBtnHtml(idx)}</td>
@@ -464,8 +522,9 @@
                 let gridClass = currentView === 'compact' ? 'cards-grid compact-view' : 'cards-grid';
                 let html = `<div class="${gridClass}">`;
                 filtered.forEach((item, idx) => {
+                    let actionAttr = item.isPage ? `onclick="switchPage('${item.url.replace('#','')}')" style="cursor:pointer;"` : `href="${item.url}" target="_blank"`;
                     html += `
-                        <a href="${item.url}" target="_blank" class="sub-card">
+                        <a ${actionAttr} class="sub-card">
                             <div>
                                 <div class="card-header-icon"><i class="${item.icon}"></i></div>
                                 <div class="card-body">
@@ -485,17 +544,202 @@
             }
         }
 
+        // --- RENDER TRANG NHÂN SỰ ---
+        function renderNhanSuContent() {
+            document.getElementById('pageMainTitle').innerText = "Quản Lý Nhân Sự Xưởng Ammonia";
+            const container = document.getElementById('mainContentContainer');
+
+            let totalNs = nhanSuData.length;
+            let dangLam = nhanSuData.filter(x => Number(x["ĐANG LÀM"]) === 1).length;
+            let hoanThanh = nhanSuData.filter(x => Number(x["HOÀN THÀNH"]) === 1).length;
+
+            let adminToolsHtml = '';
+            if(isAdminLoggedIn) {
+                adminToolsHtml = `
+                    <div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                        <span style="font-weight:700; font-size:13px; color:var(--primary-green);"><i class="fa-solid fa-file-excel"></i> Cập nhật Excel:</span>
+                        <input type="file" id="excelFileUp" accept=".xlsx, .xls" style="font-size:12px;">
+                        <button class="btn-primary" onclick="handleExcelUpload()"><i class="fa-solid fa-upload"></i> Import & Cập Nhật Dữ Liệu</button>
+                        <button class="btn-primary" onclick="addNewNhanSuRow()" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự</button>
+                    </div>
+                `;
+            }
+
+            let html = `
+                <div class="ns-stats-grid">
+                    <div class="ns-stat-card">
+                        <h4>Tổng số nhân sự</h4>
+                        <div class="val">${totalNs}</div>
+                    </div>
+                    <div class="ns-stat-card">
+                        <h4>Đang làm việc</h4>
+                        <div class="val" style="color:#059669;">${dangLam}</div>
+                    </div>
+                    <div class="ns-stat-card">
+                        <h4>Hoàn thành nhiệm vụ</h4>
+                        <div class="val" style="color:#D97706;">${hoanThanh}</div>
+                    </div>
+                </div>
+
+                ${adminToolsHtml}
+
+                <div class="toolbar-section">
+                    <div class="search-box-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="nsSearchInput" onkeyup="filterNhanSuTable()" placeholder="Tìm kiếm theo tên nhân sự, chức danh, kíp...">
+                    </div>
+                </div>
+
+                <div class="list-table-container">
+                    <table class="custom-table" id="nsTable">
+                        <thead>
+                            <tr>
+                                <th>HỌ VÀ TÊN</th>
+                                <th>CHỨC DANH</th>
+                                <th>CẤP BẬC</th>
+                                <th>CA / KÍP</th>
+                                <th>ĐIỆN THOẠI</th>
+                                <th>EMAIL</th>
+                                <th>TRẠNG THÁI</th>
+                                ${isAdminLoggedIn ? '<th style="text-align:right;">THAO TÁC</th>' : ''}
+                            </tr>
+                        </thead>
+                        <tbody id="nsTableBody">
+            `;
+
+            nhanSuData.forEach((ns, idx) => {
+                let statusBadge = Number(ns["ĐANG LÀM"]) === 1 ? '<span style="color:#059669; font-weight:600;">● Đang làm</span>' : '<span style="color:#94a3b8;">Nghỉ / Khác</span>';
+                let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="editNs(${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;"><i class="fa-solid fa-pen"></i></button><button onclick="deleteNs(${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>` : '';
+                html += `
+                    <tr>
+                        <td style="font-weight:600;">${ns["HỌ VÀ TÊN"] || ''}</td>
+                        <td>${ns["CHỨC DANH"] || ''}</td>
+                        <td>${ns["CẤP BẬC"] || ''}</td>
+                        <td><span class="tag">${ns["CA"] || ''}</span></td>
+                        <td>${ns["ĐIỆN THOẠI"] || ''}</td>
+                        <td>${ns["EMAIL"] || ''}</td>
+                        <td>${statusBadge}</td>
+                        ${actionTd}
+                    </tr>
+                `;
+            });
+
+            html += `</tbody></table></div>`;
+            container.innerHTML = html;
+        }
+
+        // --- XỬ LÝ UPLOAD EXCEL TRÊN WEB ---
+        function handleExcelUpload() {
+            const fileInput = document.getElementById('excelFileUp');
+            if(!fileInput.files || fileInput.files.length === 0) {
+                alert('Vui lòng chọn một file Excel (.xlsx) để tải lên!');
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, {type: 'array'});
+                    const firstSheetName = workbook.SheetNames[0];
+                    const worksheet = workbook.Sheets[firstSheetName];
+                    const jsonRows = XLSX.utils.sheet_to_json(worksheet);
+                    if(jsonRows.length > 0) {
+                        nhanSuData = jsonRows;
+                        localStorage.setItem('ammonia_nhansu_v1_data', JSON.stringify(nhanSuData));
+                        renderAll();
+                        alert('Đã cập nhật dữ liệu Nhân sự từ File Excel thành công!');
+                    } else {
+                        alert('File Excel không có dữ liệu hợp lệ!');
+                    }
+                } catch(err) {
+                    console.error(err);
+                    alert('Lỗi đọc file Excel!');
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function addNewNhanSuRow() {
+            let name = prompt("Nhập họ và tên nhân sự mới:");
+            if(!name) return;
+            let chucDan = prompt("Nhập chức danh (VD: DCS, Field, TCX):", "Field");
+            let capBac = prompt("Nhập cấp bậc:", "Nhân viên");
+            let kip = prompt("Nhập ca / kíp:", "Kíp 1");
+            let email = prompt("Nhập email:", "nv@pvcfc.com.vn");
+            
+            nhanSuData.push({
+                "HỌ VÀ TÊN": name,
+                "CHỨC DANH": chucDan,
+                "CẤP BẬC": capBac,
+                "CA": kip,
+                "ĐIỆN THOẠI": "0900000000",
+                "EMAIL": email,
+                "ĐANG LÀM": 1,
+                "HOÀN THÀNH": 0
+            });
+            localStorage.setItem('ammonia_nhansu_v1_data', JSON.stringify(nhanSuData));
+            renderAll();
+        }
+
+        function editNs(idx) {
+            let ns = nhanSuData[idx];
+            let newName = prompt("Sửa họ tên:", ns["HỌ VÀ TÊN"]);
+            if(newName !== null) ns["HỌ VÀ TÊN"] = newName;
+            let newChuc = prompt("Sửa chức danh:", ns["CHỨC DANH"]);
+            if(newChuc !== null) ns["CHỨC DANH"] = newChuc;
+            let newCa = prompt("Sửa kíp:", ns["CA"]);
+            if(newCa !== null) ns["CA"] = newCa;
+
+            localStorage.setItem('ammonia_nhansu_v1_data', JSON.stringify(nhanSuData));
+            renderAll();
+        }
+
+        function deleteNs(idx) {
+            if(confirm('Bạn có chắc chắn muốn xóa nhân sự này?')) {
+                nhanSuData.splice(idx, 1);
+                localStorage.setItem('ammonia_nhansu_v1_data', JSON.stringify(nhanSuData));
+                renderAll();
+            }
+        }
+
+        function filterNhanSuTable() {
+            const keyword = document.getElementById('nsSearchInput').value.toLowerCase();
+            const trs = document.querySelectorAll('#nsTableBody tr');
+            trs.forEach(tr => {
+                let txt = tr.innerText.toLowerCase();
+                tr.style.display = txt.includes(keyword) ? '' : 'none';
+            });
+        }
+
+        // --- XUẤT EXCEL BACKUP TOÀN BỘ ---
+        function exportExcelAll() {
+            const wb = XLSX.utils.book_new();
+            
+            // Sheet 1: Danh sách Webapp & Links
+            const wsApps = XLSX.utils.json_to_sheet(appData);
+            XLSX.utils.book_append_sheet(wb, wsApps, "WebApps_Links");
+
+            // Sheet 2: Danh sách Nhân sự
+            const wsNs = XLSX.utils.json_to_sheet(nhanSuData);
+            XLSX.utils.book_append_sheet(wb, wsNs, "NhanSu_Ammonia");
+
+            // Xuất file
+            XLSX.writeFile(wb, "Ammonia_Backup_Data_" + new Date().toISOString().slice(0,10) + ".xlsx");
+        }
+
+        // --- CÁC HÀM TIỆN ÍCH KHÁC ---
         function switchView(mode) {
             currentView = mode;
             document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
             if(mode === 'grid') document.getElementById('btnGrid').classList.add('active');
             if(mode === 'compact') document.getElementById('btnCompact').classList.add('active');
             if(mode === 'list') document.getElementById('btnList').classList.add('active');
-            renderMainContent(document.getElementById('searchInput').value);
+            renderCardsGrid(appData, document.getElementById('searchInput').value);
         }
 
         function filterCards() {
-            renderMainContent(document.getElementById('searchInput').value);
+            renderCardsGrid(appData, document.getElementById('searchInput').value);
         }
 
         function toggleTheme() {
@@ -519,6 +763,8 @@
                 isAdminLoggedIn = true;
                 document.getElementById('loginSection').style.display = 'none';
                 document.getElementById('dashboardAdminSection').style.display = 'block';
+                document.getElementById('adminBtnText').innerText = "Quản Trị (Đã đăng nhập)";
+                closeAdminModal();
                 renderAll();
             } else {
                 alert('Mật khẩu quản trị không chính xác!');
@@ -530,6 +776,8 @@
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('dashboardAdminSection').style.display = 'none';
             document.getElementById('adminPassInput').value = '';
+            document.getElementById('adminBtnText').innerText = "Quản Trị Hệ Thống";
+            closeAdminModal();
             renderAll();
         }
 
@@ -545,8 +793,8 @@
                 return;
             }
 
-            appData.push({ section, name, url, desc, icon });
-            localStorage.setItem('ammonia_portal_v4_data', JSON.stringify(appData));
+            appData.push({ section, name, url, desc, icon, isPage: false });
+            localStorage.setItem('ammonia_portal_v5_data', JSON.stringify(appData));
             renderAll();
 
             document.getElementById('itemName').value = '';
@@ -562,7 +810,7 @@
             }
             if(confirm('Bạn có chắc muốn xóa mục này?')) {
                 appData.splice(index, 1);
-                localStorage.setItem('ammonia_portal_v4_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_portal_v5_data', JSON.stringify(appData));
                 renderAll();
             }
         }
@@ -574,7 +822,7 @@
                 return;
             }
             adminPass = newP;
-            localStorage.setItem('ammonia_admin_v4_pass', adminPass);
+            localStorage.setItem('ammonia_admin_v5_pass', adminPass);
             document.getElementById('newAdminPass').value = '';
             alert('Cập nhật mật khẩu thành công!');
         }
@@ -600,12 +848,15 @@
             }
             if(confirm('Khôi phục toàn bộ dữ liệu mặc định?')) {
                 appData = defaultData;
-                localStorage.setItem('ammonia_portal_v4_data', JSON.stringify(appData));
+                nhanSuData = defaultNhanSu;
+                localStorage.setItem('ammonia_portal_v5_data', JSON.stringify(appData));
+                localStorage.setItem('ammonia_nhansu_v1_data', JSON.stringify(nhanSuData));
                 renderAll();
                 alert('Đã khôi phục thành công!');
             }
         }
 
+        // Khởi chạy khi load trang
         renderAll();
     </script>
 </body>
