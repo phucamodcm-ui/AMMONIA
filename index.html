@@ -344,7 +344,7 @@
         </header>
 
         <main class="content-container" id="mainContentContainer">
-            <!-- Nội dung chính load động -->
+            <!-- Render nội dung động -->
         </main>
     </div>
 
@@ -466,13 +466,29 @@
         ];
 
         const defaultNhanSu = [
-            { "HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1 },
-            { "HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1 },
-            { "HỌ VÀ TÊN": "Nguyễn Văn Phúc", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Hành chánh", "ĐIỆN THOẠI": "0985015945", "EMAIL": "phucnv@pvcfc.com.vn", "ĐANG LÀM": 1 }
+            {"HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Trần Ngọc Anh Vũ", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0935439594", "EMAIL": "vutna@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Lê Quang Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0973900474", "EMAIL": "vulq@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Nguyễn Cảnh Lam", "CHỨC DANH": "TF", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0978290348", "EMAIL": "lamnc@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Nguyễn Văn Phúc", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Hành chánh", "ĐIỆN THOẠI": "0985015945", "EMAIL": "phucnv@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Đỗ Lợi", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 2", "ĐIỆN THOẠI": "0981942626", "EMAIL": "loid@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Lê Minh Thuẩn", "CHỨC DANH": "PQĐ", "CẤP BẬC": "Phó quản đốc", "CA": "Hành chánh", "ĐIỆN THOẠI": "0939083685", "EMAIL": "thuanlm@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Lê Văn Toản", "CHỨC DANH": "QĐ", "CẤP BẬC": "Quản đốc", "CA": "Hành chánh", "ĐIỆN THOẠI": "0917459068", "EMAIL": "toanlv@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Phan Văn Tuyển", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 1", "ĐIỆN THOẠI": "0906546924", "EMAIL": "tuyenpv1@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Cam Minh Tuấn", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 4", "ĐIỆN THOẠI": "0989620504", "EMAIL": "tuancm@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Từ Vũ Á", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Kíp 3", "ĐIỆN THOẠI": "0919631105", "EMAIL": "atv@pvcfc.com.vn", "ĐANG LÀM": 1}
         ];
 
         const defaultBdttNs = [
-            { "Họ và Tên": "Lê Văn Toản", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0917459068", "Chức Vụ": "Quản đốc / CHT", "Ghi Chú": "Chỉ đạo" }
+            {"Họ và Tên": "Lê Văn Toản", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0917459068", "Chức Vụ": "Quản đốc / CHT", "Ghi Chú": "Chỉ đạo"},
+            {"Họ và Tên": "Lê Minh Thuẩn", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0939083685", "Chức Vụ": "PQĐ – Phó CHT", "Ghi Chú": "Chỉ huy chung"},
+            {"Họ và Tên": "Lý Thị Thùy Linh", "Nhóm / Cụm": "Hành Chính", "Điện Thoại": "0942700997", "Chức Vụ": "Tổng hợp BC / HC", "Ghi Chú": "Tổng hợp BC / HC"},
+            {"Họ và Tên": "Cam Minh Tuấn", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0989620504", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
+            {"Họ và Tên": "Từ Vũ Á", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0919631105", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
+            {"Họ và Tên": "Đỗ Lợi", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0981942626", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
+            {"Họ và Tên": "Phan Văn Tuyển", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0906546924", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
+            {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": "Nhóm trưởng TĐH"}
         ];
 
         let savedData = localStorage.getItem('ammonia_portal_v17_data') || localStorage.getItem('ammonia_portal_v16_data');
@@ -489,7 +505,7 @@
         }
 
         let adminPass = localStorage.getItem('ammonia_admin_v17_pass') || 'admin123';
-        let isAdminLoggedIn = false; // LUÔN MẶC ĐỊNH LÀ FALSE (CHƯA ĐĂNG NHẬP) KHI LOAD TRANG
+        let isAdminLoggedIn = false; // LUÔN Ở TRẠNG THÁI CHƯA ĐĂNG NHẬP (KHÁCH) MẶC ĐỊNH
         let currentView = 'grid';
         let activePage = 'home';
         let chartInstance1 = null;
@@ -871,12 +887,12 @@
 
         function filterNhanSuTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fC = document.getElementById('filterCa').value, fT = document.getElementById('filterTrangThai').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam'] === fT); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam') === fT); tr.style.display = match ? '' : 'none'; });
         }
 
         function filterBdttTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fN = document.getElementById('filterNhom').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom'] === fN); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom') === fN); tr.style.display = match ? '' : 'none'; });
         }
 
         function switchView(mode) {
@@ -892,7 +908,6 @@
         function toggleTheme() { const h = document.documentElement, i = document.getElementById('themeIcon'); if(h.getAttribute('data-theme')==='light') { h.setAttribute('data-theme','dark'); i.className='fa-solid fa-sun'; } else { h.setAttribute('data-theme','light'); i.className='fa-solid fa-moon'; } }
         
         function openAdminModal() { 
-            // Khi bấm nút quản trị hệ thống, hiển thị modal và ép buộc hiển thị phần form đăng nhập
             document.getElementById('adminModal').style.display = 'flex'; 
             if (!isAdminLoggedIn) {
                 document.getElementById('loginSection').style.display = 'block';
@@ -962,7 +977,6 @@
             }
         }
 
-        // Khởi chạy hệ thống ở trạng thái Khách mặc định
         renderAll();
     </script>
 </body>
