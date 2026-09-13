@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hệ thống Webapp &amp; Quản Trị Xưởng Ammonia - Đạm Cà Mau</title>
     
-    <!-- Cấu hình chuẩn khi chia sẻ link qua Zalo, Facebook, Teams, v.v. -->
     <meta property="og:title" content="Hệ thống Webapp &amp; Quản Trị Xưởng Ammonia">
     <meta property="og:description" content="Trung tâm điều hành, quản lý nhân sự xưởng Ammonia và Bảo Dưỡng Tổng Thể BDTT2026 - Nhà máy Phân Bón Cà Mau.">
     <meta property="og:image" content="https://www.pvcfc.com.vn/Templates/Default/images/logo.png">
@@ -13,9 +12,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Thư viện SheetJS đọc/ghi Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- Thư viện Chart.js & ChartDataLabels plugin -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     
@@ -50,7 +47,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-main); display: flex; min-height: 100vh; overflow-x: hidden; transition: background 0.3s; }
 
-        /* --- SIDEBAR --- */
         .sidebar {
             width: var(--sidebar-width);
             background: var(--sidebar-bg);
@@ -125,10 +121,8 @@
         }
         .btn-sidebar-admin:hover { background: var(--accent-yellow); color: #02140A; }
 
-        /* --- MAIN WRAPPER --- */
         .main-wrapper { margin-left: var(--sidebar-width); flex: 1; display: flex; flex-direction: column; min-width: 0; }
 
-        /* HEADER */
         .top-header {
             background: var(--card-bg); padding: 12px 24px;
             display: flex; justify-content: space-between; align-items: center;
@@ -170,10 +164,8 @@
         }
         .btn-home-header:hover { background: var(--primary-green); color: #fff; }
 
-        /* CONTENT */
         .content-container { padding: 24px; max-width: 1400px; margin: 0 auto; width: 100%; }
 
-        /* TOOLBAR */
         .toolbar-section {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 22px; gap: 15px; flex-wrap: wrap;
@@ -204,7 +196,6 @@
         .section-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
         .section-title::before { content: ''; width: 4px; height: 15px; background: var(--primary-green); border-radius: 2px; }
 
-        /* CARDS GRID */
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 32px; }
         .sub-card {
             background: var(--card-bg); border-radius: 12px; padding: 20px;
@@ -227,20 +218,17 @@
         .card-footer-tags { margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .tag { font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 10px; background: var(--primary-green-light); color: var(--primary-green); }
 
-        /* COMPACT VIEW */
         .cards-grid.compact-view { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
         .cards-grid.compact-view .sub-card { padding: 14px; }
         .cards-grid.compact-view .card-header-icon { width: 34px; height: 34px; font-size: 14px; margin-bottom: 8px; }
         .cards-grid.compact-view .card-body p { display: none; }
 
-        /* LIST VIEW */
         .list-table-container { background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border-color); overflow-x: auto; box-shadow: var(--shadow-sm); margin-bottom: 32px; }
         .custom-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; white-space: nowrap; }
         .custom-table th { background: var(--primary-green-light); color: var(--primary-green); padding: 12px 16px; font-weight: 700; }
         .custom-table td { padding: 12px 16px; border-top: 1px solid var(--border-color); color: var(--text-main); }
         .custom-table tr:hover { background: rgba(0,0,0,0.02); }
 
-        /* DASHBOARD & CHARTS */
         .ns-stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
         .ns-stat-card { background: var(--card-bg); border-radius: 12px; padding: 18px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); }
         .ns-stat-card h4 { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
@@ -257,7 +245,6 @@
             max-height: 240px;
         }
 
-        /* MODAL */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 2000; backdrop-filter: blur(3px); padding: 16px;
@@ -275,7 +262,6 @@
         .btn-secondary { background: var(--border-color); color: var(--text-main); border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
         .btn-export { background: #2563EB; color: #fff; border: none; padding: 8px 14px; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; }
 
-        /* OVERLAY KHI MỞ MOBILE SIDEBAR */
         .sidebar-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.5); z-index: 999; display: none; backdrop-filter: blur(2px);
@@ -295,7 +281,6 @@
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleMobileSidebar()" style="display: none;"></div>
 
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebarElement">
         <div class="sidebar-header">
             <div class="sidebar-brand-badge">AMO</div>
@@ -312,7 +297,6 @@
         </div>
     </aside>
 
-    <!-- MAIN WRAPPER -->
     <div class="main-wrapper">
         <header class="top-header">
             <div class="header-brand-group">
@@ -344,11 +328,9 @@
         </header>
 
         <main class="content-container" id="mainContentContainer">
-            <!-- Nội dung load động -->
         </main>
     </div>
 
-    <!-- MODAL QUẢN TRỊ CẤU HÌNH (GIAO DIỆN SẠCH SẼ, KHÔNG HIỂN THỊ DÒNG THÔNG BÁO RƯỜM RÀ) -->
     <div class="modal-overlay" id="adminModal" style="display: none;">
         <div class="modal">
             <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
@@ -364,12 +346,12 @@
             <div id="dashboardAdminSection" style="display: none;">
                 <div style="background:var(--primary-green-light); padding:14px; border-radius:10px; margin-bottom:16px; border:1px solid var(--primary-green);">
                     <label style="font-size:12.5px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-code"></i> Lưu &amp; Xuất Bản Code Cho Link Dùng Chung</label>
-                    <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Bấm nút này để tải về file <code>index.html</code> chứa toàn bộ dữ liệu mới nhất. Sau đó đẩy file này lên GitHub để mọi người khi bấm link đều thấy dữ liệu mới.</p>
+                    <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Bấm nút này để tải về file <code>index.html</code> chứa toàn bộ dữ liệu mới nhất. Sau đó đẩy file này lên GitHub.</p>
                     <button class="btn-primary" style="width:100%; justify-content:center;" onclick="publishAndDownloadCode()"><i class="fa-solid fa-download"></i> Tải Về File Index.html Mới Nhất</button>
                 </div>
 
                 <div style="background:var(--card-bg); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--border-color);">
-                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup 3 Sheet (.xlsx)</label>
+                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup (.xlsx)</label>
                     <div style="display:flex; gap:8px;">
                         <input type="file" id="masterBackupFile" accept=".xlsx, .xls" style="font-size:11px; flex:1;">
                         <button class="btn-primary" style="padding:6px 12px; font-size:12px; background:#2563EB;" onclick="restoreFullBackupExcel()">Restore</button>
@@ -429,7 +411,6 @@
         </div>
     </div>
 
-    <!-- MODAL THÊM / SỬA NHÂN SỰ -->
     <div class="modal-overlay" id="nsModal" style="display: none;">
         <div class="modal">
             <h2 id="nsModalTitle"><span><i class="fa-solid fa-user-pen"></i> Thêm / Sửa Nhân Sự</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i></h2>
@@ -442,15 +423,11 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT HỆ THỐNG TỰ ĐỘNG CHỐNG CACHE VÀ CẬP NHẬT TỨC THÌ -->
     <script>
-        // MÃ PHIÊN BẢN HỆ THỐNG (Mỗi lần bạn thay đổi dữ liệu hoặc code trên Github, hãy đổi chuỗi này thành phiên bản mới ví dụ v18, v19...)
-        const APP_BUILD_VERSION = "AMMO_V2026_REV_03";
+        const APP_BUILD_VERSION = "AMMO_V2026_REV_04";
 
-        // Tự động kiểm tra phiên bản lưu trữ trên trình duyệt, nếu cũ hơn mã nguồn mới thì reset cache ngay lập tức
         if (localStorage.getItem('ammonia_build_version') !== APP_BUILD_VERSION) {
             localStorage.setItem('ammonia_build_version', APP_BUILD_VERSION);
-            // Xóa các cache dữ liệu cũ để buộc nhận dữ liệu mới chuẩn từ code
             localStorage.removeItem('ammonia_portal_v17_data');
             localStorage.removeItem('ammonia_nhansu_v12_data');
             localStorage.removeItem('bdtt2026_nhansu_v9_data');
@@ -511,7 +488,7 @@
         }
 
         let adminPass = localStorage.getItem('ammonia_admin_v17_pass') || 'admin123';
-        let isAdminLoggedIn = false; // MẶC ĐỊNH LUÔN Ở TRẠNG THÁI KHÁCH
+        let isAdminLoggedIn = false;
         let currentView = 'grid';
         let activePage = 'home';
         let chartInstance1 = null;
@@ -668,7 +645,7 @@
 
             bdttNsData.forEach((ns, idx) => {
                 let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('bdtt', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer; margin-right:8px;"><i class="fa-solid fa-pen-to-square"></i></button><button onclick="deleteNsItem('bdtt', ${idx})" style="background:none; border:none; color:#EF4444; cursor:pointer;"><i class="fa-solid fa-trash"></i></button></td>` : '';
-                html += `<tr data-nhom="${ns["Nhóm / Cụm"] || ''}"><td>${idx + 1}</td><td style="font-weight:600;">${ns["Họ và Tên"] || ''}</td><td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
+                html += `<tr data-nhom="${ns["Nhóm / Cụm"] || ''}"><td>${idx + 1}</td><td style="font-weight:600;">${ns["Họ and Tên"] || ns["Họ và Tên"] || ''}</td><td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
             });
             container.innerHTML = html + `</tbody></table></div>`;
             setTimeout(renderChartsBdtt, 100);
@@ -705,7 +682,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            alert('Đã xuất file index.html ở chế độ Khách (Chưa đăng nhập) an toàn tuyệt đối!');
+            alert('Đã xuất file index.html ở chế độ Khách an toàn tuyệt đối!');
         }
 
         function openNsModalForAdd(type) {
@@ -731,7 +708,7 @@
             } else {
                 let ns = bdttNsData[idx];
                 document.getElementById('nsModalTitle').innerHTML = `<span><i class="fa-solid fa-user-pen"></i> Sửa Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["Họ và Tên"]||''}"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" value="${ns["Nhóm / Cụm"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["Điện Thoại"]||''}"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" value="${ns["Chức Vụ"]||''}"></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" value="${ns["Ghi Chú"]||''}"></div>`;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["Họ and Tên"] || ns["Họ và Tên"]||''}"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" value="${ns["Nhóm / Cụm"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["Điện Thoại"]||''}"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" value="${ns["Chức Vụ"]||''}"></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" value="${ns["Ghi Chú"]||''}"></div>`;
             }
             document.getElementById('nsModal').style.display = 'flex';
         }
@@ -749,7 +726,7 @@
                 if(idx === -1) nhanSuData.push(item); else nhanSuData[idx] = item;
                 localStorage.setItem('ammonia_nhansu_v12_data', JSON.stringify(nhanSuData));
             } else {
-                let item = { "Họ và Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
+                let item = { "Họ and Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
                 if(idx === -1) bdttNsData.push(item); else bdttNsData[idx] = item;
                 localStorage.setItem('bdtt2026_nhansu_v9_data', JSON.stringify(bdttNsData));
             }
@@ -785,7 +762,7 @@
                         if(found || i > 3) {
                             let name = String(r[cN] || r[2] || r[1] || "").trim();
                             if(name && !name.toLowerCase().includes("danh sách") && !name.toLowerCase().includes("điện thoại") && name !== "Họ và Tên" && name !== "STT") {
-                                list.push({ "Họ và Tên": name, "Nhóm / Cụm": String(r[cNh] || r[3] || "Cụm 200").trim(), "Điện Thoại": String(r[cP] || r[4] || "").trim(), "Chức Vụ": String(r[cCv] || r[5] || "Thành viên").trim(), "Ghi Chú": String(r[cG] || r[6] || "").trim() });
+                                list.push({ "Họ and Tên": name, "Nhóm / Cụm": String(r[cNh] || r[3] || "Cụm 200").trim(), "Điện Thoại": String(r[cP] || r[4] || "").trim(), "Chức Vụ": String(r[cCv] || r[5] || "Thành viên").trim(), "Ghi Chú": String(r[cG] || r[6] || "").trim() });
                             }
                         }
                     });
@@ -989,7 +966,6 @@
             }
         }
 
-        // Khởi chạy hệ thống mặc định
         renderAll();
     </script>
 </body>
