@@ -118,8 +118,8 @@
         .view-btn { background: transparent; border: none; padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; gap: 6px; }
         .view-btn.active, .view-btn:hover { background: var(--primary-green); color: #fff; }
 
-        .section-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .section-title::before { content: ''; width: 4px; height: 15px; background: var(--primary-green); border-radius: 2px; }
+        .section-title { font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+        .section-title span::before { content: ''; width: 4px; height: 15px; background: var(--primary-green); border-radius: 2px; display: inline-block; margin-right: 8px; vertical-align: middle; }
 
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; margin-bottom: 32px; }
         .sub-card {
@@ -165,7 +165,7 @@
         .modal h2 { font-size: 17px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: var(--text-muted); }
-        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-main); border-radius: 6px; font-size: 13px; outline: none; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); background: var(--bg-light); color: var(--text-main); border-radius: 6px; font-size: 13px; outline: none; }
         .modal-btns { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
         .btn-primary { background: var(--primary-green); color: #fff; border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
         .btn-secondary { background: var(--border-color); color: var(--text-main); border: none; padding: 9px 18px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px; }
@@ -238,29 +238,55 @@
             <div id="loginSection" style="display: block;">
                 <div class="form-group" style="margin-top: 8px;">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)...">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị...">
                 </div>
                 <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 4px;" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
             <div id="dashboardAdminSection" style="display: none;">
                 <div style="background:var(--primary-green-light); padding:14px; border-radius:10px; margin-bottom:16px; border:1px solid var(--primary-green);">
-                    <label style="font-size:12.5px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-code"></i> Tải Code Đẩy Lên GitHub</label>
-                    <button class="btn-primary" style="width:100%; justify-content:center;" onclick="publishAndDownloadCode()"><i class="fa-solid fa-download"></i> Tải Về File Index.html Mới Nhất</button>
+                    <label style="font-size:12.5px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-plus-circle"></i> Thêm Link / App / Ứng Dụng Mới</label>
+                    <button class="btn-primary" style="width:100%; justify-content:center;" onclick="openItemModalForAdd()"><i class="fa-solid fa-circle-plus"></i> Thêm Mục Mới</button>
                 </div>
 
                 <div style="background:var(--card-bg); padding:12px; border-radius:8px; margin-bottom:16px; border:1px dashed var(--border-color);">
-                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Nhanh File Backup (.xlsx)</label>
-                    <div style="display:flex; gap:8px;">
-                        <input type="file" id="masterBackupFile" accept=".xlsx, .xls" style="font-size:11px; flex:1;">
-                        <button class="btn-primary" style="padding:6px 12px; font-size:12px; background:#2563EB;" onclick="restoreFullBackupExcel()">Restore</button>
-                    </div>
+                    <label style="font-size:12px; font-weight:700; color:var(--text-main); margin-bottom:6px; display:block;"><i class="fa-solid fa-code"></i> Tải Code Đẩy Lên GitHub</label>
+                    <button class="btn-primary" style="width:100%; justify-content:center; background:#2563EB;" onclick="publishAndDownloadCode()"><i class="fa-solid fa-download"></i> Tải Về File Index.html</button>
                 </div>
 
                 <div class="modal-btns" style="margin-top: 18px;">
-                    <button class="btn-secondary" onclick="resetDefaultData()" style="background:#D97706; color:#fff;">Khôi Phục Mặc Định (Reset Data)</button>
+                    <button class="btn-secondary" onclick="resetDefaultData()" style="background:#D97706; color:#fff;">Khôi Phục Mặc Định</button>
                     <button class="btn-primary" style="background:#dc2626;" onclick="logoutAdmin()">Đăng Xuất</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL THÊM / SỬA LINK - APP -->
+    <div class="modal-overlay" id="itemModal" style="display: none;">
+        <div class="modal">
+            <h2 id="itemModalTitle"><span>Thêm / Sửa Liên Kết & Ứng Dụng</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeItemModal()"></i></h2>
+            <input type="hidden" id="itemEditIndex" value="-1">
+            <div class="form-group"><label>Tên Ứng Dụng / Link (*)</label><input type="text" id="iName" placeholder="VD: Báo cáo ca..."></div>
+            <div class="form-group"><label>Phân Nhóm</label>
+                <select id="iSection">
+                    <option value="overview">Tổng Quan (overview)</option>
+                    <option value="apps">Ứng Dụng Con (apps)</option>
+                    <option value="links">Liên Kết Nhanh (links)</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Đường Dẫn URL (*)</label><input type="text" id="iUrl" placeholder="https://..."></div>
+            <div class="form-group"><label>Mô Tả</label><textarea id="iDesc" rows="2" placeholder="Mô tả chức năng..."></textarea></div>
+            <div class="form-group"><label>FontAwesome Icon (VD: fa-solid fa-industry)</label><input type="text" id="iIcon" value="fa-solid fa-laptop-code"></div>
+            <div class="form-group"><label>Là Trang Tích Hợp Riêng?</label>
+                <select id="iIsPage">
+                    <option value="false">Không (Link ngoài)</option>
+                    <option value="true">Có (Trang nội bộ)</option>
+                </select>
+            </div>
+            <div class="modal-btns">
+                <button class="btn-secondary" onclick="closeItemModal()">Hủy</button>
+                <button class="btn-primary" onclick="saveItemData()"><i class="fa-solid fa-floppy-disk"></i> Lưu Lại</button>
             </div>
         </div>
     </div>
@@ -279,153 +305,31 @@
     </div>
 
     <script>
-        const APP_BUILD_VERSION = "AMMO_V2026_REV_08";
         const API_URL = "https://script.google.com/macros/s/AKfycbxTa3iOUTuep7gdbw-ed4ok0TB_tfO0_SICX_ZxGRgpIEkWt6UebCAqStRkPYjIeX5EFg/exec";
 
-        // DỮ LIỆU DỰ PHÒNG (FALLBACK) CHUẨN KHI MẤT KẾT NỐI
         const defaultData = [
             {"section": "overview", "name": "Trang Chủ Portal", "url": "#", "desc": "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", "icon": "fa-solid fa-house", "isPage": false},
             {"section": "overview", "name": "Nhân Sự Xưởng Ammonia", "url": "#nhansu", "desc": "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.", "icon": "fa-solid fa-users", "isPage": true},
             {"section": "overview", "name": "Nhân Sự BDTT2026 - Xưởng Amo", "url": "#bdtt2026", "desc": "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", "icon": "fa-solid fa-users-gear", "isPage": true},
             {"section": "overview", "name": "AMMONIA-SITE", "url": "https://sites.google.com/view/xuong-ammonia-pvcfc/trang-ch%E1%BB%A7", "desc": "Ammonia site", "icon": "fa-solid fa-laptop-code", "isPage": false},
             {"section": "overview", "name": "TPM-AMO", "url": "https://sites.google.com/view/xuongamo/home", "desc": "TPM-AMO", "icon": "fa-solid fa-shield-halved", "isPage": false},
-            {"section": "overview", "name": "Public-Xưởng Amo", "url": "https://pvcfc-my.sharepoint.com/shared?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FT%C3%80I%20LI%E1%BB%86U%20HI%E1%BB%86N%20H%C3%80NH&listurl=https%3A%2F%2Fpvcfc%2Esharepoint%2Ecom%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents&viewid=bdd42255%2D8b21%2D4301%2D8175%2Df692f10adedc&OR=EXCEL%2DWEB%2EBODY%2ENT&CT=1789275337940", "desc": "Tài liệu Xưởng Amo", "icon": "fa-solid fa-book-bookmark", "isPage": false},
+            {"section": "overview", "name": "Public-Xưởng Amo", "url": "https://pvcfc-my.sharepoint.com/", "desc": "Tài liệu Xưởng Amo", "icon": "fa-solid fa-book-bookmark", "isPage": false},
             {"section": "apps", "name": "BDTT2026-AMO", "url": "https://script.google.com/macros/s/AKfycbztz3K14cJPlyq44zy7HRLI3vsKQvonBfWyhf4vjod3ITCx7rfFUnlIbpCJ3Y23pnJwsQ/exec", "desc": "Tiến độ BDTT2026 Xưởng Amo", "icon": "fa-solid fa-industry", "isPage": false},
             {"section": "apps", "name": "Kho ảnh thiết bị Xưởng Amo", "url": "https://ammoniaequipments.vercel.app/", "desc": "Kho ảnh thiết bị Xưởng Amo", "icon": "fa-solid fa-laptop-code", "isPage": false},
             {"section": "apps", "name": "HTS-LTS", "url": "https://hts-lts-38f336.netlify.app/", "desc": "Theo dõi dự án HTS-LTS Xưởng Amo", "icon": "fa-solid fa-laptop-code", "isPage": false},
             {"section": "links", "name": "E-Office PVCFC", "url": "https://eoffice.pvcfc.com.vn", "desc": "Hệ thống văn phòng điện tử tập đoàn Dầu khí Cà Mau.", "icon": "fa-solid fa-file-signature", "isPage": false},
-            {"section": "links", "name": "Email Công Ty", "url": "https://mail.pvcfc.com.vn", "desc": "Hệ thống hộp thư điện tử chính thức của công ty.", "icon": "fa-solid fa-envelope", "isPage": false},
-            {"section": "links", "name": "HRM-Phép", "url": "https://hrportal.pvcfc.com.vn", "desc": "Viết phép mới", "icon": "fa-solid fa-laptop-code", "isPage": false},
-            {"section": "links", "name": "HRM-ABC", "url": "https://hrm.pvcfc.com.vn/PVCFC/vietnamese/base/login", "desc": "ABC", "icon": "fa-solid fa-laptop-code", "isPage": false},
-            {"section": "links", "name": "Gapo", "url": "https://work.pvcfc.com.vn", "desc": "Gapo Truyền thông PVCFC", "icon": "fa-solid fa-laptop-code", "isPage": false},
-            {"section": "links", "name": "Báo cáo Ca- PVCFC", "url": "https://det.pvcfc.com.vn/", "desc": "Webapp báo cáo ca- ĐCM", "icon": "fa-solid fa-laptop-code", "isPage": false},
-            {"section": "links", "name": "HTS-LTS- Mark note PID", "url": "https://pvcfc.sharepoint.com/sites/PVCFC-DocumentManagementSystem/Shared%20Documents/Forms/17%20Graphic%20snapshot.aspx?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FPDI%2DHTS%2DLTS%2DFull%2D%20marke%20Note%2Epdf&parent=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO&p=true&ga=1", "desc": "Đánh dấu PID HTS-LTS", "icon": "fa-solid fa-book-bookmark", "isPage": false},
-            {"section": "links", "name": "Theo dõi rò khí Amo", "url": "https://docs.google.com/spreadsheets/d/1OwtS3yd3_XDUCwNnFgwb3MiqZak5dpnn/edit?gid=549897351#gid=549897351", "desc": "Theo dõi rò khí", "icon": "fa-solid fa-shield-halved", "isPage": false},
-            {"section": "links", "name": "PIVISION", "url": "https://10.86.5.177/PIVision/#/Displays/90/GRA054%0A--REFRIGERATION-3", "desc": "Hệ thống PIVISION PVCFC", "icon": "fa-solid fa-shield-halved", "isPage": false},
-            {"section": "links", "name": "Giấy phép- Amo", "url": "https://docs.google.com/spreadsheets/d/1qMaQGHXqbnkRwSCkuXERlVep3F5G1zHp/edit?gid=1854014648#gid=1854014648", "desc": "Theo dõi giấy phép Xưởng Amo", "icon": "fa-solid fa-chart-line", "isPage": false},
-            {"section": "links", "name": "FI- Thu thập tổn thất", "url": "https://script.google.com/macros/s/AKfycbw8cb5sMjVG8LBy4zgrFTNyOxmUc8vBSTTiQtRKvrAMCXBaHNJsC6lf_2Pw2QijKqIm/exec", "desc": "Thu thập tổn thất", "icon": "fa-solid fa-gauge-high", "isPage": false},
-            {"section": "links", "name": "Quan trắc", "url": "http://cm.envisoft.gov.vn/eos/realtime/station?station_type=3", "desc": "Quan trắc", "icon": "fa-solid fa-shield-halved", "isPage": false},
-            {"section": "links", "name": "Kaizen", "url": "https://script.google.com/macros/s/AKfycbygM0w-sa0cXlV1mORMFBlIUbhmvC6TnYlEQQyh1jfMt-c0WXjbvWHm5GKjYB8bqwgR4w/exec", "desc": "Kaizen", "icon": "fa-solid fa-chart-line", "isPage": false},
-            {"section": "links", "name": "OPL", "url": "https://script.google.com/macros/s/AKfycbzvum1w8sgOiSijbv_B91EIEcnlQmkbwltgbFBE3x327sqKeWAb2EwiWpp0b9L12f80/exec", "desc": "OPL", "icon": "fa-solid fa-gauge-high", "isPage": false},
-            {"section": "links", "name": "Ghi nhận bất thường", "url": "https://script.google.com/macros/s/AKfycbxtYakTP3X537D08U2zbmMHTQwJV8PXP4h4bou_3nM8j5jsY5B3i-iRcPmau_gX-UZr/exec", "desc": "Ghi nhận bất thường", "icon": "fa-solid fa-triangle-exclamation", "isPage": false},
-            {"section": "links", "name": "Eleaning", "url": "https://elearning.pvcfc.com.vn/login", "desc": "Eleaning", "icon": "fa-solid fa-laptop-code", "isPage": false}
+            {"section": "links", "name": "Email Công Ty", "url": "https://mail.pvcfc.com.vn", "desc": "Hệ thống hộp thư điện tử chính thức của công ty.", "icon": "fa-solid fa-envelope", "isPage": false}
         ];
 
         const defaultNhanSu = [
             {"HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0393374107", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Trần Ngọc Anh Vũ", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0935439594", "EMAIL": "vutna@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Lê Quang Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0973900474", "EMAIL": "vulq@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Cảnh Lam", "CHỨC DANH": "TF", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0978290348", "EMAIL": "lamnc@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Nguyễn Văn Phúc", "CHỨC DANH": "TCX", "CẤP BẬC": "Trưởng ca", "CA": "Hành chánh", "ĐIỆN THOẠI": "0985015945", "EMAIL": "phucnv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Lê Văn Toản", "CHỨC DANH": "Quản đốc", "CẤP BẬC": "Quản lý", "CA": "Hành chánh", "ĐIỆN THOẠI": "0917459068", "EMAIL": "toanlv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Lê Minh Thuẩn", "CHỨC DANH": "Phó quản đốc", "CẤP BẬC": "Quản lý", "CA": "Hành chánh", "ĐIỆN THOẠI": "0939083685", "EMAIL": "thuanlm@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Lý Thị Thùy Linh", "CHỨC DANH": "Hành chính", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0942700997", "EMAIL": "linhltt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Thị Thu Hằng", "CHỨC DANH": "Hành chính", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0389023510", "EMAIL": "hangntt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Cam Minh Tuấn", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0989620504", "EMAIL": "tuancm@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Bảo Yên", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0945473774", "EMAIL": "yennb@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phạm Văn Lâm", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0347484961", "EMAIL": "lampv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Đình Tới", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0396271022", "EMAIL": "toind@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Huỳnh Khánh Duy", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0914907739", "EMAIL": "duyhk@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Võ Hữu Hải", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0353809068", "EMAIL": "haivh@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phan Đình Tuân", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0367639620", "EMAIL": "tuanpd@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Huỳnh Khánh My", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0946623777", "EMAIL": "myhk@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Từ Vũ Á", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0919631105", "EMAIL": "atv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Trần Trọng Thức", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0961709654", "EMAIL": "thuctt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phạm Khắc Nguyên", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0932158698", "EMAIL": "nguyenpk@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Mai Đức Anh", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0387573115", "EMAIL": "anhtd@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Đức Chính", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0961709654", "EMAIL": "chinhnd@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Trần Khắc Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0939677893", "EMAIL": "vutk@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Hồ Văn Duy", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0396271022", "EMAIL": "duyhv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Đỗ Lợi", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0981942626", "EMAIL": "loid@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phạm Văn Đồng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0978153637", "EMAIL": "dongpv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Ngọc Khánh", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0969225268", "EMAIL": "khanhnn@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Vũ Khắc Đạt", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0976232094", "EMAIL": "datvk@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phan Văn Tuyển", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0906546924", "EMAIL": "tuyenpv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Văn Tiệp", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0984924116", "EMAIL": "tiepnv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Cao Thái", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0978279142", "EMAIL": "thainc@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Hà Hoàng Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0986567111", "EMAIL": "vuhh@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Tăng Minh Nhân", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0948731731", "EMAIL": "nhantm@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Đào Hoàng Mãi", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0937809567", "EMAIL": "maidh@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Văn Hiếu", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0912572485", "EMAIL": "hieunv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Trần Tuấn Anh", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0961709654", "EMAIL": "anhtt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Hải Thạch", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0961709654", "EMAIL": "thachnh@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Đoàn Duy Thức", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0941810161", "EMAIL": "thucdd@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Lê Duy Khang", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0943685608", "EMAIL": "khangld@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Vũ Văn Dũng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0932998138", "EMAIL": "dungvv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Ngọc Hoàng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0385571088", "EMAIL": "hoangnn@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Dương Trường Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0973418801", "EMAIL": "vudt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Vĩnh Giang", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0326583915", "EMAIL": "giangnv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Huỳnh Lê Nghi", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0912229290", "EMAIL": "ngihl@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phan Bá Kiên", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0973112940", "EMAIL": "kienpb@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Việt Dũng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0978886852", "EMAIL": "dungnv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Thanh Bình", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0986057168", "EMAIL": "binhnt@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Nguyễn Duy Sơn", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0973422123", "EMAIL": "sonnd@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Trịnh Quốc Nam", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0817570737", "EMAIL": "namtq@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phạm Văn Hùng", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0818157666", "EMAIL": "hungpv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Cao Hữu Miện", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0982058872", "EMAIL": "miench@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Đào Quang Nhuận", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 3", "ĐIỆN THOẠI": "0907743548", "EMAIL": "nhuandq@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Phạm Minh Cương", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0376065604", "EMAIL": "cuongpm@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Đào Thanh Sang", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0942233008", "EMAIL": "sangdt@pvcfc.com.vn", "ĐANG LÀM": 1}
+            {"HỌ VÀ TÊN": "Lê Văn Toản", "CHỨC DANH": "Quản đốc", "CẤP BẬC": "Quản lý", "CA": "Hành chánh", "ĐIỆN THOẠI": "0917459068", "EMAIL": "toanlv@pvcfc.com.vn", "ĐANG LÀM": 1}
         ];
 
         const defaultBdttNs = [
             {"Họ và Tên": "Lê Văn Toản", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0917459068", "Chức Vụ": "Quản đốc / CHT", "Ghi Chú": "Chỉ đạo"},
-            {"Họ và Tên": "Lê Minh Thuẩn", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0939083685", "Chức Vụ": "PQĐ – Phó CHT", "Ghi Chú": "Chỉ huy chung"},
-            {"Họ và Tên": "Lý Thị Thùy Linh", "Nhóm / Cụm": "Hành Chính", "Điện Thoại": "0942700997", "Chức Vụ": "Tổng hợp BC / HC", "Ghi Chú": "Tổng hợp BC / HC"},
-            {"Họ và Tên": "Nguyễn Thị Thu Hằng", "Nhóm / Cụm": "Hành Chính", "Điện Thoại": "0389023510", "Chức Vụ": "Hậu cần", "Ghi Chú": "Hậu cần"},
-            {"Họ và Tên": "Cam Minh Tuấn", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0989620504", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
-            {"Họ và Tên": "Trần Ngọc Anh Vũ", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0935439594", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Bảo Yên", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0945473774", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Phạm Văn Lâm", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0347484961", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Đình Tới", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0396271022", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Huỳnh Khánh Duy", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0914907739", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Võ Hữu Hải", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0353809068", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Lê Lịnh", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0902369122", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Phan Đình Tuân", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0367639620", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Huỳnh Khánh My", "Nhóm / Cụm": "Cụm 200", "Điện Thoại": "0946623777", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Từ Vũ Á", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0919631105", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
-            {"Họ và Tên": "Trần Trọng Thức", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0961709654", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Phạm Khắc Nguyên", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0932158698", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Mai Đức Anh", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0387573115", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Đức Chính", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0961709654", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Trần Khắc Vũ", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0939677893", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Hồ Văn Duy", "Nhóm / Cụm": "Cụm 300", "Điện Thoại": "0396271022", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Đỗ Lợi", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0981942626", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
-            {"Họ và Tên": "Phạm Văn Đồng", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0978153637", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Ngọc Khánh", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0969225268", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Vũ Khắc Đạt", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0976232094", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Cảnh Lam", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0978290348", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Lê Quang Vũ", "Nhóm / Cụm": "Cụm 400-700", "Điện Thoại": "0973900474", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Phan Văn Tuyển", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0906546924", "Chức Vụ": "Nhóm trưởng", "Ghi Chú": "Nhóm trưởng"},
-            {"Họ và Tên": "Nguyễn Văn Tiệp", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0984924116", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Cao Thái", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0978279142", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Hà Hoàng Vũ", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0986567111", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Tăng Minh Nhân", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0948731731", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Đào Hoàng Mãi", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0937809567", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Văn Hiếu", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0912572485", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Trần Tuấn Anh", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0961709654", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Hải Thạch", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0961709654", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Đoàn Duy Thức", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0941810161", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Cao Tiến Phát", "Nhóm / Cụm": "Cụm 500", "Điện Thoại": "0393374107", "Chức Vụ": "Thành viên", "Ghi Chú": "Thành viên"},
-            {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": "Nhóm trưởng TĐH"},
-            {"Họ và Tên": "Lê Duy Khang", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0943685608", "Chức Vụ": "Van PSV", "Ghi Chú": "Van PSV"},
-            {"Họ và Tên": "Vũ Văn Dũng", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0932998138", "Chức Vụ": "Test Van WS", "Ghi Chú": "Test Van WS"},
-            {"Họ và Tên": "Nguyễn Ngọc Hoàng", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0385571088", "Chức Vụ": "Kiểm định thiết bị", "Ghi Chú": "Kiểm định thiết bị"},
-            {"Họ và Tên": "Dương Trường Vũ", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0973418801", "Chức Vụ": "ATVSV", "Ghi Chú": "ATVSV"},
-            {"Họ và Tên": "Nguyễn Vĩnh Giang", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0326583915", "Chức Vụ": "Kiểm tra TBT", "Ghi Chú": "Kiểm tra TBT"},
-            {"Họ và Tên": "Huỳnh Lê Nghi", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0912229290", "Chức Vụ": "Kíp 1 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
-            {"Họ và Tên": "Phan Bá Kiên", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0973112940", "Chức Vụ": "Kíp 1 – Field", "Ghi Chú": "Kíp 1 – Field"},
-            {"Họ và Tên": "Nguyễn Việt Dũng", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0978886852", "Chức Vụ": "Kíp 1 – Field", "Ghi Chú": "Kíp 1 – Field"},
-            {"Họ và Tên": "Nguyễn Thanh Bình", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0986057168", "Chức Vụ": "Kíp 2 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
-            {"Họ và Tên": "Nguyễn Duy Sơn", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0973422123", "Chức Vụ": "Kíp 2 – Field", "Ghi Chú": "Kíp 2 – Field"},
-            {"Họ và Tên": "Trịnh Quốc Nam", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0817570737", "Chức Vụ": "Kíp 2 – Field", "Ghi Chú": "Kíp 2 – Field"},
-            {"Họ và Tên": "Phạm Văn Hùng", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0818157666", "Chức Vụ": "Kíp 3 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
-            {"Họ and Tên": "Cao Hữu Miện", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0982058872", "Chức Vụ": "Kíp 3 – Field", "Ghi Chú": "Kíp 3 – Field"},
-            {"Họ và Tên": "Đào Quang Nhuận", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0907743548", "Chức Vụ": "Kíp 3 – Field", "Ghi Chú": "Kíp 3 – Field"},
-            {"Họ và Tên": "Phạm Minh Cương", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0376065604", "Chức Vụ": "Kíp 4 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
-            {"Họ và Tên": "Đào Thanh Sang", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0942233008", "Chức Vụ": "Kíp 4 – Field", "Ghi Chú": "Kíp 4 – Field"},
-            {"Họ và Tên": "Nguyễn Xuân Trường", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0367996963", "Chức Vụ": "Kíp 4 – Field", "Ghi Chú": "Kíp 4 – Field"}
+            {"Họ và Tên": "Nguyễn Văn Phúc", "Nhóm / Cụm": "TĐH/DCS", "Điện Thoại": "0985015945", "Chức Vụ": "Nhóm trưởng TĐH", "Ghi Chú": "Nhóm trưởng TĐH"}
         ];
 
         let appData = [];
@@ -436,25 +340,20 @@
         let adminPass = 'admin123';
         let currentView = 'grid';
         let activePage = 'home';
+        let collapsedSections = { overview: false, apps: false, links: false };
         let chartInstance1 = null;
         let chartInstance2 = null;
 
-        // Hàm gọi dữ liệu từ Google Sheets API
         async function loadDataFromGoogleSheet() {
             try {
                 let response = await fetch(API_URL);
                 let result = await response.json();
-                
                 appData = result.links && result.links.length > 0 ? result.links : defaultData;
                 nhanSuData = result.nhansu && result.nhansu.length > 0 ? result.nhansu : defaultNhanSu;
                 bdttNsData = result.bdtt && result.bdtt.length > 0 ? result.bdtt : defaultBdttNs;
-                
                 renderAll();
             } catch (error) {
-                console.error("Lỗi kết nối Google Sheets, sử dụng dữ liệu dự phòng:", error);
-                appData = defaultData;
-                nhanSuData = defaultNhanSu;
-                bdttNsData = defaultBdttNs;
+                appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
                 renderAll();
             }
         }
@@ -500,138 +399,198 @@
         function renderHomeContent() {
             document.getElementById('pageMainTitle').innerText = "Hệ thống Webapp và link Xưởng Ammonia";
             document.getElementById('mainContentContainer').innerHTML = `
+                <div class="ns-stats-grid">
+                    <div class="ns-stat-card"><h4>Tổng số Link & App</h4><div class="val">${appData.length}</div></div>
+                    <div class="ns-stat-card"><h4>Ứng dụng nội bộ</h4><div class="val" style="color:#2563EB;">${appData.filter(x=>x.isPage).length}</div></div>
+                    <div class="ns-stat-card"><h4>Liên kết ngoài</h4><div class="val" style="color:#D97706;">${appData.filter(x=>!x.isPage).length}</div></div>
+                </div>
+                <div class="charts-container">
+                    <div class="chart-card"><h3>Thống kê danh mục</h3><div class="chart-wrapper"><canvas id="chartHomeSec"></canvas></div></div>
+                    <div class="chart-card"><h3>Tỷ lệ loại ứng dụng</h3><div class="chart-wrapper"><canvas id="chartHomeType"></canvas></div></div>
+                </div>
                 <div class="toolbar-section">
-                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm nhanh..."></div>
+                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="searchInput" onkeyup="filterCards()" placeholder="Tìm kiếm ứng dụng, link..."></div>
                     <div class="view-mode-buttons">
                         <button class="view-btn active" onclick="switchView('grid')" id="btnGrid"><i class="fa-solid fa-grip"></i> Thẻ</button>
                         <button class="view-btn" onclick="switchView('compact')" id="btnCompact"><i class="fa-solid fa-table-cells"></i> Gọn</button>
                         <button class="view-btn" onclick="switchView('list')" id="btnList"><i class="fa-solid fa-list"></i> Danh sách</button>
                     </div>
                 </div>
-                <div class="section-title">Danh Mục Ứng Dụng & Liên Kết Quản Lý</div>
                 <div id="mainDisplayArea"></div>
             `;
-            renderCardsGrid(appData);
+            renderGroupedCards(appData, document.getElementById('searchInput').value);
+            renderHomeCharts();
         }
 
-        function renderCardsGrid(dataToRender, filterText = '') {
+        function renderGroupedCards(dataToRender, filterText = '') {
             const area = document.getElementById('mainDisplayArea');
             if(!area) return;
             const filtered = dataToRender.filter(item => (item.name || '').toLowerCase().includes(filterText.toLowerCase()) || (item.desc || '').toLowerCase().includes(filterText.toLowerCase()));
+            
             if(filtered.length === 0) { area.innerHTML = `<p style="text-align:center; color:var(--text-muted); padding:30px;">Không tìm thấy mục phù hợp.</p>`; return; }
 
-            const deleteBtnHtml = (idx) => isAdminLoggedIn ? `<span onclick="event.preventDefault(); deleteItem(${idx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span>` : '';
+            const sectionsMeta = [
+                { key: 'overview', title: 'Tổng Quan Hệ Thống' },
+                { key: 'apps', title: 'Các Ứng Dụng Con' },
+                { key: 'links', title: 'Liên Kết Nhanh & Tiện Ích' }
+            ];
 
-            if(currentView === 'list') {
-                let html = `<div class="list-table-container"><table class="custom-table"><thead><tr><th>Icon</th><th>Tên Ứng Dụng / Link</th><th>Phân Nhóm</th><th>Mô Tả</th><th style="text-align:right;">Thao Tác</th></tr></thead><tbody>`;
-                filtered.forEach((item, idx) => {
-                    let pageKey = item.url === '#' ? 'home' : item.url.replace('#','');
-                    let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="color:var(--primary-green); font-weight:600; cursor:pointer;"` : `href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;"`;
-                    html += `<tr><td><i class="${item.icon}" style="color:var(--primary-green);"></i></td><td><a ${actionAttr}>${item.name}</a></td><td><span class="tag">${(item.section||'').toUpperCase()}</span></td><td style="color:var(--text-muted);">${item.desc}</td><td style="text-align:right;">${deleteBtnHtml(idx)}</td></tr>`;
-                });
-                area.innerHTML = html + `</tbody></table></div>`;
-            } else {
-                let html = `<div class="${currentView === 'compact' ? 'cards-grid compact-view' : 'cards-grid'}">`;
-                filtered.forEach((item, idx) => {
-                    let pageKey = item.url === '#' ? 'home' : item.url.replace('#','');
-                    let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="cursor:pointer;"` : `href="${item.url}" target="_blank"`;
-                    html += `<a ${actionAttr} class="sub-card"><div><div class="card-header-icon"><i class="${item.icon}"></i></div><div class="card-body"><h3>${item.name}</h3><p>${item.desc}</p></div></div><div class="card-footer-tags"><span class="tag">${(item.section||'').toUpperCase()}</span>${deleteBtnHtml(idx)}</div></a>`;
-                });
-                area.innerHTML = html + `</div>`;
-            }
+            let html = '';
+            sectionsMeta.forEach(sec => {
+                let itemsInSec = filtered.filter(item => item.section === sec.key);
+                if(itemsInSec.length === 0 && filterText) return; // ẩn nhóm trống khi đang tìm kiếm
+
+                let isCollapsed = collapsedSections[sec.key];
+                html += `
+                    <div class="section-title">
+                        <span>${sec.title} (${itemsInSec.length})</span>
+                        <button class="btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="toggleSectionCollapse('${sec.key}')">
+                            <i class="fa-solid ${isCollapsed ? 'fa-chevron-down' : 'fa-chevron-up'}"></i> ${isCollapsed ? 'Mở rộng' : 'Thu gọn'}
+                        </button>
+                    </div>
+                `;
+
+                if(!isCollapsed) {
+                    if(currentView === 'list') {
+                        html += `<div class="list-table-container"><table class="custom-table"><thead><tr><th>Icon</th><th>Tên Ứng Dụng / Link</th><th>Mô Tả</th><th style="text-align:right;">Thao Tác</th></tr></thead><tbody>`;
+                        itemsInSec.forEach((item) => {
+                            let origIdx = appData.indexOf(item);
+                            let pageKey = item.url === '#' ? 'home' : item.url.replace('#','');
+                            let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="color:var(--primary-green); font-weight:600; cursor:pointer;"` : `href="${item.url}" target="_blank" style="color:var(--text-main); font-weight:600; text-decoration:none;"`;
+                            html += `<tr><td><i class="${item.icon}" style="color:var(--primary-green);"></i></td><td><a ${actionAttr}>${item.name}</a></td><td style="color:var(--text-muted);">${item.desc}</td><td style="text-align:right;">${isAdminLoggedIn ? `<button onclick="openItemModalForEdit(${origIdx})" style="background:none;border:none;color:#2563EB;cursor:pointer;margin-right:8px;"><i class="fa-solid fa-pen"></i></button><button onclick="deleteItem(${origIdx})" style="background:none;border:none;color:#ef4444;cursor:pointer;"><i class="fa-solid fa-trash"></i></button>` : ''}</td></tr>`;
+                        });
+                        html += `</tbody></table></div>`;
+                    } else {
+                        html += `<div class="${currentView === 'compact' ? 'cards-grid compact-view' : 'cards-grid'}">`;
+                        itemsInSec.forEach((item) => {
+                            let origIdx = appData.indexOf(item);
+                            let pageKey = item.url === '#' ? 'home' : item.url.replace('#','');
+                            let actionAttr = item.isPage ? `onclick="switchPage('${pageKey}')" style="cursor:pointer;"` : `href="${item.url}" target="_blank"`;
+                            let adminAct = isAdminLoggedIn ? `<div style="display:flex; gap:8px;"><span onclick="event.preventDefault(); openItemModalForEdit(${origIdx})" style="color:#2563EB; font-size:11px; cursor:pointer;"><i class="fa-solid fa-pen"></i> Sửa</span><span onclick="event.preventDefault(); deleteItem(${origIdx})" style="color:#ef4444; font-size:11px; cursor:pointer;"><i class="fa-solid fa-trash"></i> Xóa</span></div>` : '';
+                            html += `<a ${actionAttr} class="sub-card"><div><div class="card-header-icon"><i class="${item.icon}"></i></div><div class="card-body"><h3>${item.name}</h3><p>${item.desc}</p></div></div><div class="card-footer-tags"><span class="tag">${(item.section||'').toUpperCase()}</span>${adminAct}</div></a>`;
+                        });
+                        html += `</div>`;
+                    }
+                }
+            });
+            area.innerHTML = html;
+        }
+
+        function toggleSectionCollapse(secKey) {
+            collapsedSections[secKey] = !collapsedSections[secKey];
+            renderGroupedCards(appData, document.getElementById('searchInput').value);
+        }
+
+        function renderHomeCharts() {
+            Chart.register(ChartDataLabels);
+            let sC = { overview: 0, apps: 0, links: 0 };
+            appData.forEach(x => { if(sC[x.section] !== undefined) sC[x.section]++; });
+            
+            if(chartInstance1) chartInstance1.destroy();
+            chartInstance1 = new Chart(document.getElementById('chartHomeSec'), {
+                type: 'doughnut',
+                data: { labels: ['Tổng quan', 'Ứng dụng con', 'Liên kết nhanh'], datasets: [{ data: [sC.overview, sC.apps, sC.links], backgroundColor: ['#00682B', '#2563EB', '#D97706'] }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { color: '#fff', font: { weight: 'bold' } } } }
+            });
+
+            let tC = { 'Nội bộ': appData.filter(x=>x.isPage).length, 'Liên kết ngoài': appData.filter(x=>!x.isPage).length };
+            if(chartInstance2) chartInstance2.destroy();
+            chartInstance2 = new Chart(document.getElementById('chartHomeType'), {
+                type: 'bar',
+                data: { labels: Object.keys(tC), datasets: [{ data: Object.values(tC), backgroundColor: ['#2563EB', '#059669'], borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'top' } } }
+            });
         }
 
         function renderNhanSuContent() {
             document.getElementById('pageMainTitle').innerText = "Quản Lý Nhân Sự Xưởng Ammonia";
             const container = document.getElementById('mainContentContainer');
             let totalNs = nhanSuData.length, dangLam = nhanSuData.filter(x => Number(x["ĐANG LÀM"]) === 1).length;
-            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; justify-content:space-between;"><div style="display:flex; gap:12px; align-items:center;"><input type="file" id="excelFileUp" accept=".xlsx, .xls" style="font-size:12px;"><button class="btn-primary" onclick="handleExcelUploadNs()">Import Excel</button></div><button class="btn-primary" onclick="openNsModalForAdd('nhansu')" style="background:#0D9488;">Thêm Nhân Sự</button></div>` : '';
+            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; justify-content:flex-end;"><button class="btn-primary" onclick="openNsModalForAdd('nhansu')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự</button></div>` : '';
 
             let html = `<div class="ns-stats-grid"><div class="ns-stat-card"><h4>Tổng số nhân sự</h4><div class="val">${totalNs}</div></div><div class="ns-stat-card"><h4>Đang làm việc</h4><div class="val" style="color:#059669;">${dangLam}</div></div></div>
-                <div class="charts-container"><div class="chart-card"><h3>Thống kê theo Kíp</h3><div class="chart-wrapper"><canvas id="chartNsKip"></canvas></div></div><div class="chart-card"><h3>Thống kê Chức danh</h3><div class="chart-wrapper"><canvas id="chartNsCd"></canvas></div></div></div>
                 ${adminToolsHtml}
-                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterNhanSuTable()" placeholder="Tìm kiếm..."></div><div style="display:flex; gap:10px;"><select id="filterCa" class="filter-select" onchange="filterNhanSuTable()"><option value="">-- Tất cả Ca --</option><option value="Kíp 1">Kíp 1</option><option value="Kíp 2">Kíp 2</option><option value="Kíp 3">Kíp 3</option><option value="Kíp 4">Kíp 4</option><option value="Hành chánh">Hành chánh</option></select></div></div>
-                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>HỌ VÀ TÊN</th><th>CHỨC DANH</th><th>CẤP BẬC</th><th>CA / KÍP</th><th>ĐIỆN THOẠI</th><th>EMAIL</th><th>TRẠNG THÁI</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
+                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterNhanSuTable()" placeholder="Tìm kiếm..."></div></div>
+                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>HỌ VÀ TÊN</th><th>CHỨC DANH</th><th>CẤP BẬC</th><th>CA / KÍP</th><th>ĐIỆN THOẠI</th><th>EMAIL</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
 
             nhanSuData.forEach((ns, idx) => {
-                let dl = Number(ns["ĐANG LÀM"]) === 1;
                 let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('nhansu', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer;"><i class="fa-solid fa-pen"></i></button></td>` : '';
-                html += `<tr data-ca="${ns["CA"] || ''}"><td><b>${ns["HỌ VÀ TÊN"] || ''}</b></td><td>${ns["CHỨC DANH"] || ''}</td><td>${ns["CẤP BẬC"] || ''}</td><td><span class="tag">${ns["CA"] || ''}</span></td><td>${ns["ĐIỆN THOẠI"] || ''}</td><td>${ns["EMAIL"] || ''}</td><td>${dl?'Đang làm':'Khác'}</td>${actionTd}</tr>`;
+                html += `<tr><td><b>${ns["HỌ VÀ TÊN"] || ''}</b></td><td>${ns["CHỨC DANH"] || ''}</td><td>${ns["CẤP BẬC"] || ''}</td><td><span class="tag">${ns["CA"] || ''}</span></td><td>${ns["ĐIỆN THOẠI"] || ''}</td><td>${ns["EMAIL"] || ''}</td>${actionTd}</tr>`;
             });
             container.innerHTML = html + `</tbody></table></div>`;
-            setTimeout(renderChartsNs, 100);
-        }
-
-        function renderChartsNs() {
-            Chart.register(ChartDataLabels);
-            let kC = {}; nhanSuData.forEach(x => { let k = x["CA"] || "Khác"; kC[k] = (kC[k] || 0) + 1; });
-            if(chartInstance1) chartInstance1.destroy();
-            chartInstance1 = new Chart(document.getElementById('chartNsKip'), { type: 'doughnut', data: { labels: Object.keys(kC), datasets: [{ data: Object.values(kC), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { color: '#fff', font: { weight: 'bold' } } } } });
-
-            let cC = {}; nhanSuData.forEach(x => { let c = x["CHỨC DANH"] || "Khác"; cC[c] = (cC[c] || 0) + 1; });
-            if(chartInstance2) chartInstance2.destroy();
-            chartInstance2 = new Chart(document.getElementById('chartNsCd'), { type: 'bar', data: { labels: Object.keys(cC), datasets: [{ data: Object.values(cC), backgroundColor: '#00682B', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'top' } } } });
         }
 
         function renderBdttContent() {
             document.getElementById('pageMainTitle').innerText = "Nhân Sự BDTT2026 - Xưởng Amo";
             const container = document.getElementById('mainContentContainer');
-            let totalNs = bdttNsData.length, nhomCount = new Set(bdttNsData.map(x => x["Nhóm / Cụm"])).size;
-            let nhomTruongList = bdttNsData.filter(x => { let cv = (x["Chức Vụ"] || "").toLowerCase(), n = (x["Nhóm / Cụm"] || "").toLowerCase(); return cv.includes("trưởng") || cv.includes("chỉ huy") || cv.includes("quản đốc") || n.includes("chỉ huy"); });
+            let totalNs = bdttNsData.length;
+            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; justify-content:flex-end;"><button class="btn-primary" onclick="openNsModalForAdd('bdtt')" style="background:#0D9488;"><i class="fa-solid fa-user-plus"></i> Thêm Nhân Sự BDTT</button></div>` : '';
 
-            let adminToolsHtml = isAdminLoggedIn ? `<div style="background:var(--card-bg); padding:16px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:20px; display:flex; gap:12px; align-items:center; justify-content:space-between;"><div style="display:flex; gap:12px; align-items:center;"><input type="file" id="excelFileUpBdtt" accept=".xlsx, .xls" style="font-size:12px;"><button class="btn-primary" onclick="handleExcelUploadBdtt()">Import BDTT</button></div><button class="btn-primary" onclick="openNsModalForAdd('bdtt')" style="background:#0D9488;">Thêm Nhân Sự BDTT</button></div>` : '';
-
-            let html = `<div class="ns-stats-grid"><div class="ns-stat-card"><h4>Tổng nhân sự BDTT 2026</h4><div class="val">${totalNs}</div></div><div class="ns-stat-card"><h4>Số Nhóm / Cụm</h4><div class="val" style="color:#059669;">${nhomCount}</div></div></div>
-                <div class="charts-container"><div class="chart-card"><h3>Phân bổ theo Nhóm / Cụm</h3><div class="chart-wrapper"><canvas id="chartBdttNhom"></canvas></div></div><div class="chart-card"><h3>Thống kê theo Chức vụ</h3><div class="chart-wrapper"><canvas id="chartBdttCv"></canvas></div></div></div>
-                <div class="chart-card" style="margin-bottom: 24px;"><h3 style="margin-bottom: 14px;"><i class="fa-solid fa-address-book" style="color:#D97706;"></i> Danh Sách Nhóm Trưởng & SĐT Liên Hệ Nhanh</h3>
-                <div class="list-table-container" style="margin-bottom: 0; box-shadow: none;"><table class="custom-table" style="font-size: 12.5px;"><thead><tr><th>NHÓM / CỤM</th><th>HỌ VÀ TÊN NHÓM TRƯỞNG</th><th>CHỨC VỤ</th><th>SỐ ĐIỆN THOẠI</th><th>THAO TÁC GỌI</th></tr></thead><tbody>`;
-
-            nhomTruongList.forEach(nt => {
-                let sdt = nt["Điện Thoại"] || "";
-                let ten = nt["Họ and Tên"] || nt["Họ và Tên"] || "";
-                html += `<tr><td><span class="tag">${nt["Nhóm / Cụm"] || ''}</span></td><td style="font-weight:700;">${ten}</td><td>${nt["Chức Vụ"] || ''}</td><td style="font-weight:600; color:var(--primary-green);">${sdt}</td><td>${sdt?`<a href="tel:${sdt}" class="tag" style="background:#059669; color:#fff; text-decoration:none; padding:4px 10px; display:inline-flex; align-items:center; gap:6px;"><i class="fa-solid fa-phone"></i> Gọi ${sdt}</a>`:'--'}</td></tr>`;
-            });
-
-            html += `</tbody></table></div></div>
+            let html = `<div class="ns-stats-grid"><div class="ns-stat-card"><h4>Tổng nhân sự BDTT 2026</h4><div class="val">${totalNs}</div></div></div>
                 ${adminToolsHtml}
-                <div class="toolbar-section">
-                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm tên, nhóm, sđt..."></div>
-                    <div style="display:flex; gap:10px;">
-                        <select id="filterBdttNhom" class="filter-select" onchange="filterBdttTable()">
-                            <option value="">-- Tất cả Nhóm / Cụm --</option>
-                            <option value="Chỉ Huy Trưởng">Chỉ Huy Trưởng</option>
-                            <option value="Hành Chính">Hành Chính</option>
-                            <option value="Cụm 200">Cụm 200</option>
-                            <option value="Cụm 300">Cụm 300</option>
-                            <option value="Cụm 400-700">Cụm 400-700</option>
-                            <option value="Cụm 500">Cụm 500</option>
-                            <option value="TĐH/DCS">TĐH/DCS</option>
-                            <option value="Đi Ca">Đi Ca</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="section-title">Danh Sách Chi Tiết Thành Viên BDTT2026</div>
-                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>NHÓM / CỤM</th><th>ĐIỆN THOẠI</th><th>CHỨC VỤ</th><th>GHI CHÚ</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
+                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm kiếm..."></div></div>
+                <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>NHÓM / CỤM</th><th>ĐIỆN THOẠI</th><th>CHỨC VỤ</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
 
             bdttNsData.forEach((ns, idx) => {
                 let ten = ns["Họ and Tên"] || ns["Họ và Tên"] || "";
-                let nhom = ns["Nhóm / Cụm"] || "";
                 let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('bdtt', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer;"><i class="fa-solid fa-pen"></i></button></td>` : '';
-                html += `<tr data-nhom="${nhom}"><td>${idx + 1}</td><td><b>${ten}</b></td><td><span class="tag">${nhom}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
+                html += `<tr><td>${idx + 1}</td><td><b>${ten}</b></td><td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td>${actionTd}</tr>`;
             });
             container.innerHTML = html + `</tbody></table></div>`;
-            setTimeout(renderChartsBdtt, 100);
         }
 
-        function renderChartsBdtt() {
-            Chart.register(ChartDataLabels);
-            let nC = {}; bdttNsData.forEach(x => { let n = x["Nhóm / Cụm"] || "Khác"; nC[n] = (nC[n] || 0) + 1; });
-            if(chartInstance1) chartInstance1.destroy();
-            chartInstance1 = new Chart(document.getElementById('chartBdttNhom'), { type: 'doughnut', data: { labels: Object.keys(nC), datasets: [{ data: Object.values(nC), backgroundColor: ['#00682B', '#2563EB', '#D97706', '#9333EA', '#0D9488', '#E11D48', '#EA580C', '#4F46E5'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { color: '#fff', font: { weight: 'bold' } } } } });
+        // Quản lý Modal Thêm / Sửa Link & App
+        function openItemModalForAdd() {
+            document.getElementById('itemEditIndex').value = -1;
+            document.getElementById('iName').value = '';
+            document.getElementById('iUrl').value = '';
+            document.getElementById('iDesc').value = '';
+            document.getElementById('iIcon').value = 'fa-solid fa-laptop-code';
+            document.getElementById('itemModal').style.display = 'flex';
+        }
 
-            let cC = {}; bdttNsData.forEach(x => { let cv = (x["Chức Vụ"] || "").toLowerCase(); let key = (cv.includes("trưởng") || cv.includes("trách") || cv.includes("quản đốc")) ? "Chủ chốt / Nhóm trưởng" : "Thành viên"; cC[key] = (cC[key] || 0) + 1; });
-            if(chartInstance2) chartInstance2.destroy();
-            chartInstance2 = new Chart(document.getElementById('chartBdttCv'), { type: 'bar', data: { labels: Object.keys(cC), datasets: [{ data: Object.values(cC), backgroundColor: '#2563EB', borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { anchor: 'end', align: 'top' } } } });
+        function openItemModalForEdit(idx) {
+            document.getElementById('itemEditIndex').value = idx;
+            let item = appData[idx];
+            document.getElementById('iName').value = item.name || '';
+            document.getElementById('iSection').value = item.section || 'overview';
+            document.getElementById('iUrl').value = item.url || '';
+            document.getElementById('iDesc').value = item.desc || '';
+            document.getElementById('iIcon').value = item.icon || 'fa-solid fa-laptop-code';
+            document.getElementById('iIsPage').value = item.isPage ? 'true' : 'false';
+            document.getElementById('itemModal').style.display = 'flex';
+        }
+
+        function closeItemModal() { document.getElementById('itemModal').style.display = 'none'; }
+
+        function saveItemData() {
+            let idx = parseInt(document.getElementById('itemEditIndex').value);
+            let name = document.getElementById('iName').value.trim();
+            let url = document.getElementById('iUrl').value.trim();
+            if(!name || !url) { alert('Vui lòng nhập tên và đường dẫn URL!'); return; }
+
+            let newItem = {
+                section: document.getElementById('iSection').value,
+                name: name,
+                url: url,
+                desc: document.getElementById('iDesc').value.trim(),
+                icon: document.getElementById('iIcon').value.trim(),
+                isPage: document.getElementById('iIsPage').value === 'true'
+            };
+
+            if(idx === -1) appData.push(newItem);
+            else appData[idx] = newItem;
+
+            closeItemModal();
+            renderAll();
+            alert('Lưu thành công!');
+        }
+
+        function deleteItem(idx) {
+            if(confirm('Bạn có chắc chắn muốn xóa mục này?')) {
+                appData.splice(idx, 1);
+                renderAll();
+            }
         }
 
         function publishAndDownloadCode() {
@@ -641,17 +600,17 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = 'index.html';
             document.body.appendChild(a); a.click(); document.body.removeChild(a);
-            alert('Đã tải về file index.html mới nhất!');
+            alert('Đã tải về file index.html mới nhất để bạn đẩy lên GitHub!');
         }
 
         function openNsModalForAdd(type) {
             document.getElementById('nsEditIndex').value = -1;
             const fc = document.getElementById('modalFieldsContainer');
             if(type === 'nhansu') {
-                document.getElementById('nsModalTitle').innerHTML = `<span>Thêm Nhân Sự Xưởng</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan"></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac"></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail"></div><div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1">1 - Đang làm</option><option value="0">0 - Khác</option></select></div>`;
+                document.getElementById('nsModalTitle').innerHTML = `<span>Thêm Nhân Sự Xưởng</span>`;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan"></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac"></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail"></div>`;
             } else {
-                document.getElementById('nsModalTitle').innerHTML = `<span>Thêm Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
+                document.getElementById('nsModalTitle').innerHTML = `<span>Thêm Nhân Sự BDTT2026</span>`;
                 fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu"></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu"></div>`;
             }
             document.getElementById('nsModal').style.display = 'flex';
@@ -662,12 +621,12 @@
             const fc = document.getElementById('modalFieldsContainer');
             if(type === 'nhansu') {
                 let ns = nhanSuData[idx];
-                document.getElementById('nsModalTitle').innerHTML = `<span>Sửa Nhân Sự Xưởng</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
-                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["HỌ VÀ TÊN"]||''}"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" value="${ns["CHỨC DANH"]||''}"></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" value="${ns["CẤP BẬC"]||''}"></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" value="${ns["CA"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["ĐIỆN THOẠI"]||''}"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" value="${ns["EMAIL"]||''}"></div><div class="form-group"><label>ĐANG LÀM</label><select id="mDangLam"><option value="1" ${Number(ns["ĐANG LÀM"])===1?'selected':''}>1</option><option value="0" ${Number(ns["ĐANG LÀM"])===0?'selected':''}>0</option></select></div>`;
+                document.getElementById('nsModalTitle').innerHTML = `<span>Sửa Nhân Sự Xưởng</span>`;
+                fc.innerHTML = `<input type="hidden" id="modalType" value="nhansu"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ns["HỌ VÀ TÊN"]||''}"></div><div class="form-group"><label>CHỨC DANH</label><input type="text" id="mChucDan" value="${ns["CHỨC DANH"]||''}"></div><div class="form-group"><label>CẤP BẬC</label><input type="text" id="mCapBac" value="${ns["CẤP BẬC"]||''}"></div><div class="form-group"><label>CA / KÍP</label><input type="text" id="mCa" value="${ns["CA"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["ĐIỆN THOẠI"]||''}"></div><div class="form-group"><label>EMAIL</label><input type="text" id="mEmail" value="${ns["EMAIL"]||''}"></div>`;
             } else {
                 let ns = bdttNsData[idx];
                 let ten = ns["Họ and Tên"] || ns["Họ và Tên"] || "";
-                document.getElementById('nsModalTitle').innerHTML = `<span>Sửa Nhân Sự BDTT2026</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeNsModal()"></i>`;
+                document.getElementById('nsModalTitle').innerHTML = `<span>Sửa Nhân Sự BDTT2026</span>`;
                 fc.innerHTML = `<input type="hidden" id="modalType" value="bdtt"><div class="form-group"><label>HỌ VÀ TÊN (*)</label><input type="text" id="mName" value="${ten}"></div><div class="form-group"><label>NHÓM / CỤM</label><input type="text" id="mNhom" value="${ns["Nhóm / Cụm"]||''}"></div><div class="form-group"><label>ĐIỆN THOẠI</label><input type="text" id="mPhone" value="${ns["Điện Thoại"]||''}"></div><div class="form-group"><label>CHỨC VỤ</label><input type="text" id="mChucVu" value="${ns["Chức Vụ"]||''}"></div><div class="form-group"><label>GHI CHÚ</label><input type="text" id="mGhiChu" value="${ns["Ghi Chú"]||''}"></div>`;
             }
             document.getElementById('nsModal').style.display = 'flex';
@@ -682,69 +641,13 @@
             if(!name) { alert('Nhập họ tên!'); return; }
 
             if(type === 'nhansu') {
-                let item = { "HỌ VÀ TÊN": name, "CHỨC DANH": document.getElementById('mChucDan').value.trim(), "CẤP BẬC": document.getElementById('mCapBac').value.trim(), "CA": document.getElementById('mCa').value.trim(), "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(), "EMAIL": document.getElementById('mEmail').value.trim(), "ĐANG LÀM": int(document.getElementById('mDangLam').value) };
+                let item = { "HỌ VÀ TÊN": name, "CHỨC DANH": document.getElementById('mChucDan').value.trim(), "CẤP BẬC": document.getElementById('mCapBac').value.trim(), "CA": document.getElementById('mCa').value.trim(), "ĐIỆN THOẠI": document.getElementById('mPhone').value.trim(), "EMAIL": document.getElementById('mEmail').value.trim(), "ĐANG LÀM": 1 };
                 if(idx === -1) nhanSuData.push(item); else nhanSuData[idx] = item;
             } else {
                 let item = { "Họ and Tên": name, "Nhóm / Cụm": document.getElementById('mNhom').value.trim(), "Điện Thoại": document.getElementById('mPhone').value.trim(), "Chức Vụ": document.getElementById('mChucVu').value.trim(), "Ghi Chú": document.getElementById('mGhiChu').value.trim() };
                 if(idx === -1) bdttNsData.push(item); else bdttNsData[idx] = item;
             }
-            closeNsModal(); renderAll(); alert('Lưu thông tin thành công!');
-        }
-
-        function handleExcelUploadNs() {
-            const fi = document.getElementById('excelFileUp');
-            if(!fi.files || fi.files.length === 0) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                    const sheet = wb.Sheets[wb.SheetNames[0]];
-                    nhanSuData = XLSX.utils.sheet_to_json(sheet, {defval: ""});
-                    renderAll(); alert('Import nhân sự xưởng thành công!');
-                } catch(err) { alert('Lỗi đọc file Excel!'); }
-            };
-            reader.readAsArrayBuffer(fi.files[0]);
-        }
-
-        function handleExcelUploadBdtt() {
-            const fi = document.getElementById('excelFileUpBdtt');
-            if(!fi.files || fi.files.length === 0) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                    const sheet = wb.Sheets[wb.SheetNames[0]];
-                    bdttNsData = XLSX.utils.sheet_to_json(sheet, {defval: ""});
-                    renderAll(); alert('Import BDTT thành công!');
-                } catch(err) { alert('Lỗi đọc file Excel!'); }
-            };
-            reader.readAsArrayBuffer(fi.files[0]);
-        }
-
-        function restoreFullBackupExcel() {
-            const fi = document.getElementById('masterBackupFile');
-            if(!fi.files || fi.files.length === 0) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const wb = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
-                    wb.SheetNames.forEach(sn => {
-                        let snLower = sn.toLowerCase();
-                        const sheetObj = wb.Sheets[sn];
-                        if(snLower.includes("web") || snLower.includes("link")) {
-                            appData = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
-                        }
-                        if(snLower.includes("xuong")) {
-                            nhanSuData = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
-                        }
-                        if(snLower.includes("bdtt")) {
-                            bdttNsData = XLSX.utils.sheet_to_json(sheetObj, {defval: ""});
-                        }
-                    });
-                    renderAll(); alert('Khôi phục backup thành công!');
-                } catch(err) { alert('Lỗi file!'); }
-            };
-            reader.readAsArrayBuffer(fi.files[0]);
+            closeNsModal(); renderAll(); alert('Lưu thành công!');
         }
 
         function exportExcelAll() {
@@ -756,18 +659,12 @@
         }
 
         function filterNhanSuTable() {
-            const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fC = document.getElementById('filterCa').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC); tr.style.display = match ? '' : 'none'; });
+            const kw = document.getElementById('nsSearchInput').value.toLowerCase();
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { tr.style.display = tr.innerText.toLowerCase().includes(kw) ? '' : 'none'; });
         }
         function filterBdttTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase();
-            const fNhom = document.getElementById('filterBdttNhom').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => {
-                let textMatch = tr.innerText.toLowerCase().includes(kw);
-                let nhomVal = tr.getAttribute('data-nhom') || '';
-                let nhomMatch = !fNhom || nhomVal === fNhom;
-                tr.style.display = (textMatch && nhomMatch) ? '' : 'none';
-            });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { tr.style.display = tr.innerText.toLowerCase().includes(kw) ? '' : 'none'; });
         }
 
         function switchView(mode) {
@@ -776,10 +673,10 @@
             if(mode === 'grid') document.getElementById('btnGrid').classList.add('active');
             if(mode === 'compact') document.getElementById('btnCompact').classList.add('active');
             if(mode === 'list') document.getElementById('btnList').classList.add('active');
-            renderCardsGrid(appData, document.getElementById('searchInput').value);
+            renderGroupedCards(appData, document.getElementById('searchInput').value);
         }
 
-        function filterCards() { renderCardsGrid(appData, document.getElementById('searchInput').value); }
+        function filterCards() { renderGroupedCards(appData, document.getElementById('searchInput').value); }
         function toggleTheme() { const h = document.documentElement, i = document.getElementById('themeIcon'); if(h.getAttribute('data-theme')==='light') { h.setAttribute('data-theme','dark'); i.className='fa-solid fa-sun'; } else { h.setAttribute('data-theme','light'); i.className='fa-solid fa-moon'; } }
         
         function openAdminModal() { document.getElementById('adminModal').style.display = 'flex'; }
@@ -804,18 +701,13 @@
             } else alert('Sai mật khẩu!');
         }
 
-        function deleteItem(idx) {
-            if(confirm('Xóa mục này?')) { appData.splice(idx, 1); renderAll(); }
-        }
-
         function resetDefaultData() {
             if(confirm('Khôi phục toàn bộ dữ liệu mặc định?')) {
                 appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
-                renderAll(); closeAdminModal(); alert('Đã khôi phục dữ liệu mặc định thành công!');
+                renderAll(); closeAdminModal(); alert('Đã khôi phục dữ liệu mặc định!');
             }
         }
 
-        // BẮT ĐẦU GỌI DỮ LIỆU TỪ GOOGLE SHEETS KHI MỞ TRANG
         loadDataFromGoogleSheet();
     </script>
 </body>
