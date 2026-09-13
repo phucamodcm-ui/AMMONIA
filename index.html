@@ -344,16 +344,15 @@
         </header>
 
         <main class="content-container" id="mainContentContainer">
-            <!-- Nội dung load động -->
+            <!-- Nội dung load động từ JavaScript -->
         </main>
     </div>
 
-    <!-- MODAL QUẢN TRỊ CẤU HÌNH (LUÔN ĐƯỢC ĐẶT Ở TRẠNG THÁI CHƯA ĐĂNG NHẬP MẶC ĐỊNH) -->
+    <!-- MODAL QUẢN TRỊ CẤU HÌNH (MẶC ĐỊNH LUÔN Ở TRẠNG THÁI CHƯA ĐĂNG NHẬP) -->
     <div class="modal-overlay" id="adminModal" style="display: none;">
         <div class="modal">
             <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
             
-            <!-- PHẦN ĐĂNG NHẬP: BẮT BUỘC ĐỂ DISPLAY: BLOCK -->
             <div id="loginSection" style="display: block;">
                 <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px;">Trạng thái hiện tại: <b style="color:#059669;">Chưa đăng nhập (Khách)</b>. Vui lòng nhập mật khẩu quản trị để thực hiện các thao tác quản lý.</p>
                 <div class="form-group">
@@ -363,7 +362,6 @@
                 <button class="btn-primary" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
-            <!-- PHẦN DASHBOARD QUẢN TRỊ: BẮT BUỘC ĐỂ DISPLAY: NONE -->
             <div id="dashboardAdminSection" style="display: none;">
                 <p style="font-size: 13px; color: var(--primary-green); font-weight: 600; margin-bottom: 14px;"><i class="fa-solid fa-circle-check"></i> Đã đăng nhập Quản Trị thành công.</p>
                 
@@ -454,7 +452,7 @@
         const defaultData = [
             { "section": "overview", "name": "Trang Chủ Portal", "url": "#", "desc": "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", "icon": "fa-solid fa-house", "isPage": false },
             { "section": "overview", "name": "Nhân Sự Xưởng Ammonia", "url": "#nhansu", "desc": "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.", "icon": "fa-solid fa-users", "isPage": true },
-            { "id": 3, "section": "overview", "name": "Nhân Sự BDTT2026 - Xưởng Amo", "url": "#bdtt2026", "desc": "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", "icon": "fa-solid fa-users-gear", "isPage": true },
+            { "section": "overview", "name": "Nhân Sự BDTT2026 - Xưởng Amo", "url": "#bdtt2026", "desc": "Phân bổ nhân sự Bảo Dưỡng Tổng Thể 2026 Xưởng Ammonia.", "icon": "fa-solid fa-users-gear", "isPage": true },
             { "section": "overview", "name": "AMMONIA-SITE", "url": "https://sites.google.com/view/xuong-ammonia-pvcfc/trang-ch%E1%BB%A7", "desc": "Ammonia site", "icon": "fa-solid fa-laptop-code", "isPage": false },
             { "section": "overview", "name": "TPM-AMO", "url": "https://sites.google.com/view/xuongamo/home", "desc": "TPM-AMO", "icon": "fa-solid fa-shield-halved", "isPage": false },
             { "section": "overview", "name": "Public-Xưởng Amo", "url": "https://pvcfc-my.sharepoint.com/shared?id=%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents%2FGeneral%2FNha%20May%20DAM%20CA%20MAU%2F09%2E%20X%C6%AF%E1%BB%9ENG%20AMO%2FT%C3%80I%20LI%E1%BB%86U%20HI%E1%BB%86N%20H%C3%80NH&listurl=https%3A%2F%2Fpvcfc%2Esharepoint%2Ecom%2Fsites%2FPVCFC%2DDocumentManagementSystem%2FShared%20Documents&viewid=bdd42255%2D8b21%2D4301%2D8175%2Df692f10adedc&OR=EXCEL%2DWEB%2EBODY%2ENT&CT=1789275337940", "desc": "Tài liệu Xưởng Amo", "icon": "fa-solid fa-book-bookmark", "isPage": false },
@@ -498,7 +496,7 @@
         }
 
         let adminPass = localStorage.getItem('ammonia_admin_v17_pass') || 'admin123';
-        let isAdminLoggedIn = false; // LUÔN KHỞI TẠO Ở TRẠNG THÁI CHƯA ĐĂNG NHẬP
+        let isAdminLoggedIn = false; // LUÔN KHỞI TẠO Ở TRẠNG THÁI KHÁCH
         let currentView = 'grid';
         let activePage = 'home';
         let chartInstance1 = null;
@@ -673,20 +671,17 @@
         }
 
         function publishAndDownloadCode() {
-            // Đảm bảo ép chặt trạng thái isAdminLoggedIn về false trong chuỗi code xuất bản
+            // Tự động làm sạch trạng thái đăng nhập trước khi tạo file tải về
             let cleanScriptTag = document.querySelector('script:not([src])').innerHTML;
             cleanScriptTag = cleanScriptTag.replace(/let isAdminLoggedIn = true;/g, 'let isAdminLoggedIn = false;');
             
-            // Ép buộc ẩn phần dashboard quản trị và hiển thị phần login trong HTML nội dung tải về
-            let dummyDiv = document.createElement('div');
-            dummyDiv.innerHTML = document.documentElement.outerHTML;
-            
-            let loginSec = dummyDiv.querySelector('#loginSection');
-            let dashSec = dummyDiv.querySelector('#dashboardAdminSection');
+            let dummyDoc = document.cloneNode(true);
+            let loginSec = dummyDoc.querySelector('#loginSection');
+            let dashSec = dummyDoc.querySelector('#dashboardAdminSection');
             if(loginSec) loginSec.style.display = 'block';
             if(dashSec) dashSec.style.display = 'none';
 
-            let fullHtmlCode = dummyDiv.innerHTML;
+            let fullHtmlCode = `<!DOCTYPE html>\n` + dummyDoc.documentElement.outerHTML;
 
             const blob = new Blob([fullHtmlCode], { type: 'text/html;charset=utf-8' });
             const url = URL.createObjectURL(blob);
@@ -696,7 +691,7 @@
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
-            alert('Đã xuất file index.html làm sạch ở chế độ Khách tuyệt đối!');
+            alert('Đã xuất file index.html ở chế độ Khách (Chưa đăng nhập) an toàn tuyệt đối!');
         }
 
         function openNsModalForAdd(type) {
@@ -890,12 +885,12 @@
 
         function filterNhanSuTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fC = document.getElementById('filterCa').value, fT = document.getElementById('filterTrangThai').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam'] === fT); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fC || tr.getAttribute('data-ca') === fC) && (!fT || tr.getAttribute('data-danglam') === fT); tr.style.display = match ? '' : 'none'; });
         }
 
         function filterBdttTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase(), fN = document.getElementById('filterNhom').value;
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom'] === fN); tr.style.display = match ? '' : 'none'; });
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => { let match = tr.innerText.toLowerCase().includes(kw) && (!fN || tr.getAttribute('data-nhom') === fN); tr.style.display = match ? '' : 'none'; });
         }
 
         function switchView(mode) {
@@ -980,7 +975,7 @@
             }
         }
 
-        // Khởi chạy hệ thống ở trạng thái Khách mặc định
+        // Khởi chạy hệ thống tự động tải toàn bộ danh mục và dữ liệu ra trang chủ
         renderAll();
     </script>
 </body>
