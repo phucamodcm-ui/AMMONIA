@@ -197,7 +197,7 @@
         </div>
         <ul class="sidebar-menu" id="sidebarNav"></ul>
         <div class="sidebar-admin-footer">
-            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> <span id="adminBtnText">Quản Trị (Đã đăng nhập)</span></button>
+            <button class="btn-sidebar-admin" onclick="openAdminModal()"><i class="fa-solid fa-lock" style="color:var(--accent-yellow);"></i> <span id="adminBtnText">Quản Trị Hệ Thống</span></button>
         </div>
     </aside>
 
@@ -235,15 +235,15 @@
         <div class="modal">
             <h2><span><i class="fa-solid fa-gear"></i> Bảng Quản Trị Hệ Thống</span> <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="closeAdminModal()"></i></h2>
             
-            <div id="loginSection" style="display: none;">
+            <div id="loginSection" style="display: block;">
                 <div class="form-group" style="margin-top: 8px;">
                     <label>Mật khẩu Quản Trị</label>
-                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị...">
+                    <input type="password" id="adminPassInput" placeholder="Nhập mật khẩu quản trị (mặc định: admin123)...">
                 </div>
                 <button class="btn-primary" style="width: 100%; justify-content: center; margin-top: 4px;" onclick="verifyAdminLogin()">Đăng Nhập Quản Trị</button>
             </div>
 
-            <div id="dashboardAdminSection" style="display: block;">
+            <div id="dashboardAdminSection" style="display: none;">
                 <div style="background:var(--primary-green-light); padding:14px; border-radius:10px; margin-bottom:16px; border:1px solid var(--primary-green);">
                     <label style="font-size:12.5px; font-weight:700; color:var(--primary-green); margin-bottom:6px; display:block;"><i class="fa-solid fa-code"></i> Tải Code Đẩy Lên GitHub</label>
                     <button class="btn-primary" style="width:100%; justify-content:center;" onclick="publishAndDownloadCode()"><i class="fa-solid fa-download"></i> Tải Về File Index.html Mới Nhất</button>
@@ -279,9 +279,8 @@
     </div>
 
     <script>
-        const APP_BUILD_VERSION = "AMMO_V2026_REV_06";
+        const APP_BUILD_VERSION = "AMMO_V2026_REV_07";
 
-        // Mặc định nạp sẵn toàn bộ dữ liệu chuẩn trong mã nguồn
         const defaultData = [
             { "section": "overview", "name": "Trang Chủ Portal", "url": "#", "desc": "Trung tâm điều hành và tổng quan số liệu xưởng Ammonia.", "icon": "fa-solid fa-house", "isPage": false },
             { "section": "overview", "name": "Nhân Sự Xưởng Ammonia", "url": "#nhansu", "desc": "Quản lý hồ sơ nhân sự, phân bổ kíp trực và báo cáo thống kê.", "icon": "fa-solid fa-users", "isPage": true },
@@ -310,7 +309,6 @@
             { "section": "links", "name": "Eleaning", "url": "https://elearning.pvcfc.com.vn/login", "desc": "Eleaning", "icon": "fa-solid fa-laptop-code", "isPage": false }
         ];
 
-        // 55 nhân sự xưởng đầy đủ
         const defaultNhanSu = [
             {"HỌ VÀ TÊN": "Nguyễn Lê Lịnh", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0902369122", "EMAIL": "linhnl@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Cao Tiến Phát", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0393374107", "EMAIL": "phatct@pvcfc.com.vn", "ĐANG LÀM": 1},
@@ -356,7 +354,7 @@
             {"HỌ VÀ TÊN": "Nguyễn Ngọc Hoàng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0385571088", "EMAIL": "hoangnn@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Dương Trường Vũ", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0973418801", "EMAIL": "vudt@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Nguyễn Vĩnh Giang", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Hành chánh", "ĐIỆN THOẠI": "0326583915", "EMAIL": "giangnv@pvcfc.com.vn", "ĐANG LÀM": 1},
-            {"HỌ VÀ TÊN": "Huỳnh Lê Nghi", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0122292901", "EMAIL": "ngihl@pvcfc.com.vn", "ĐANG LÀM": 1},
+            {"HỌ VÀ TÊN": "Huỳnh Lê Nghi", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0912229290", "EMAIL": "ngihl@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Phan Bá Kiên", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0973112940", "EMAIL": "kienpb@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Nguyễn Việt Dũng", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 1", "ĐIỆN THOẠI": "0978886852", "EMAIL": "dungnv@pvcfc.com.vn", "ĐANG LÀM": 1},
             {"HỌ VÀ TÊN": "Nguyễn Thanh Bình", "CHỨC DANH": "DCS", "CẤP BẬC": "Nhân viên", "CA": "Kíp 2", "ĐIỆN THOẠI": "0986057168", "EMAIL": "binhnt@pvcfc.com.vn", "ĐANG LÀM": 1},
@@ -369,7 +367,6 @@
             {"HỌ VÀ TÊN": "Đào Thanh Sang", "CHỨC DANH": "Field", "CẤP BẬC": "Nhân viên", "CA": "Kíp 4", "ĐIỆN THOẠI": "0942233008", "EMAIL": "sangdt@pvcfc.com.vn", "ĐANG LÀM": 1}
         ];
 
-        // 56 nhân sự BDTT2026 đầy đủ
         const defaultBdttNs = [
             {"Họ và Tên": "Lê Văn Toản", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0917459068", "Chức Vụ": "Quản đốc / CHT", "Ghi Chú": "Chỉ đạo"},
             {"Họ và Tên": "Lê Minh Thuẩn", "Nhóm / Cụm": "Chỉ Huy Trưởng", "Điện Thoại": "0939083685", "Chức Vụ": "PQĐ – Phó CHT", "Ghi Chú": "Chỉ huy chung"},
@@ -422,14 +419,13 @@
             {"Họ và Tên": "Nguyễn Duy Sơn", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0973422123", "Chức Vụ": "Kíp 2 – Field", "Ghi Chú": "Kíp 2 – Field"},
             {"Họ và Tên": "Trịnh Quốc Nam", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0817570737", "Chức Vụ": "Kíp 2 – Field", "Ghi Chú": "Kíp 2 – Field"},
             {"Họ và Tên": "Phạm Văn Hùng", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0818157666", "Chức Vụ": "Kíp 3 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
-            {"Họ yà Tên": "Cao Hữu Miện", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0982058872", "Chức Vụ": "Kíp 3 – Field", "Ghi Chú": "Kíp 3 – Field"},
+            {"Họ và Tên": "Cao Hữu Miện", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0982058872", "Chức Vụ": "Kíp 3 – Field", "Ghi Chú": "Kíp 3 – Field"},
             {"Họ và Tên": "Đào Quang Nhuận", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0907743548", "Chức Vụ": "Kíp 3 – Field", "Ghi Chú": "Kíp 3 – Field"},
             {"Họ và Tên": "Phạm Minh Cương", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0376065604", "Chức Vụ": "Kíp 4 – DCS", "Ghi Chú": "Nhóm trưởng đi Ca"},
             {"Họ và Tên": "Đào Thanh Sang", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0942233008", "Chức Vụ": "Kíp 4 – Field", "Ghi Chú": "Kíp 4 – Field"},
             {"Họ và Tên": "Nguyễn Xuân Trường", "Nhóm / Cụm": "Đi Ca", "Điện Thoại": "0367996963", "Chức Vụ": "Kíp 4 – Field", "Ghi Chú": "Kíp 4 – Field"}
         ];
 
-        // Tự động kiểm tra làm mới cache khi build version thay đổi
         if (localStorage.getItem('ammonia_build_version') !== APP_BUILD_VERSION) {
             localStorage.setItem('ammonia_build_version', APP_BUILD_VERSION);
             localStorage.removeItem('ammonia_portal_v18_data');
@@ -446,8 +442,8 @@
         let savedBdtt = localStorage.getItem('bdtt2026_nhansu_v10_data');
         let bdttNsData = savedBdtt ? JSON.parse(savedBdtt) : defaultBdttNs;
 
-        // MẶC ĐỊNH ĐĂNG NHẬP SẴN QUYỀN QUẢN TRỊ NGAY KHI MỞ LINK
-        let isAdminLoggedIn = true;
+        // MẶC ĐỊNH CHƯA ĐĂNG NHẬP (BẢO MẬT)
+        let isAdminLoggedIn = false;
         let adminPass = 'admin123';
         let currentView = 'grid';
         let activePage = 'home';
@@ -589,14 +585,30 @@
 
             html += `</tbody></table></div></div>
                 ${adminToolsHtml}
-                <div class="toolbar-section"><div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm tên, nhóm, sđt..."></div></div>
+                <div class="toolbar-section">
+                    <div class="search-box-wrapper"><i class="fa-solid fa-magnifying-glass"></i><input type="text" id="nsSearchInput" onkeyup="filterBdttTable()" placeholder="Tìm tên, nhóm, sđt..."></div>
+                    <div style="display:flex; gap:10px;">
+                        <select id="filterBdttNhom" class="filter-select" onchange="filterBdttTable()">
+                            <option value="">-- Tất cả Nhóm / Cụm --</option>
+                            <option value="Chỉ Huy Trưởng">Chỉ Huy Trưởng</option>
+                            <option value="Hành Chính">Hành Chính</option>
+                            <option value="Cụm 200">Cụm 200</option>
+                            <option value="Cụm 300">Cụm 300</option>
+                            <option value="Cụm 400-700">Cụm 400-700</option>
+                            <option value="Cụm 500">Cụm 500</option>
+                            <option value="TĐH/DCS">TĐH/DCS</option>
+                            <option value="Đi Ca">Đi Ca</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="section-title">Danh Sách Chi Tiết Thành Viên BDTT2026</div>
                 <div class="list-table-container"><table class="custom-table" id="nsTable"><thead><tr><th>STT</th><th>HỌ VÀ TÊN</th><th>NHÓM / CỤM</th><th>ĐIỆN THOẠI</th><th>CHỨC VỤ</th><th>GHI CHÚ</th>${isAdminLoggedIn?'<th style="text-align:right;">THAO TÁC</th>':''}</tr></thead><tbody id="nsTableBody">`;
 
             bdttNsData.forEach((ns, idx) => {
                 let ten = ns["Họ and Tên"] || ns["Họ và Tên"] || "";
+                let nhom = ns["Nhóm / Cụm"] || "";
                 let actionTd = isAdminLoggedIn ? `<td style="text-align:right;"><button onclick="openNsModalForEdit('bdtt', ${idx})" style="background:none; border:none; color:#2563EB; cursor:pointer;"><i class="fa-solid fa-pen"></i></button></td>` : '';
-                html += `<tr><td>${idx + 1}</td><td><b>${ten}</b></td><td><span class="tag">${ns["Nhóm / Cụm"] || ''}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
+                html += `<tr data-nhom="${nhom}"><td>${idx + 1}</td><td><b>${ten}</b></td><td><span class="tag">${nhom}</span></td><td>${ns["Điện Thoại"] || ''}</td><td>${ns["Chức Vụ"] || ''}</td><td style="color:var(--text-muted);">${ns["Ghi Chú"] || ''}</td>${actionTd}</tr>`;
             });
             container.innerHTML = html + `</tbody></table></div>`;
             setTimeout(renderChartsBdtt, 100);
@@ -747,7 +759,13 @@
         }
         function filterBdttTable() {
             const kw = document.getElementById('nsSearchInput').value.toLowerCase();
-            document.querySelectorAll('#nsTableBody tr').forEach(tr => { tr.style.display = tr.innerText.toLowerCase().includes(kw) ? '' : 'none'; });
+            const fNhom = document.getElementById('filterBdttNhom').value;
+            document.querySelectorAll('#nsTableBody tr').forEach(tr => {
+                let textMatch = tr.innerText.toLowerCase().includes(kw);
+                let nhomVal = tr.getAttribute('data-nhom') || '';
+                let nhomMatch = !fNhom || nhomVal === fNhom;
+                tr.style.display = (textMatch && nhomMatch) ? '' : 'none';
+            });
         }
 
         function switchView(mode) {
@@ -766,14 +784,12 @@
         function closeAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
 
         function logoutAdmin() {
-            if(confirm('Bạn muốn khóa phiên quản trị?')) {
-                isAdminLoggedIn = false;
-                document.getElementById('loginSection').style.display = 'block';
-                document.getElementById('dashboardAdminSection').style.display = 'none';
-                document.getElementById('adminPassInput').value = '';
-                document.getElementById('adminBtnText').innerText = "Quản Trị Hệ Thống";
-                renderAll();
-            }
+            isAdminLoggedIn = false;
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardAdminSection').style.display = 'none';
+            document.getElementById('adminPassInput').value = '';
+            document.getElementById('adminBtnText').innerText = "Quản Trị Hệ Thống";
+            closeAdminModal(); renderAll();
         }
 
         function verifyAdminLogin() {
