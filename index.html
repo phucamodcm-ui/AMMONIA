@@ -349,19 +349,45 @@
         let chartInstance3 = null;
         let chartInstance4 = null;
 
-        async function loadDataFromGoogleSheet() {
-            try {
-                let response = await fetch(API_URL);
-                let result = await response.json();
-                appData = result.links && result.links.length > 0 ? result.links : defaultData;
-                nhanSuData = result.nhansu && result.nhansu.length > 0 ? result.nhansu : defaultNhanSu;
-                bdttNsData = result.bdtt && result.bdtt.length > 0 ? result.bdtt : defaultBdttNs;
-                renderAll();
-            } catch (error) {
-                appData = defaultData; nhanSuData = defaultNhanSu; bdttNsData = defaultBdttNs;
-                renderAll();
-            }
-        }
+        // Sửa lại hàm loadDataFromGoogleSheet và syncDataToCloud trong file index.html của bạn thành:
+
+async function loadDataFromGoogleSheet() {
+    try {
+        let response = await fetch(API_URL);
+        let result = await response.json();
+        
+        appData = result.links && result.links.length > 0 ? result.links : (JSON.parse(localStorage.getItem('appData_local')) || defaultData);
+        nhanSuData = result.nhansu && result.nhansu.length > 0 ? result.nhansu : (JSON.parse(localStorage.getItem('nhanSu_local')) || defaultNhanSu);
+        bdttNsData = result.bdtt && result.bdtt.length > 0 ? result.bdtt : (JSON.parse(localStorage.getItem('bdttNs_local')) || defaultBdttNs);
+        
+        renderAll();
+    } catch (error) {
+        console.warn("Dùng dữ liệu lưu trữ cục bộ (offline mode):", error);
+        appData = JSON.parse(localStorage.getItem('appData_local')) || defaultData;
+        nhanSuData = JSON.parse(localStorage.getItem('nhanSu_local')) || defaultNhanSu;
+        bdttNsData = JSON.parse(localStorage.getItem('bdttNs_local')) || defaultBdttNs;
+        renderAll();
+    }
+}
+
+async function syncDataToCloud() {
+    // Lưu phòng hộ ngay trên trình duyệt điện thoại/máy tính
+    localStorage.setItem('appData_local', JSON.stringify(appData));
+    localStorage.setItem('nhanSu_local', JSON.stringify(nhanSuData));
+    localStorage.setItem('bdttNs_local', JSON.stringify(bdttNsData));
+
+    // Đồng thời gửi lên Google Sheets
+    try {
+        await fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ links: appData, nhansu: nhanSuData, bdtt: bdttNsData })
+        });
+    } catch(e) { 
+        console.error("Lỗi đồng bộ Cloud:", e); 
+    }
+}
 
         // Gửi đồng bộ lên Google Sheets (lưu bền vững qua API nếu có hỗ trợ POST action)
         async function syncDataToCloud() {
